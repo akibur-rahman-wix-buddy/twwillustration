@@ -9,15 +9,34 @@ class AppIcons {
   static const String chatIcon = '$iconsRoute/chat_icon.svg';
   static const String profileIcon = '$iconsRoute/profile_icon.svg';
   static const String storeIcon = '$iconsRoute/store_icon.svg';
-  static const String webinarIcon= '$iconsRoute/webinar_icon.svg';
+  static const String webinarIcon = '$iconsRoute/webinar_icon.svg';
   static const String homeIcon1 = '$iconsRoute/home_icon_1.svg';
   static const String chatIcon1 = '$iconsRoute/chat_icon_1.svg';
   static const String profileIcon1 = '$iconsRoute/profile_icon_1.svg';
   static const String storeIcon1 = '$iconsRoute/store_icon_1.svg';
-  static const String webinarIcon1= '$iconsRoute/webinar_icon_1.svg';
+  static const String webinarIcon1 = '$iconsRoute/webinar_icon_1.svg';
+  static const String notification = '$iconsRoute/notificationIcon.svg';
+  static const String farenheit = '$iconsRoute/farenheightIcon.svg';
+  static const String dropDown = '$iconsRoute/dropDown.svg';
+  static const String styleIcon = '$iconsRoute/styleIcon.svg';
+  static const String statsIcon = '$iconsRoute/statsIcons.svg';
+  static const String backIcon = '$iconsRoute/backIcon.svg';
 
-
-
-
-
+  // * ####################################################
+  // * setting section
+  static const String account = '$iconsRoute/account.svg';
+  static const String country = '$iconsRoute/country.svg';
+  static const String favourite = '$iconsRoute/favourite.svg';
+  static const String language = '$iconsRoute/language.svg';
+  static const String nextArrow = '$iconsRoute/nextArrow.svg';
+  static const String notificationIcon = '$iconsRoute/notification.svg';
+  static const String subscription = '$iconsRoute/subscription.svg';
+  static const String temp = '$iconsRoute/temp.svg';
+  static const String tree = '$iconsRoute/tree.svg';
+  static const String faq = '$iconsRoute/faq.svg';
+  static const String notice = '$iconsRoute/notice.svg';
+  static const String feedback = '$iconsRoute/feedback.svg';
+  static const String terms = '$iconsRoute/terms.svg';
+  static const String logout = '$iconsRoute/logout.svg';
+  static const String delete = '$iconsRoute/delete.svg';
 }

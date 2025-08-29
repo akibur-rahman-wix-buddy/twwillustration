@@ -180,12 +180,12 @@
 
 
 
+// ignore_for_file: use_super_parameters, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../assets_helper/app_colors.dart';
-import '../assets_helper/app_fonts.dart';
 //
 // class CustomTextfield extends StatefulWidget {
 //   final String? hintText;

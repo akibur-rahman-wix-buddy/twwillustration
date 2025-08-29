@@ -13,5 +13,6 @@ class AppImages {
   static const String appleLogo = '$_basePath/appleLogo.png';
   static const String star = '$_basePath/star.png';
   static const String back = '$_basePath/back.png';
+  static const String profile = '$_basePath/profileImage.png';
 
 }

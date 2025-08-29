@@ -2,7 +2,7 @@ name: twwillustration
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -77,11 +77,11 @@ dependencies:
   rename_app: ^1.6.3
 
 dev_dependencies:
-
   flutter_test:
     sdk: flutter
   build_runner:
   flutter_gen_runner:
+  flutter_lints: ^5.0.0
 
 flutter_gen:
   output: lib/gen/
@@ -146,12 +146,13 @@ flutter:
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway-VariableFont_wght.ttf
-
+    - family: NunitoSans
+      fonts:
+        - asset: assets/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf
 
 #
 # For details regarding fonts from package dependencies,
 # see https://flutter.dev/to/font-from-package
-
 
 dependency_overrides:
   webview_flutter_wkwebview: 3.17.0

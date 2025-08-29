@@ -1,15 +1,9 @@
-
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 import '../../assets_helper/app_colors.dart';
 import '../../assets_helper/app_fonts.dart';
-
 
 class WebViewLink extends StatefulWidget {
   const WebViewLink({super.key, required this.link});

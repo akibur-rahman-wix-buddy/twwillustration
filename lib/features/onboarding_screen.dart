@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,8 +8,6 @@ import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import '../assets_helper/app_fonts.dart';
 import '../assets_helper/app_image.dart';
-
-
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
