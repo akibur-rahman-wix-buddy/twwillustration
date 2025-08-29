@@ -1,8 +1,5 @@
 import 'dart:developer';
-
 import 'package:rxdart/subjects.dart';
-import '../helpers/all_routes.dart';
-import '../helpers/navigation_service.dart';
 
 abstract class RxResponseInt<T> {
   T empty;
