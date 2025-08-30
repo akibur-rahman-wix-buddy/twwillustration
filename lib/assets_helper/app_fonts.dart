@@ -12,7 +12,7 @@ class TextFontStyle {
   static final textStyle12w400NunitoSans = TextStyle(
     color: const Color(0xFF888E9C) /* Neutral-N90 */,
     fontSize: 12,
-    fontFamily: 'Nunito Sans',
+    fontFamily: 'Nunito',
     height: 1.32,
     fontWeight: FontWeight.w400,
   );

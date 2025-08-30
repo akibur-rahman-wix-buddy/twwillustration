@@ -176,15 +176,12 @@
 //   }
 // }
 
-
-
-
-
 // ignore_for_file: use_super_parameters, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:twwillustration/assets_helper/app_fonts.dart';
 import '../assets_helper/app_colors.dart';
 //
 // class CustomTextfield extends StatefulWidget {
@@ -352,9 +349,6 @@ import '../assets_helper/app_colors.dart';
 //   }
 // }
 
-
-
-
 class CustomTextField extends StatefulWidget {
   final String? hintText;
   final TextEditingController? controller;
@@ -412,7 +406,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
               width: 1.w,
             ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h), // Adjusted padding
+          padding: EdgeInsets.symmetric(
+              horizontal: 16.w, vertical: 8.h), // Adjusted padding
           child: Row(
             children: [
               if (widget.leftIcon != null) ...[
@@ -430,7 +425,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     });
                     return null; // Prevent default error display
                   },
-                  style: TextStyle(
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                     color: Colors.black,
                     fontSize: widget.textSize ?? 14.sp,
                     fontWeight: FontWeight.w400,
@@ -440,7 +435,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   onTap: widget.onTap,
                   decoration: InputDecoration(
                     hintText: widget.hintText,
-                    hintStyle: TextStyle(
+                    hintStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                       color: AppColor.c979797, // Match LoginScreen style
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
@@ -448,7 +443,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     border: InputBorder.none,
                     // Removed isCollapsed: true to ensure hintText displays
                     errorText: null, // Suppress default error
-                    contentPadding: EdgeInsets.symmetric(vertical: 8.h), // Ensure proper alignment
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 8.h), // Ensure proper alignment
                   ),
                 ),
               ),
@@ -474,7 +470,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             padding: EdgeInsets.only(top: 4.h, left: 8.w),
             child: Text(
               _errorText!,
-              style: TextStyle(color: Colors.red, fontSize: 12.sp),
+              style: TextFontStyle.textStyle12w400NunitoSans
+                  .copyWith(color: Colors.red, fontSize: 12.sp),
             ),
           ),
       ],

@@ -6,6 +6,8 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
+import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,10 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 // * App Bar Part
                 Row(
                   children: [
-                    Image.asset(
-                      AppImages.profile,
-                      height: 40.h,
-                      width: 40.w,
+                    GestureDetector(
+                      onTap: () {
+                        NavigationService.navigateTo(Routes.settingScreen);
+                      },
+                      child: Image.asset(
+                        AppImages.profile,
+                        height: 40.h,
+                        width: 40.w,
+                      ),
                     ),
                     UIHelper.horizontalSpace(10.w),
                     Column(
@@ -475,12 +482,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    Text(
-                      'View all',
-                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        color: AppColor.c000000,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w400,
+                    GestureDetector(
+                      onTap: () {
+                        NavigationService.navigateTo(Routes.aiScreen);
+                      },
+                      child: Text(
+                        'View all',
+                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          color: AppColor.c000000,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ],

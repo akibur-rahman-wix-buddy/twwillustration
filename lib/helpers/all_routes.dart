@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:twwillustration/features/ai_screen/presentation/ai_screen.dart';
+import 'package:twwillustration/features/ai_screen/presentation/outfit_suggestion_screen.dart';
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
+import 'package:twwillustration/features/home/presentation/home_screen.dart';
+import 'package:twwillustration/features/settings_screen.dart';
 import '../features/auth/presentation/forgot_otp_screen.dart';
 import '../features/auth/presentation/forgot_pass_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/reset_pass_screen.dart';
 import '../features/auth/presentation/sign_up_screen.dart';
-
-
 
 final class Routes {
   static final Routes _routes = Routes._internal();
@@ -22,7 +24,11 @@ final class Routes {
   static const String forgotOtpScreen = '/forgotOtpScreen';
   static const String resetPassScreen = '/resetPassScreen';
 
-
+  // * Home Routes
+  static const String homeScreen = '/homeScreen';
+  static const String outfitSuggestionScreen = '/outfitSuggestionScreen';
+  static const String aiScreen = '/aiScreen';
+  static const String settingScreen = '/settingScreen';
 }
 
 final class RouteGenerator {
@@ -32,7 +38,6 @@ final class RouteGenerator {
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
-
       case Routes.loginScreen:
         return Platform.isAndroid
             ? _FadedTransitionRoute(widget: LoginScreen(), settings: settings)
@@ -48,22 +53,47 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(widget: OtpScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => OtpScreen());
 
-        case Routes.forgotPassScreen:
+      case Routes.forgotPassScreen:
         return Platform.isAndroid
-            ? _FadedTransitionRoute(widget: ForgotPassScreen(), settings: settings)
+            ? _FadedTransitionRoute(
+                widget: ForgotPassScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => ForgotPassScreen());
 
-        case Routes.forgotOtpScreen:
+      case Routes.forgotOtpScreen:
         return Platform.isAndroid
-            ? _FadedTransitionRoute(widget: ForgotOtpScreen(), settings: settings)
+            ? _FadedTransitionRoute(
+                widget: ForgotOtpScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => ForgotOtpScreen());
 
-       case Routes.resetPassScreen:
+      case Routes.resetPassScreen:
         return Platform.isAndroid
-            ? _FadedTransitionRoute(widget: ResetPassScreen(), settings: settings)
+            ? _FadedTransitionRoute(
+                widget: ResetPassScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => ResetPassScreen());
 
+      // * #################################################################################
+      case Routes.homeScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(widget: HomeScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => HomeScreen());
 
+      case Routes.aiScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(widget: AIScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => AIScreen());
+
+      case Routes.outfitSuggestionScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: OutfitSuggestionScreen(), settings: settings)
+            : CupertinoPageRoute(
+                builder: (context) => OutfitSuggestionScreen());
+
+      case Routes.settingScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: SettingsScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => SettingsScreen());
 
       default:
         return null;
@@ -94,26 +124,26 @@ class _FadedTransitionRoute extends PageRouteBuilder {
 
   _FadedTransitionRoute({required this.widget, required this.settings})
       : super(
-    settings: settings,
-    reverseTransitionDuration: const Duration(milliseconds: 1),
-    pageBuilder: (BuildContext context, Animation<double> animation,
-        Animation<double> secondaryAnimation) {
-      return widget;
-    },
-    transitionDuration: const Duration(milliseconds: 1),
-    transitionsBuilder: (BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child) {
-      return FadeTransition(
-        opacity: CurvedAnimation(
-          parent: animation,
-          curve: Curves.ease,
-        ),
-        child: child,
-      );
-    },
-  );
+          settings: settings,
+          reverseTransitionDuration: const Duration(milliseconds: 1),
+          pageBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return widget;
+          },
+          transitionDuration: const Duration(milliseconds: 1),
+          transitionsBuilder: (BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child) {
+            return FadeTransition(
+              opacity: CurvedAnimation(
+                parent: animation,
+                curve: Curves.ease,
+              ),
+              child: child,
+            );
+          },
+        );
 }
 
 class ScreenTitle extends StatelessWidget {

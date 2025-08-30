@@ -7,6 +7,7 @@ import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
+import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -32,7 +33,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(AppIcons.backIcon),
+                    GestureDetector(
+                        onTap: () {
+                          NavigationService.goBack;
+                        },
+                        child: SvgPicture.asset(AppIcons.backIcon)),
                     UIHelper.horizontalSpace(100.w),
                     Text(
                       'Settings',
@@ -40,7 +45,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         fontSize: 20.sp,
                         color: AppColor.c000000,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Manrope',
                       ),
                     ),
                   ],
@@ -139,7 +143,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               fontSize: 14.sp,
                               color: AppColor.c5A5C5F,
                               fontWeight: FontWeight.w500,
-                              fontFamily: 'Manrope',
                             ),
                           ),
                         ),
@@ -305,7 +308,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               fontSize: 14.sp,
                               color: AppColor.c5A5C5F,
                               fontWeight: FontWeight.w400,
-                              fontFamily: 'Manrope',
                             ),
                           ),
                         ),
@@ -355,7 +357,6 @@ class settingsWidgets extends StatelessWidget {
               fontSize: 16.sp,
               color: AppColor.c5A5C5F,
               fontWeight: FontWeight.w500,
-              fontFamily: 'Manrope',
             ),
           ),
         ],
@@ -389,7 +390,6 @@ class profileWidgets extends StatelessWidget {
               fontSize: 16.sp,
               color: AppColor.c5A5C5F,
               fontWeight: FontWeight.w500,
-              fontFamily: 'Manrope',
             ),
           ),
           Spacer(),

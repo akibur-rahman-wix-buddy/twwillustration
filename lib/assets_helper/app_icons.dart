@@ -39,4 +39,13 @@ class AppIcons {
   static const String terms = '$iconsRoute/terms.svg';
   static const String logout = '$iconsRoute/logout.svg';
   static const String delete = '$iconsRoute/delete.svg';
+  static const String shirt = '$iconsRoute/shirt.svg';
+  static const String star = '$iconsRoute/star.svg';
+
+  // * navigation icons
+  static const String homeSvg = '$iconsRoute/homeIcon.svg';
+  static const String wardrobeSvg = '$iconsRoute/wardrobeIcon.svg';
+  static const String aiSvg = '$iconsRoute/aiIcon.svg';
+  static const String shopSvg = '$iconsRoute/shopIcon.svg';
+  static const String communitySvg = '$iconsRoute/communityIcon.svg';
 }
