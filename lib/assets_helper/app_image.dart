@@ -16,4 +16,8 @@ class AppImages {
   static const String profile = '$_basePath/profileImage.png';
   static const String drobieImage = '$_basePath/drobie.png';
   static const String dress = '$_basePath/dress.png';
+  static const String profileCard = '$_basePath/profileCard.png';
+  static const String fullDress = '$_basePath/fullDress.png';
+  static const String treeImage = '$_basePath/treeImage.png';
+  static const String shirtImages = '$_basePath/shirtImages.png';
 }

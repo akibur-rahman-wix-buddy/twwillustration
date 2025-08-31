@@ -3,7 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:twwillustration/features/ai_screen/presentation/ai_screen.dart';
 import 'package:twwillustration/features/ai_screen/presentation/outfit_suggestion_screen.dart';
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
+import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
+import 'package:twwillustration/features/profile/presentation/edit_profile_screen.dart';
+import 'package:twwillustration/features/profile/presentation/followers_screen.dart';
+import 'package:twwillustration/features/profile/presentation/following_screen.dart';
+import 'package:twwillustration/features/profile/presentation/profile_screen.dart';
 import 'package:twwillustration/features/settings_screen.dart';
 import '../features/auth/presentation/forgot_otp_screen.dart';
 import '../features/auth/presentation/forgot_pass_screen.dart';
@@ -29,6 +34,11 @@ final class Routes {
   static const String outfitSuggestionScreen = '/outfitSuggestionScreen';
   static const String aiScreen = '/aiScreen';
   static const String settingScreen = '/settingScreen';
+  static const String profileScreen = '/profileScreen';
+  static const String editProfileScreen = '/editProfileScreen';
+  static const String followersScreen = '/followersScreen';
+  static const String followingScreen = '/followingScreen';
+  static const String closetDetailsScreen = '/closetDetailsScreen';
 }
 
 final class RouteGenerator {
@@ -94,6 +104,35 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: SettingsScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => SettingsScreen());
+
+      case Routes.profileScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(widget: ProfileScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ProfileScreen());
+
+      case Routes.editProfileScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: EditProfileScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => EditProfileScreen());
+
+      case Routes.followersScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: FollowersScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => FollowersScreen());
+
+      case Routes.followingScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: FollowingScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => FollowingScreen());
+
+      case Routes.closetDetailsScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: ClosetDetailsScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ClosetDetailsScreen());
 
       default:
         return null;

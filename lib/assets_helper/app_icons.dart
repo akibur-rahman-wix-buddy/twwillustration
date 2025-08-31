@@ -48,4 +48,12 @@ class AppIcons {
   static const String aiSvg = '$iconsRoute/aiIcon.svg';
   static const String shopSvg = '$iconsRoute/shopIcon.svg';
   static const String communitySvg = '$iconsRoute/communityIcon.svg';
+
+  // * profile icons
+  static const String shareIcon = '$iconsRoute/shareIcon.svg';
+  static const String clothSvg = '$iconsRoute/clothSvg.svg';
+  static const String outfitSvg = '$iconsRoute/outfitSvg.svg';
+  static const String treeSvg = '$iconsRoute/treeSvg.svg';
+  static const String waterDropsSvg = '$iconsRoute/waterDropSvg.svg';
+  static const String arrowNext = '$iconsRoute/arrowNext.svg';
 }

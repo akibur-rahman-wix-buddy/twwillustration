@@ -7,6 +7,7 @@ import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
+import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
@@ -44,80 +45,85 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                         fontSize: 20.sp,
                         color: AppColor.c000000,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ],
                 ),
                 UIHelper.verticalSpace(24.h),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: ShapeDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment(0.00, 0.04),
-                      end: Alignment(1.00, 1.00),
-                      colors: [
-                        const Color(0x4C81CA17),
-                        const Color(0x60E6F0EA)
-                      ],
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    spacing: 16,
-                    children: [
-                      Container(
-                        width: 64,
-                        height: 64,
-                        decoration: ShapeDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              AppImages.profile,
-                            ), // ✅ তোমার asset image path
-                            fit: BoxFit.cover,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.61),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 4,
-                        children: [
-                          Text(
-                            'Kenneth Allen',
-                            style: TextStyle(
-                              color: const Color(0xFF2F2F2F),
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w500,
-                              height: 1.30,
-                              letterSpacing: -0.18,
-                            ),
-                          ),
-                          Text(
-                            'rodger913@aol.com',
-                            style: TextStyle(
-                              color: const Color(0xFF757575),
-                              fontSize: 16,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                              height: 1.30,
-                              letterSpacing: -0.18,
-                            ),
-                          ),
+                GestureDetector(
+                  onTap: () {
+                    NavigationService.navigateTo(Routes.profileScreen);
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: ShapeDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment(0.00, 0.04),
+                        end: Alignment(1.00, 1.00),
+                        colors: [
+                          const Color(0x4C81CA17),
+                          const Color(0x60E6F0EA)
                         ],
                       ),
-                    ],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 16,
+                      children: [
+                        Container(
+                          width: 64,
+                          height: 64,
+                          decoration: ShapeDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                AppImages.profile,
+                              ), // ✅ তোমার asset image path
+                              fit: BoxFit.cover,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.61),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 4,
+                          children: [
+                            Text(
+                              'Kenneth Allen',
+                              style: TextStyle(
+                                color: const Color(0xFF2F2F2F),
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                                height: 1.30,
+                                letterSpacing: -0.18,
+                              ),
+                            ),
+                            Text(
+                              'rodger913@aol.com',
+                              style: TextStyle(
+                                color: const Color(0xFF757575),
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w400,
+                                height: 1.30,
+                                letterSpacing: -0.18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 UIHelper.verticalSpace(24.h),

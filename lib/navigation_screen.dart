@@ -67,11 +67,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   children: _screens,
                 ),
                 Positioned(
-                  bottom: 30.h,
+                  bottom: 10.h,
                   left: 30.w,
                   right: 30.w,
                   child: Container(
-                    height: 74.h,
+                    height: 60.h,
                     width: 310.w,
                     decoration: BoxDecoration(
                       color: AppColor.c1C1C1C,
