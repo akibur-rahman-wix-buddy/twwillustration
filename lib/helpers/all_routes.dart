@@ -5,6 +5,7 @@ import 'package:twwillustration/features/ai_screen/presentation/outfit_suggestio
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
 import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
+import 'package:twwillustration/features/my_tree/presentation/water_drop_log_screen.dart';
 import 'package:twwillustration/features/profile/presentation/edit_profile_screen.dart';
 import 'package:twwillustration/features/profile/presentation/followers_screen.dart';
 import 'package:twwillustration/features/profile/presentation/following_screen.dart';
@@ -39,6 +40,9 @@ final class Routes {
   static const String followersScreen = '/followersScreen';
   static const String followingScreen = '/followingScreen';
   static const String closetDetailsScreen = '/closetDetailsScreen';
+
+  // * My Tree Routes
+  static const String waterDropLogScreen = '/waterDropLogScreen';
 }
 
 final class RouteGenerator {
@@ -133,6 +137,12 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: ClosetDetailsScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => ClosetDetailsScreen());
+
+      case Routes.waterDropLogScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: WaterDropLogScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => WaterDropLogScreen());
 
       default:
         return null;

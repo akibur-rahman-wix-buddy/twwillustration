@@ -56,4 +56,11 @@ class AppIcons {
   static const String treeSvg = '$iconsRoute/treeSvg.svg';
   static const String waterDropsSvg = '$iconsRoute/waterDropSvg.svg';
   static const String arrowNext = '$iconsRoute/arrowNext.svg';
+
+  // * my tree screen icons
+  static const String treeStage = '$iconsRoute/treeStage.svg';
+  static const String waterDrops = '$iconsRoute/waterDrops.svg';
+  static const String growth = '$iconsRoute/growth.svg';
+  static const String dropWater = '$iconsRoute/dropWater.svg';
+  static const String blueWater = '$iconsRoute/blueWater.svg';
 }
