@@ -63,4 +63,17 @@ class AppIcons {
   static const String growth = '$iconsRoute/growth.svg';
   static const String dropWater = '$iconsRoute/dropWater.svg';
   static const String blueWater = '$iconsRoute/blueWater.svg';
+
+  // * shop screen icons
+  static const String searchIcon = '$iconsRoute/searchIcon.svg';
+  static const String addIcon = '$iconsRoute/addIcon.svg';
+  static const String cameraIcon = '$iconsRoute/cameraIcon.svg';
+  static const String plusIcon = '$iconsRoute/plusIcon.svg';
+  static const String successIcon = '$iconsRoute/successIcon.svg';
+  static const String refreshIcon = '$iconsRoute/refreshIcon.svg';
+  static const String threeDotIcon = '$iconsRoute/threeDotIcon.svg';
+  static const String loveIcon = '$iconsRoute/loveIcon.svg';
+  static const String chatsIcon = '$iconsRoute/chatIcon.svg';
+  static const String sendsIcon = '$iconsRoute/sendsIcon.svg';
+  static const String cameraIcons = '$iconsRoute/cameraIcons.svg';
 }

@@ -243,7 +243,9 @@ class _MyTreeScreenState extends State<MyTreeScreen> {
               UIHelper.verticalSpace(10.h),
               CustomButton(
                 name: 'Redeem Rewards',
-                onCallBack: () {},
+                onCallBack: () {
+                  NavigationService.navigateTo(Routes.earnDropScreen);
+                },
                 context: context,
                 borderRadius: 25.r,
                 borderColor: AppColor.cD5E7B0,

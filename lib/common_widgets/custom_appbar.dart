@@ -38,7 +38,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor ?? AppColor.cwhite,
+        color: backgroundColor ?? AppColor.cF3F5F7,
         // boxShadow: [
         //   BoxShadow(
         //     color: shadowColor ?? Colors.black.withOpacity(0.04),
@@ -49,6 +49,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
         // ],
       ),
       child: AppBar(
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading:
             false, // Disable automatic leading to control it manually

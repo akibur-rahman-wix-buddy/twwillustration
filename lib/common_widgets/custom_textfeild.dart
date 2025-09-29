@@ -354,6 +354,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final String? leftIcon;
   final String? rightIcon;
+  final int? maxline;
   final bool isPassword;
   final bool obscureText;
   final VoidCallback? toggleVisibility;
@@ -363,6 +364,7 @@ class CustomTextField extends StatefulWidget {
   final double? textSize;
   final TextAlign? textAlign;
   final double? height;
+  final double? width;
   final GestureTapCallback? onTap;
 
   const CustomTextField({
@@ -371,6 +373,7 @@ class CustomTextField extends StatefulWidget {
     this.controller,
     this.leftIcon,
     this.rightIcon,
+    this.maxline,
     this.isPassword = false,
     this.obscureText = false,
     this.toggleVisibility,
@@ -380,6 +383,7 @@ class CustomTextField extends StatefulWidget {
     this.textSize,
     this.textAlign = TextAlign.start,
     this.height = 65.0,
+    this.width,
     this.onTap,
   }) : super(key: key);
 
@@ -396,7 +400,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: widget.height?.h ?? 56.h, // Match LoginScreen
+          height: widget.height?.h ?? 56.h,
+          width: widget.width?.w,
           decoration: BoxDecoration(
             color: widget.fieldColor ?? AppColor.cFFFFFF,
             borderRadius: BorderRadius.circular(28.r),
@@ -418,6 +423,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 child: TextFormField(
                   controller: widget.controller,
                   obscureText: widget.isPassword && widget.obscureText,
+                  maxLines: widget.maxline ?? 1,
                   validator: (value) {
                     final error = widget.validator?.call(value);
                     setState(() {

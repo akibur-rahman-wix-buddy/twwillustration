@@ -20,4 +20,16 @@ class AppImages {
   static const String fullDress = '$_basePath/fullDress.png';
   static const String treeImage = '$_basePath/treeImage.png';
   static const String shirtImages = '$_basePath/shirtImages.png';
+  static const String doneMark = '$_basePath/doneMark.png';
+
+  // * Marketplace Images or shop images
+  static const String marketPlaceBanner = '$_basePath/marketPlaceBanner.png';
+  static const String imageOne = '$_basePath/imageOne.png';
+  static const String imageFour = '$_basePath/imageFour.png';
+  static const String imageTwo = '$_basePath/imageTwo.png';
+  static const String imageThree = '$_basePath/imageThree.png';
+  static const String dressImage = '$_basePath/dressImage.png';
+  static const String femaleImage = '$_basePath/femaleImage.png';
+  static const String threeDotImages = '$_basePath/threeDotImages.png';
+  static const String bagImages = '$_basePath/bagImages.png';
 }

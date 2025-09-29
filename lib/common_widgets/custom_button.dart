@@ -22,11 +22,12 @@ Widget CustomButton({
 }) {
   return SizedBox(
     height: height ?? 50.h,
+    width: minWidth ?? double.infinity,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: padding ?? EdgeInsets.zero,
         backgroundColor: color ?? AppColor.primaryColor,
-        minimumSize: Size(minWidth ?? 170.w, height ?? 55.h),
+        minimumSize: Size(minWidth ?? 50.w, height ?? 55.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
           side: BorderSide(color: borderColor ?? AppColor.primaryColor),

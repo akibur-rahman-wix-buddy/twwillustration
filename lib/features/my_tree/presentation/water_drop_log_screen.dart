@@ -52,7 +52,7 @@ class _WaterDropLogScreenState extends State<WaterDropLogScreen> {
                             ),
                             UIHelper.verticalSpace(8.h),
                             Text(
-                              'My Tree Screen',
+                              'This Week',
                               style: TextFontStyle.textStyle12w400NunitoSans
                                   .copyWith(
                                 fontSize: 12.sp,
@@ -82,7 +82,7 @@ class _WaterDropLogScreenState extends State<WaterDropLogScreen> {
                             ),
                             UIHelper.verticalSpace(8.h),
                             Text(
-                              'My Tree Screen',
+                              'Life Time',
                               style: TextFontStyle.textStyle12w400NunitoSans
                                   .copyWith(
                                 fontSize: 12.sp,
@@ -92,7 +92,7 @@ class _WaterDropLogScreenState extends State<WaterDropLogScreen> {
                             ),
                             UIHelper.verticalSpace(8.h),
                             Text(
-                              '125',
+                              '187',
                               style: TextFontStyle.textStyle12w400NunitoSans
                                   .copyWith(
                                 fontSize: 14.sp,

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:twwillustration/features/my_tree/presentation/my_tree_screen.dart';
+import 'package:twwillustration/features/community/presentation/block_user_screen.dart';
 import 'helpers/all_routes.dart';
 import 'helpers/di.dart';
 import 'helpers/helper_methods.dart';
@@ -71,7 +71,7 @@ class UtillScreenMobile extends StatelessWidget {
           },
           navigatorKey: NavigationService.navigatorKey,
           onGenerateRoute: RouteGenerator.generateRoute,
-          home: MyTreeScreen(),
+          home: BlockUserScreen(),
         );
       },
     );

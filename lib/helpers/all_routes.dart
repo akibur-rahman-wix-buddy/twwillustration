@@ -4,13 +4,18 @@ import 'package:twwillustration/features/ai_screen/presentation/ai_screen.dart';
 import 'package:twwillustration/features/ai_screen/presentation/outfit_suggestion_screen.dart';
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
 import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
+import 'package:twwillustration/features/community/widget/create_post_screen.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
+import 'package:twwillustration/features/my_tree/presentation/earn_drop_screen.dart';
 import 'package:twwillustration/features/my_tree/presentation/water_drop_log_screen.dart';
 import 'package:twwillustration/features/profile/presentation/edit_profile_screen.dart';
 import 'package:twwillustration/features/profile/presentation/followers_screen.dart';
 import 'package:twwillustration/features/profile/presentation/following_screen.dart';
 import 'package:twwillustration/features/profile/presentation/profile_screen.dart';
 import 'package:twwillustration/features/settings_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/search_screen.dart';
 import '../features/auth/presentation/forgot_otp_screen.dart';
 import '../features/auth/presentation/forgot_pass_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
@@ -43,6 +48,17 @@ final class Routes {
 
   // * My Tree Routes
   static const String waterDropLogScreen = '/waterDropLogScreen';
+  static const String earnDropScreen = '/earnDropScreen';
+
+  // * Shop Routes
+  static const String shopDashboard = '/shopDashboard';
+  static const String addToShop = '/addToShop';
+  static const String searchScreen = '/searchScreen';
+  static const String productDetailsScreen = '/productDetailsScreen';
+
+  // * Community Routes
+  static const String communityScreen = '/communityScreen';
+  static const String createPostScreen = '/createPostScreen';
 }
 
 final class RouteGenerator {
@@ -143,6 +159,35 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: WaterDropLogScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => WaterDropLogScreen());
+
+      case Routes.earnDropScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: EarnDropScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => EarnDropScreen());
+
+      case Routes.addToShop:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: AddToShopScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => AddToShopScreen());
+
+      case Routes.searchScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(widget: SearchScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => SearchScreen());
+
+      case Routes.productDetailsScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: ProductDetailsScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ProductDetailsScreen());
+
+      case Routes.createPostScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: CreatePostScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => CreatePostScreen());
 
       default:
         return null;
