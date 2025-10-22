@@ -76,4 +76,12 @@ class AppIcons {
   static const String chatsIcon = '$iconsRoute/chatIcon.svg';
   static const String sendsIcon = '$iconsRoute/sendsIcon.svg';
   static const String cameraIcons = '$iconsRoute/cameraIcons.svg';
+
+  // * Fashion screen icons
+  static const String cameraOrange = '$iconsRoute/cameraOrange.svg';
+  static const String minusIcon = '$iconsRoute/minusIcon.svg';
+  static const String additionIcon = '$iconsRoute/additionIcon.svg';
+  static const String itemStats = '$iconsRoute/itemSats.svg';
+  static const String errorIcon = '$iconsRoute/errorIcon.svg';
+  static const String nextIcons = '$iconsRoute/nextIcons.svg';
 }

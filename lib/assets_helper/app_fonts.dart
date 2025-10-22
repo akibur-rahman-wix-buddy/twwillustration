@@ -161,6 +161,18 @@ class TextFontStyle {
       height: 1.50,
       fontWeight: FontWeight.w400);
 
+  static var interSemibold = TextStyle(
+      fontFamily: 'InterSemiBold',
+      fontFamilyFallback: const [
+        'Open Sans',
+        'Roboto',
+        'Noto Sans',
+      ],
+      color: Colors.white,
+      fontSize: 10.sp,
+      height: 1.50,
+      fontWeight: FontWeight.w500);
+
   static var Inter10W500 = TextStyle(
       fontFamily: 'Inter',
       fontFamilyFallback: const [

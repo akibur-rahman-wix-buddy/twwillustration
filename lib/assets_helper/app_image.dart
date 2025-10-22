@@ -32,4 +32,15 @@ class AppImages {
   static const String femaleImage = '$_basePath/femaleImage.png';
   static const String threeDotImages = '$_basePath/threeDotImages.png';
   static const String bagImages = '$_basePath/bagImages.png';
+
+  // * outfit diary images
+  static const String borkaImage = '$_basePath/borkaImage.png';
+  static const String pantImage = '$_basePath/pantImage.png';
+  static const String shirtImage = '$_basePath/shirtImage.png';
+  static const String sunglassImage = '$_basePath/sunglassImage.png';
+  static const String shirtBigImage = '$_basePath/shirtBigImage.png';
+  static const String pantBigImage = '$_basePath/pantBigImage.png';
+  static const String addCloth = '$_basePath/addCloth.png';
+  static const String addStickers = '$_basePath/addStickers.png';
+  static const String addBackground = '$_basePath/addBackground.png';
 }

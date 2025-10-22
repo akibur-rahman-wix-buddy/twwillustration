@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:twwillustration/features/add_outfit/manage_outfit_screen.dart';
+import 'package:twwillustration/features/add_outfit/outfit_preview_screen.dart';
 import 'package:twwillustration/features/ai_screen/presentation/ai_screen.dart';
 import 'package:twwillustration/features/ai_screen/presentation/outfit_suggestion_screen.dart';
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
 import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/community/widget/create_post_screen.dart';
+import 'package:twwillustration/features/fashion_board/add_fashion_board.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
 import 'package:twwillustration/features/my_tree/presentation/earn_drop_screen.dart';
 import 'package:twwillustration/features/my_tree/presentation/water_drop_log_screen.dart';
@@ -59,6 +62,14 @@ final class Routes {
   // * Community Routes
   static const String communityScreen = '/communityScreen';
   static const String createPostScreen = '/createPostScreen';
+
+  // * Fashion Board Routes
+  static const String addInspireBookScreen = '/addInspireBookScreen';
+
+  // * Add Outfit Routes
+  static const String manageOutfitScreen = '/manageOutfitScreen';
+  static const String addOutfitScreen = '/addOutfitScreen';
+  static const String outfitPreview = '/outfitPreview';
 }
 
 final class RouteGenerator {
@@ -188,6 +199,24 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: CreatePostScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => CreatePostScreen());
+
+      case Routes.addInspireBookScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: AddInspireBookScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => AddInspireBookScreen());
+
+      case Routes.manageOutfitScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: ManageOutfitScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ManageOutfitScreen());
+
+      case Routes.outfitPreview:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: OutfitPreviewScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => OutfitPreviewScreen());
 
       default:
         return null;

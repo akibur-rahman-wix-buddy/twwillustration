@@ -5,20 +5,20 @@ import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
+import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class FashionBoardScreen extends StatefulWidget {
+  const FashionBoardScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<FashionBoardScreen> createState() => _FashionBoardScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  
+class _FashionBoardScreenState extends State<FashionBoardScreen> {
   int selectedIndex = 0;
   int selectedCategoryIndex = 0;
   int selectedOutfitCategoryIndex = 0;
@@ -99,416 +99,167 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final List<TabItem> tabs = [
     TabItem(
       icon: SvgPicture.asset(AppIcons.clothSvg),
-      label: 'Clothes',
+      label: 'My Look Book',
       count: 12,
     ),
     TabItem(
       icon: SvgPicture.asset(AppIcons.outfitSvg),
-      label: 'Outfits',
+      label: 'Inspire Book',
       count: null,
     ),
-    TabItem(
-      icon: SvgPicture.asset(AppIcons.treeSvg),
-      label: 'My Tree',
-      count: null,
-    ),
+    // TabItem(
+    //   icon: SvgPicture.asset(AppIcons.treeSvg),
+    //   label: 'My Tree',
+    //   count: null,
+    // ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.bgColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Profile Header Section
-            SizedBox(
-              width: double.infinity,
-              height: 350,
-              child: Stack(
-                children: [
-                  // Background Image
-                  ClipRRect(
-                    child: Image.asset(
-                      AppImages.profileCard,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                  ),
-
-                  // Back Button
-                  Positioned(
-                    top: 70,
-                    left: 16,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: SvgPicture.asset(AppIcons.backIcon),
-                    ),
-                  ),
-
-                  // Share Button
-                  Positioned(
-                    top: 70,
-                    right: 16,
-                    child: GestureDetector(
-                      onTap: () {
-                        // Share functionality
-                      },
-                      child: SvgPicture.asset(AppIcons.shareIcon),
-                    ),
-                  ),
-
-                  // Profile Picture
-                  Positioned(
-                    top: 130,
-                    left: 16,
-                    child: SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 4,
-                              ),
-                            ),
-                            child: ClipOval(
-                              child: Image.asset(
-                                AppImages.profile,
-                                fit: BoxFit.cover,
-                                width: 70,
-                                height: 70,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 20,
-                            right: 20,
-                            child: GestureDetector(
-                              onTap: () {
-                                // Add profile picture functionality
-                              },
-                              child: Container(
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 3,
-                                  ),
-                                ),
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // User Info
-                  Positioned(
-                    top: 140,
-                    left: 120,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Kenneth.Allen',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Text(
-                          'ID:863487345',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Bio Section
-                  Positioned(
-                    top: 220,
-                    left: 16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Soul meets pencil ✍️',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Text(
-                          '🎓 Psychology & business mind',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Text(
-                          'Based in USA | 15+ years',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Stats Section
-                  Positioned(
-                    top: 290,
-                    left: 16,
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            NavigationService.navigateTo(
-                              Routes.followersScreen,
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '45',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                              Text(
-                                'Followers',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 50),
-                        GestureDetector(
-                          onTap: () {
-                            NavigationService.navigateTo(
-                              Routes.followingScreen,
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '35',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                              Text(
-                                'Following',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Edit Profile Button
-                  Positioned(
-                    top: 290,
-                    right: 20,
-                    child: CustomButton(
-                      name: 'Edit Profile',
-                      onCallBack: () {
-                        NavigationService.navigateTo(Routes.editProfileScreen);
-                      },
-                      context: context,
-                      color: AppColor.cE4EDC9,
-                      textStyle:
-                          TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      minWidth: 120.w,
-                      borderRadius: 37,
-                      borderColor: AppColor.c000000,
-                      height: 36.h,
-                    ),
-                  ),
-                ],
-              ),
+      appBar: CustomAppbar(
+        title: 'Outfit',
+        actions: [
+          GestureDetector(
+            onTap: () {
+              NavigationService.navigateTo(
+                Routes.addInspireBookScreen,
+              );
+            },
+            child: SvgPicture.asset(
+              AppIcons.addIcon,
             ),
-
-            // * Tab Navigation
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                height: 60,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Row(
-                    children: tabs.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      TabItem tab = entry.value;
-                      bool isSelected = selectedIndex == index;
-
-                      return Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                          },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
-                            margin: EdgeInsets.symmetric(horizontal: 4),
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColor.cFFFFFF
-                                  : AppColor.cFFFFFF,
-                              borderRadius: BorderRadius.circular(25),
-                              border: Border.all(
-                                color: isSelected
-                                    ? AppColor.cE4EDC9
-                                    : AppColor.cFFFFFF,
-                                width: 2,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0,
-                                vertical: 10,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // SvgPicture.asset(
-                                  //   tab.icon as String,
-                                  //   width: 20,
-                                  //   height: 20,
-                                  //   color: isSelected
-                                  //       ? Colors.black87
-                                  //       : Colors.grey[600],
-                                  // ),
-                                  tab.icon,
-                                  SizedBox(width: 8),
-                                  Text(
-                                    tab.label,
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      color: isSelected
-                                          ? Colors.black87
-                                          : Colors.grey[600],
-                                      fontWeight: isSelected
-                                          ? FontWeight.w600
-                                          : FontWeight.w500,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  // if (tab.count != null) ...[
-                                  //   SizedBox(width: 2),
-                                  //   Container(
-                                  //     padding: EdgeInsets.symmetric(
-                                  //         horizontal: 6, vertical: 2),
-                                  //     decoration: BoxDecoration(
-                                  //       color: isSelected
-                                  //           ? Colors.grey[300]
-                                  //           : Colors.grey[400],
-                                  //       borderRadius: BorderRadius.circular(10),
-                                  //     ),
-                                  //     child: Text(
-                                  //       '${tab.count}',
-                                  //       style: TextFontStyle
-                                  //           .textStyle12w400NunitoSans
-                                  //           .copyWith(
-                                  //         color: Colors.black87,
-                                  //         fontSize: 10,
-                                  //         fontWeight: FontWeight.w600,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ],
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ),
-
-            // Content Area
-            Container(
-              height: MediaQuery.of(context).size.height - 450,
-              child: _buildTabContent(),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(width: 16.w),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // * Tab Navigation
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 15.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      children: tabs.asMap().entries.map((entry) {
+                        int index = entry.key;
+                        TabItem tab = entry.value;
+                        bool isSelected = selectedIndex == index;
+
+                        return Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = index;
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 200),
+                              margin: EdgeInsets.symmetric(horizontal: 4),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppColor.primaryColors
+                                    : AppColor.cFFFFFF,
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? AppColor.cE4EDC9
+                                      : AppColor.cFFFFFF,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 0.0,
+                                  vertical: 15,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    // SvgPicture.asset(
+                                    //   tab.icon as String,
+                                    //   width: 20,
+                                    //   height: 20,
+                                    //   color: isSelected
+                                    //       ? Colors.black87
+                                    //       : Colors.grey[600],
+                                    // ),
+                                    // tab.icon,
+                                    SizedBox(width: 8),
+                                    Text(
+                                      tab.label,
+                                      style: TextFontStyle
+                                          .textStyle12w400NunitoSans
+                                          .copyWith(
+                                        color: isSelected
+                                            ? Colors.black87
+                                            : Colors.grey[600],
+                                        fontWeight: isSelected
+                                            ? FontWeight.w700
+                                            : FontWeight.w500,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                    // if (tab.count != null) ...[
+                                    //   SizedBox(width: 2),
+                                    //   Container(
+                                    //     padding: EdgeInsets.symmetric(
+                                    //         horizontal: 6, vertical: 2),
+                                    //     decoration: BoxDecoration(
+                                    //       color: isSelected
+                                    //           ? Colors.grey[300]
+                                    //           : Colors.grey[400],
+                                    //       borderRadius: BorderRadius.circular(10),
+                                    //     ),
+                                    //     child: Text(
+                                    //       '${tab.count}',
+                                    //       style: TextFontStyle
+                                    //           .textStyle12w400NunitoSans
+                                    //           .copyWith(
+                                    //         color: Colors.black87,
+                                    //         fontSize: 10,
+                                    //         fontWeight: FontWeight.w600,
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Content Area
+              Container(
+                height: MediaQuery.of(context).size.height - 200,
+                child: _buildTabContent(),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -519,8 +270,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return _buildClothesContent();
       case 1:
         return _buildOutfitsContent();
-      case 2:
-        return _buildMyTreeContent();
+      // case 2:
+      //   return _buildMyTreeContent();
       default:
         return Container();
     }
@@ -585,10 +336,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: GridView.builder(
                 padding: EdgeInsets.all(0),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 2,
                   crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.8,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.9,
                 ),
                 itemCount:
                     clothesData[categories[selectedCategoryIndex]]?.length ?? 0,
@@ -635,7 +386,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               margin: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
@@ -648,13 +398,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Routes.closetDetailsScreen,
                         );
                       },
-                      child: Image.asset(
-                        AppImages.fullDress,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.contain,
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            AppImages.fullDress,
+                            width: 100.w,
+                            height: 100.h,
+                            fit: BoxFit.contain,
+                          ),
+                          UIHelper.verticalSpace(8.h),
+                        ],
                       ),
                     ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Summer Fashion',
+                          style:
+                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                            fontSize: 12.sp,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Worn:12',
+                          style:
+                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                            fontSize: 10.sp,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ))
                   ],
                 ),
               ),
@@ -923,8 +700,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
-
 }
 
 class TabItem {
