@@ -21,7 +21,6 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
   final TextEditingController emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +37,15 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    AppImages.back,
-                    height: 24.h,
-                    width: 24.w,
+                  InkWell(
+                    onTap: () {
+                      NavigationService.goBack;
+                    },
+                    child: Image.asset(
+                      AppImages.back,
+                      height: 24.h,
+                      width: 24.w,
+                    ),
                   ),
                   Text("Forgot Password",
                       style: TextFontStyle.Inter10W600.copyWith(

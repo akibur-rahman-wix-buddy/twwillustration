@@ -9,6 +9,8 @@ import 'package:twwillustration/features/add_outfit/manage_outfit_screen.dart';
 import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/fashion_board/fashion_board.dart';
 import 'package:twwillustration/features/quick_stats_screen/quick_stats_screen.dart';
+import 'package:twwillustration/loading_screen.dart';
+import 'package:twwillustration/navigation_screen.dart';
 import 'helpers/all_routes.dart';
 import 'helpers/di.dart';
 import 'helpers/helper_methods.dart';
@@ -75,7 +77,7 @@ class UtillScreenMobile extends StatelessWidget {
           },
           navigatorKey: NavigationService.navigatorKey,
           onGenerateRoute: RouteGenerator.generateRoute,
-          home: OutfitScreen(),
+          home: Loading(),
         );
       },
     );

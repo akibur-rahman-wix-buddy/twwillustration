@@ -48,21 +48,23 @@ class _AIScreenState extends State<AIScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(
-              20,
+            padding: EdgeInsets.symmetric(
+              vertical: 60.h,
+              horizontal: 20.w,
             ),
             child: Column(
               children: [
                 // * App Bar
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    GestureDetector(
-                        onTap: () {
-                          NavigationService.goBack;
-                        },
-                        child: SvgPicture.asset(AppIcons.backIcon)),
-                    UIHelper.horizontalSpace(100.w),
+                    // GestureDetector(
+                    //     onTap: () {
+                    //       NavigationService.goBack;
+                    //     },
+                    //     child: SvgPicture.asset(AppIcons.backIcon)),
+                    // UIHelper.horizontalSpace(100.w),
                     Text(
                       'Drobie AI',
                       style: TextFontStyle.textStyle12w400NunitoSans.copyWith(

@@ -50,8 +50,9 @@ class _ManageOutfitScreenState extends State<ManageOutfitScreen> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: (){
-                                NavigationService.navigateTo(Routes.outfitPreview);
+                              onTap: () {
+                                NavigationService.navigateTo(
+                                    Routes.outfitPreview);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -78,6 +79,11 @@ class _ManageOutfitScreenState extends State<ManageOutfitScreen> {
                         ),
                         Image.asset(
                           AppImages.pantBigImage,
+                        ),
+                        Image.asset(
+                          AppImages.leatherShoes,
+                          height: 100.h,
+                          width: 100.w,
                         ),
                       ],
                     ),

@@ -9,8 +9,6 @@ import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
 import 'package:twwillustration/features/shop_screen/presentation/shop_dashboard_screen.dart';
 import 'package:twwillustration/features/shop_screen/widget/product_slider_card.dart';
-import 'package:twwillustration/helpers/all_routes.dart';
-import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
 class ProductDetailsScreen extends StatefulWidget {

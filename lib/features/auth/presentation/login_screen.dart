@@ -77,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please enter an email";
-                      } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
+                      } else if (!RegExp(
+                              r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
                           .hasMatch(value)) {
                         return "Please enter a valid email";
                       }
@@ -108,6 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         return "Please enter your password";
                       } else if (value.length < 8) {
                         return "Password must be at least 8 characters";
+                      } else {
+                        NavigationService.navigateTo(Routes.navigationScreen);
                       }
                       return null;
                     },
@@ -169,9 +172,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(AppImages.googleLogo, height: 40.h, width: 40.w),
+                      Image.asset(AppImages.googleLogo,
+                          height: 40.h, width: 40.w),
                       UIHelper.horizontalSpace(12.w),
-                      Image.asset(AppImages.appleLogo, height: 40.h, width: 40.w),
+                      Image.asset(AppImages.appleLogo,
+                          height: 40.h, width: 40.w),
                     ],
                   ),
 

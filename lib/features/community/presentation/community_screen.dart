@@ -2,15 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
-import 'package:twwillustration/assets_helper/app_icons.dart';
-import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/features/community/presentation/all_tab_screen.dart';
 import 'package:twwillustration/features/community/presentation/following_screen.dart';
 import 'package:twwillustration/features/community/presentation/trending_screen.dart';
-import 'package:twwillustration/helpers/all_routes.dart';
-import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
 class CommunityScreen extends StatefulWidget {
@@ -48,28 +44,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7F9),
-      appBar: CustomAppbar(
-        title: 'Community',
-        actions: [
-          GestureDetector(
-            onTap: () {
-              NavigationService.navigateTo(Routes.createPostScreen);
-            },
-            child: SvgPicture.asset(
-              AppIcons.addIcon,
-              height: 24.h,
-              width: 24.w,
-            ),
-          ),
-          UIHelper.horizontalSpace(25.w),
-        ],
-      ),
+      backgroundColor: AppColor.bgColor,
       body: SafeArea(
         child: Column(
           children: [
+            UIHelper.verticalSpace(60.h),
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: SegmentedFilterBar(
                 items: const ['All', 'Trending', 'Following'],
                 selectedIndex: selected,

@@ -5,7 +5,6 @@ import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
-import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
@@ -52,44 +51,57 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.cF3F5F7,
-      appBar: CustomAppbar(
-        title: 'Marketplace',
-        backgroundColor: AppColor.cF3F5F7,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              // Navigate to SearchScreen
-              NavigationService.navigateTo(Routes.searchScreen);
-            },
-            child: SvgPicture.asset(
-              AppIcons.searchIcon,
-              height: 40.h,
-              width: 40.w,
-            ),
-          ),
-          UIHelper.horizontalSpace(10.w),
-          GestureDetector(
-            onTap: () {
-              // Navigate to AddToShopScreen
-              NavigationService.navigateTo(Routes.addToShop);
-            },
-            child: SvgPicture.asset(
-              AppIcons.addIcon,
-              height: 40.h,
-              width: 40.w,
-            ),
-          ),
-          UIHelper.horizontalSpace(20.w),
-        ],
-      ),
+      backgroundColor: AppColor.bgColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.symmetric(
+              vertical: 60.h,
+              horizontal: 20.w,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // Navigate to SearchScreen
+                    //     NavigationService.navigateTo(Routes.searchScreen);
+                    //   },
+                    //   child: SvgPicture.asset(
+                    //     AppIcons.backIcon,
+                    //     height: 40.h,
+                    //     width: 40.w,
+                    //   ),
+                    // ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to SearchScreen
+                        NavigationService.navigateTo(Routes.searchScreen);
+                      },
+                      child: SvgPicture.asset(
+                        AppIcons.searchIcon,
+                        height: 30.h,
+                        width: 30.w,
+                      ),
+                    ),
+                    UIHelper.horizontalSpace(10.w),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to AddToShopScreen
+                        NavigationService.navigateTo(Routes.addToShop);
+                      },
+                      child: SvgPicture.asset(
+                        AppIcons.addIcon,
+                        height: 30.h,
+                        width: 30.w,
+                      ),
+                    ),
+                  ],
+                ),
+                UIHelper.verticalSpaceMedium,
                 Container(
                   height: 150.h,
                   width: double.infinity,

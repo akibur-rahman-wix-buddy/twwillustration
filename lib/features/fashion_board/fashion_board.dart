@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, unused_element
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

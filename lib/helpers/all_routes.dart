@@ -19,6 +19,7 @@ import 'package:twwillustration/features/settings_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/search_screen.dart';
+import 'package:twwillustration/navigation_screen.dart';
 import '../features/auth/presentation/forgot_otp_screen.dart';
 import '../features/auth/presentation/forgot_pass_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
@@ -39,6 +40,7 @@ final class Routes {
   static const String resetPassScreen = '/resetPassScreen';
 
   // * Home Routes
+  static const String navigationScreen = '/navigationScreen';
   static const String homeScreen = '/homeScreen';
   static const String outfitSuggestionScreen = '/outfitSuggestionScreen';
   static const String aiScreen = '/aiScreen';
@@ -79,6 +81,12 @@ final class RouteGenerator {
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.navigationScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: NavigationScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => NavigationScreen());
+
       case Routes.loginScreen:
         return Platform.isAndroid
             ? _FadedTransitionRoute(widget: LoginScreen(), settings: settings)
