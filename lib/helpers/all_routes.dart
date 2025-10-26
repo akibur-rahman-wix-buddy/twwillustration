@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:twwillustration/features/add_outfit/add_outfit_screen.dart';
 import 'package:twwillustration/features/add_outfit/manage_outfit_screen.dart';
 import 'package:twwillustration/features/add_outfit/outfit_preview_screen.dart';
 import 'package:twwillustration/features/ai_screen/presentation/ai_screen.dart';
 import 'package:twwillustration/features/ai_screen/presentation/outfit_suggestion_screen.dart';
+import 'package:twwillustration/features/ai_suggestion/presentation/subscription_screen.dart';
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
+import 'package:twwillustration/features/closet_details/presentation/add_closet_screen.dart';
 import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/community/widget/create_post_screen.dart';
 import 'package:twwillustration/features/fashion_board/add_fashion_board.dart';
@@ -15,6 +18,7 @@ import 'package:twwillustration/features/profile/presentation/edit_profile_scree
 import 'package:twwillustration/features/profile/presentation/followers_screen.dart';
 import 'package:twwillustration/features/profile/presentation/following_screen.dart';
 import 'package:twwillustration/features/profile/presentation/profile_screen.dart';
+import 'package:twwillustration/features/quick_stats_screen/quick_stats_screen.dart';
 import 'package:twwillustration/features/settings_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
@@ -72,6 +76,10 @@ final class Routes {
   static const String manageOutfitScreen = '/manageOutfitScreen';
   static const String addOutfitScreen = '/addOutfitScreen';
   static const String outfitPreview = '/outfitPreview';
+  static const String quickStatsScreen = '/quickStatsScreen';
+  static const String outfitScreen = '/outfitScreen';
+  static const String addClosetScreen = '/addClosetScreen';
+  static const String subscriptionScreen = '/subscriptionScreen';
 }
 
 final class RouteGenerator {
@@ -225,6 +233,29 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: OutfitPreviewScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => OutfitPreviewScreen());
+
+      case Routes.quickStatsScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: QuickStatsScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => QuickStatsScreen());
+
+      case Routes.outfitScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(widget: OutfitScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => OutfitScreen());
+
+      case Routes.addClosetScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: AddClosetScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => AddClosetScreen());
+
+      case Routes.subscriptionScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: SubscriptionScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => SubscriptionScreen());
 
       default:
         return null;

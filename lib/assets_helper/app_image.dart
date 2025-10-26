@@ -45,4 +45,5 @@ class AppImages {
   static const String addBackground = '$_basePath/addBackground.png';
   static const String shoeImages = '$_basePath/shoeImages.png';
   static const String leatherShoes = '$_basePath/leather-shoes.png';
+  static const String removeImage = '$_basePath/removeImage.png';
 }

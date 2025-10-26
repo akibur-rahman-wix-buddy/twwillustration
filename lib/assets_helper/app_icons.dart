@@ -84,4 +84,8 @@ class AppIcons {
   static const String itemStats = '$iconsRoute/itemSats.svg';
   static const String errorIcon = '$iconsRoute/errorIcon.svg';
   static const String nextIcons = '$iconsRoute/nextIcons.svg';
+  static const String addCloset = '$iconsRoute/addCloset.svg';
+  static const String addOutfit = '$iconsRoute/addOutfit.svg';
+  static const String upPhoto = '$iconsRoute/upPhoto.svg';
+  static const String takePhoto = '$iconsRoute/takePhoto.svg';
 }

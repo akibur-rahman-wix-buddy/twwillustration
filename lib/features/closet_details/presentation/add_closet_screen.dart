@@ -3,13 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
+import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
-class WardrobeScreen extends StatelessWidget {
-  const WardrobeScreen({super.key});
+class AddClosetScreen extends StatefulWidget {
+  const AddClosetScreen({super.key});
 
+  @override
+  State<AddClosetScreen> createState() => _AddClosetScreenState();
+}
+
+class _AddClosetScreenState extends State<AddClosetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,20 +64,18 @@ class WardrobeScreen extends StatelessWidget {
                       ),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(16),
-                        onTap: () {
-                          NavigationService.navigateTo(Routes.addClosetScreen);
-                        },
+                        onTap: () {},
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 24),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset(
-                                AppIcons.addCloset,
+                                AppIcons.upPhoto,
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                'Add Closet',
+                                'Upload Photo',
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -109,11 +113,11 @@ class WardrobeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              AppIcons.addOutfit,
+                              AppIcons.takePhoto,
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              'Add Outfit',
+                              'Take Photo',
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -127,50 +131,54 @@ class WardrobeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              // UIHelper.verticalSpace(400.h),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     color: const Color(0xFFDDF8DD),
-              //     borderRadius: BorderRadius.circular(16),
-              //   ),
-              //   padding:
-              //       const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              //   child: Row(
-              //     children: [
-              //       Image.asset(
-              //         AppImages.removeImage,
-              //         height: 40.h,
-              //         width: 40.w,
-              //       ),
-              //       const SizedBox(width: 12),
-              //       const Expanded(
-              //         child: Text(
-              //           'Clothes Added',
-              //           style: TextStyle(
-              //             fontSize: 16,
-              //             fontWeight: FontWeight.w600,
-              //             color: Colors.black87,
-              //           ),
-              //         ),
-              //       ),
-              //       ElevatedButton(
-              //         onPressed: () {},
-              //         style: ElevatedButton.styleFrom(
-              //           backgroundColor: Colors.black87,
-              //           padding: const EdgeInsets.symmetric(
-              //               horizontal: 16, vertical: 8),
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(20),
-              //           ),
-              //         ),
-              //         child: const Text(
-              //           'Go to clothes',
-              //           style: TextStyle(color: Colors.white, fontSize: 13),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              UIHelper.verticalSpace(400.h),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDDF8DD),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      AppImages.removeImage,
+                      height: 40.h,
+                      width: 40.w,
+                    ),
+                    const SizedBox(width: 12),
+                    const Expanded(
+                      child: Text(
+                        'Clothes Added',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        NavigationService.navigateTo(
+                          Routes.closetDetailsScreen,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black87,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: const Text(
+                        'Go to clothes',
+                        style: TextStyle(color: Colors.white, fontSize: 13),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

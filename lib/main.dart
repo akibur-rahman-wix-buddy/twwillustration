@@ -21,7 +21,7 @@ import 'networks/internet_checker/internet_checker_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put(InternetController(), permanent: true);
+  // Get.put(InternetController(), permanent: true);
   await GetStorage.init();
   diSetup();
   DioSingleton.instance.create();

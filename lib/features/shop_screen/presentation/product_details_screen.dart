@@ -77,9 +77,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 height: 300,
                 images: demoImages,
                 isFavorite: false,
-                onTap: () {
-                  
-                },
+                onTap: () {},
               ),
               UIHelper.verticalSpace(20.h),
               Container(
@@ -232,7 +230,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           name: 'Chat',
                           onCallBack: () {},
                           context: context,
-                          minWidth: 180,
+                          minWidth: 150.w,
                           color: AppColor.cFFFFFF,
                           borderColor: AppColor.primaryColors,
                           borderRadius: 80,
@@ -247,7 +245,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           name: 'Buy Now',
                           onCallBack: () {},
                           context: context,
-                          minWidth: 180,
+                          minWidth: 150.w,
                           color: AppColor.primaryColors,
                           borderColor: AppColor.primaryColors,
                           borderRadius: 80,

@@ -156,13 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               spacing: 10,
                               children: [
-                                Container(
-                                  width: 24,
-                                  height: 24,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(),
-                                  child: Stack(),
-                                ),
+                                UIHelper.horizontalSpace(10.w),
                                 SvgPicture.asset(AppIcons.farenheit),
                                 Text.rich(
                                   TextSpan(
@@ -450,7 +444,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               const Spacer(), // ✅ button নিচে যাবে
                               CustomButton(
                                 name: 'View Details',
-                                onCallBack: () {},
+                                onCallBack: () {
+                                  NavigationService.navigateTo(
+                                    Routes.quickStatsScreen,
+                                  );
+                                },
                                 context: context,
                                 borderRadius: 48.r,
                                 borderColor: AppColor.c000000,
@@ -505,8 +503,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       children: [
                         Container(
-                          width: 120,
-                          height: 300,
+                          width: 100.w,
+                          height: 280.h,
                           decoration: ShapeDecoration(
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
@@ -537,8 +535,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       children: [
                         Container(
-                          width: 120,
-                          height: 300,
+                          width: 100.w,
+                          height: 280.h,
                           decoration: ShapeDecoration(
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
@@ -569,8 +567,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       children: [
                         Container(
-                          width: 120,
-                          height: 300,
+                          width: 100.w,
+                          height: 280.h,
                           decoration: ShapeDecoration(
                             color: Colors.white,
                             shape: RoundedRectangleBorder(

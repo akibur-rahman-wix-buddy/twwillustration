@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
-import 'package:twwillustration/features/ai_suggestion/presentation/subscription_screen.dart';
+import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/navigation_service.dart';
 
 class AiSuggestionScreen extends StatefulWidget {
   const AiSuggestionScreen({super.key});
@@ -65,11 +66,7 @@ class _AiSuggestionScreenState extends State<AiSuggestionScreen> {
                   ElevatedButton(
                     onPressed: () {
                       // Navigate to subscription screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SubscriptionScreen()),
-                      );
+                      NavigationService.navigateTo(Routes.subscriptionScreen);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
