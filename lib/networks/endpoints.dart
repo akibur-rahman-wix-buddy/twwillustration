@@ -10,6 +10,7 @@ class Endpoints {
   ///>>>>>>>>>>>>>>>>>>>>> auth and forget >>>>>>>>>>>>>>>>>>>>>>>>>
   static String login() => "/api/login";
   static String signUpUrl() => "/v1/sign-up";
+  static String verifyOtpUrl() => "/v1/verify/otp";
   static String postEmailForgetApiLink() =>"/api/forget-password";
   static String otpForgetApiLink() =>"/api/check-otp";
   static String forgetPasswordChangeApiLink() =>"/api/reset-password";

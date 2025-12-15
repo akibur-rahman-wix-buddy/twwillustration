@@ -23,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController lastNameameController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool isLoadong = false;
 
   @override
   Widget build(BuildContext context) {
@@ -200,29 +201,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   UIHelper.verticalSpace(32.h),
 
                   /// =============== Sign Up Button =============== ///
-                  CustomizedButton(
+                  isLoadong ? Center(child: CircularProgressIndicator()) :
+                   CustomizedButton(
                     text: "Sign Up",
                     onTap: () async{
+                      setState(() {
+                        isLoadong = true;
+                      });
                       final firstName = firstNameController.text.trim();
                       final lastName = lastNameameController.text.trim();
                       final email = emailController.text.trim();
                       final password = passController.text;
 
                       try{
-                        final sucess = await postSignupRXObj.postSignupRX(
+                        bool sucess = await postSignupRXObj.postSignupRX(
                         firstName: firstName,
                         lastName: lastName, 
                         email: email, 
                         password: password
                         );
                         if(sucess){
-                          NavigationService.navigateToUntilReplacement(Routes.otpScreen);
+                          NavigationService.navigateToWithArgs(Routes.otpScreen, {
+                            "userEmail": email,
+                          });
                         }
                         else{
                           throw Exception();
                         }
                       }catch(error){
                         print('$error');
+                      }finally{
+                        setState(() {
+                          isLoadong = false;
+                        });
                       }
 
                       // if (_formKey.currentState!.validate()) {
