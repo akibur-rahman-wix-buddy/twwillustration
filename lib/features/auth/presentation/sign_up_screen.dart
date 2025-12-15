@@ -8,6 +8,7 @@ import 'package:twwillustration/common_widgets/customized_button.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -18,7 +19,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameameController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -63,9 +65,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   UIHelper.verticalSpace(23.h),
 
-                  /// =============== Name Field =============== ///
+                  /// =============== First Name Field =============== ///
                   Text(
-                    "Full Name",
+                    "First Name",
                     style: TextFontStyle.Inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -77,11 +79,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fieldColor: AppColor.cFFFFFF,
                     borderColor: const Color(0xffe8e8e8),
                     height: 56.h,
-                    hintText: "Enter your full name",
-                    controller: nameController,
+                    hintText: "Enter your first name",
+                    controller: firstNameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Please enter your name";
+                        return "Please enter your first name";
+                      }
+                      return null;
+                    },
+                  ),
+                  UIHelper.verticalSpace(16.h),
+
+                  /// =============== Last Name Field =============== ///
+                  Text(
+                    "Last Name",
+                    style: TextFontStyle.Inter10W600.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: AppColor.c757575,
+                    ),
+                  ),
+                  UIHelper.verticalSpace(12.h),
+                  CustomTextField(
+                    fieldColor: AppColor.cFFFFFF,
+                    borderColor: const Color(0xffe8e8e8),
+                    height: 56.h,
+                    hintText: "Enter your Last name",
+                    controller: lastNameameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your last name";
                       }
                       return null;
                     },
@@ -175,8 +202,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   /// =============== Sign Up Button =============== ///
                   CustomizedButton(
                     text: "Sign Up",
-                    onTap: () {
-                      NavigationService.navigateTo(Routes.otpScreen);
+                    onTap: () async{
+                      final firstName = firstNameController.text.trim();
+                      final lastName = lastNameameController.text.trim();
+                      final email = emailController.text.trim();
+                      final password = passController.text;
+
+                      try{
+                        final sucess = await postSignupRXObj.postSignupRX(
+                        firstName: firstName,
+                        lastName: lastName, 
+                        email: email, 
+                        password: password
+                        );
+                        if(sucess){
+                          NavigationService.navigateToUntilReplacement(Routes.otpScreen);
+                        }
+                        else{
+                          throw Exception();
+                        }
+                      }catch(error){
+                        print('$error');
+                      }
+
                       // if (_formKey.currentState!.validate()) {
                       //   NavigationService.navigateTo(Routes.otpScreen);
                       // } 
