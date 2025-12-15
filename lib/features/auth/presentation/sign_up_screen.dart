@@ -176,11 +176,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   CustomizedButton(
                     text: "Sign Up",
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        NavigationService.navigateTo(Routes.otpScreen);
-                      } else {
-                        print("Form is invalid!");
-                      }
+                      NavigationService.navigateTo(Routes.otpScreen);
+                      // if (_formKey.currentState!.validate()) {
+                      //   NavigationService.navigateTo(Routes.otpScreen);
+                      // } 
+                      // else {
+                      //   print("Form is invalid!");
+                      // }
                     },
                     height: 47.h,
                     width: double.infinity,
