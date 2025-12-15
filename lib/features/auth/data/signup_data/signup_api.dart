@@ -32,7 +32,7 @@ final  class PostSignupAPI{
 
       if(response.statusCode == 200){
         final data = jsonDecode(jsonEncode(response.data));
-        ToastUtil.showShortToast('Register Successfull Please Login');
+        ToastUtil.showShortToast("A verification code has been sent to your email address.7415");
         return data;
       }else{
         throw DataSource.DEFAULT.getFailure();

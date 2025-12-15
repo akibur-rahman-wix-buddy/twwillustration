@@ -106,9 +106,12 @@ final class RouteGenerator {
             : CupertinoPageRoute(builder: (context) => SignUpScreen());
 
       case Routes.otpScreen:
+      final args = settings.arguments as Map;
         return Platform.isAndroid
-            ? _FadedTransitionRoute(widget: OtpScreen(), settings: settings)
-            : CupertinoPageRoute(builder: (context) => OtpScreen());
+            ? _FadedTransitionRoute(widget: OtpScreen(
+              userEmail: args['userEmail'],
+            ), settings: settings)
+            : CupertinoPageRoute(builder: (context) => OtpScreen(userEmail: args['userEmail'],));
 
       case Routes.forgotPassScreen:
         return Platform.isAndroid
