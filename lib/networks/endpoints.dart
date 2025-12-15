@@ -1,46 +1,5 @@
-
-
-const String baseUrl = "https://alex.softvencefsd.xyz";
-
-class Endpoints {
-  Endpoints._();
-
-
-
-  ///>>>>>>>>>>>>>>>>>>>>> auth and forget >>>>>>>>>>>>>>>>>>>>>>>>>
-  static String login() => "/api/login";
-  static String postEmailForgetApiLink() =>"/api/forget-password";
-  static String otpForgetApiLink() =>"/api/check-otp";
-  static String forgetPasswordChangeApiLink() =>"/api/reset-password";
-  static String logout() =>"/api/logout";
-
-
-  ///>>>>>>>>>>>>>>>>>>>>>>>>>>> update profile >>>>>>>>>>>>>>>>>>>>>>>>>>
-
-  static String postEditProfileApiLink()=> "/api/user-update";
-  static String helpCenterApi()=> "/api/social-media";
-  static String privacyApiData(String apiLink)=> "$apiLink";
-
-  ///>>>>>>>>>>>>>>>>>>>>>>>>>>>> home screen api link >>>>>>>>>>>>>>>>>>>>>>>
-
-static String userInfo()=> "/api/dashboard";
-static String resendDocumentsData()=> "/api/dashboard/doucment";
-static String homeInvoiceApiLink()=> "/api/dashboard/invoice";
-
-
-///>>>>>>>>>>>>>>>>>>>>>>>>>>>> Document screen api link >>>>>>>>>>>>>>>>>>>>>>>
-
-static String documentYearApiLink()=>"/api/document/year";
-static String allDocumentApiLink()=>"/api/document/year";
-
-
-///>>>>>>>>>>>>>>>>>> invoice all api link >>>>>>>>>>>>>>
-
-static String invoiceAllDataApiLink()=> "/api/invoice";
-static String invoicePayment()=> "/api/stripe/checkout";
-
-
-}
+// ignore_for_file: constant_identifier_names
+const String baseUrl = "https://app.mygreendrobe.com";
 
 final class PaymentGateway {
   PaymentGateway._();
@@ -57,4 +16,20 @@ final class NetworkConstants {
   static const ACCEPT_TYPE = "application/json";
   static const AUTHORIZATION = "Authorization";
   static const CONTENT_TYPE = "content-Type";
+}
+
+class Endpoints {
+  Endpoints._();
+
+  ///>>>>>>>>>>>>>>>>>>>>> auth and forget >>>>>>>>>>>>>>>>>>>>>>>>>
+  static String logInUrl() => "/api/v1/login";
+
+  static String signUpUrl() => "/api/register";
+  static String logOutUrl() => "/api/logout";
+  static String changePassURL() => "/api/password/update";
+  static String getAllSongURL() => "/api/audio/all";
+  static String getFavouriteSongURL() => "/api/favorites/all";
+  static String updateProfileURL() => "/api/profile/update";
+  static String getProfileURL() => "/api/profile";
+  static String postFavouriteURL() => "/api/favorites/toggle";
 }
