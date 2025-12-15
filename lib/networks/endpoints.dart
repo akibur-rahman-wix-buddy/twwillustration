@@ -25,6 +25,7 @@ class Endpoints {
   static String logInUrl() => "/v1/login";
   static String signUpUrl() => "/v1/sign-up";
   static String logOutUrl() => "/api/logout";
+  static String verifyOtpUrl() => "/v1/verify/otp";
   static String changePassURL() => "/api/password/update";
   static String getAllSongURL() => "/api/audio/all";
   static String getFavouriteSongURL() => "/api/favorites/all";
