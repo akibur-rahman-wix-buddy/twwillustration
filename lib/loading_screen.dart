@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:twwillustration/navigation_screen.dart';
 import 'package:twwillustration/welcome_screen.dart';
 
 import 'constants/app_constants.dart';
@@ -8,8 +8,6 @@ import 'features/onboarding_screen.dart';
 import 'helpers/di.dart';
 import 'helpers/helper_methods.dart';
 import 'networks/dio/dio.dart';
-
-
 
 final class Loading extends StatefulWidget {
   const Loading({super.key});
@@ -50,16 +48,10 @@ class _LoadingState extends State<Loading> {
       return const WelcomeScreen();
     } else {
       return appData.read(kKeyIsLoggedIn)
-          ? WelcomeScreen()
+          ? NavigationScreen()
           : appData.read(kKeyfirstTime)
-          ? OnboardingScreen() //AuthRuleScreen()
-          : OnboardingScreen();
+              ? OnboardingScreen() //AuthRuleScreen()
+              : OnboardingScreen();
     }
-    /* return TimeAppointmentScreen();
-
-              ? HomeScreen()
-              : HomeScreen();
-    }
-    */
   }
 }

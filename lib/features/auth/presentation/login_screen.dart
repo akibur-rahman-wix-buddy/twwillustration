@@ -8,6 +8,7 @@ import 'package:twwillustration/common_widgets/customized_button.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +22,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  @override
+  void dispose() {
+    emailController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
+
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       } else if (value.length < 8) {
                         return "Password must be at least 8 characters";
                       } else {
-                        NavigationService.navigateTo(Routes.navigationScreen);
+                        // NavigationService.navigateTo(Routes.navigationScreen);
                       }
                       return null;
                     },
@@ -139,22 +148,45 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   UIHelper.verticalSpace(32.h),
 
-                  /// Submit Button
-                  CustomizedButton(
-                    text: "Sign In",
-                    onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Successful validation
-                        print("Form is valid");
-                      } else {
-                        // Errors will show below the fields
-                        print("Form is invalid");
-                      }
-                    },
+                  // Submit Button
+                  SizedBox(
                     height: 47.h,
                     width: double.infinity,
-                    textStyle: TextFontStyle.Inter10W600.copyWith(
-                        fontSize: 14, color: AppColor.c181818),
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  AppColor.c181818),
+                            ),
+                          )
+                        : CustomizedButton(
+                            text: "Sign In",
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                // final emailc = emailController.text.trim();
+                                // final passwordc = passController.text.trim();
+
+                                // bool isSuccess = await postSigninRX.postSigninRX(
+                                //   email: emailc,
+                                //   password: passwordc,
+                                // );
+
+                                // if (isSuccess) {
+                                //   NavigationService.navigateTo(Routes.navigationScreen);
+                                // }
+                                await _onLogin();
+                                // Successful validation
+                                print("Form is valid");
+                              } else {
+                                // Errors will show below the fields`
+                                print("Form is invalid");
+                              }
+                            },
+                            height: 47.h,
+                            width: double.infinity,
+                            textStyle: TextFontStyle.Inter10W600.copyWith(
+                                fontSize: 14, color: AppColor.c181818),
+                          ),
                   ),
 
                   UIHelper.verticalSpace(32.h),
@@ -210,5 +242,38 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _onLogin() async {
+    final emailc = emailController.text.trim();
+    final passwordc = passController.text.trim();
+
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      bool isSuccess =
+          await postSigninRX.postSigninRX(email: emailc, password: passwordc);
+      if (isSuccess) {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+            NavigationService.navigateTo(Routes.navigationScreen);
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    } catch (e) {
+      throw Exception('Login failed: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 }
