@@ -1,6 +1,6 @@
 
 
-const String baseUrl = "https://alex.softvencefsd.xyz";
+const String baseUrl = "https://app.mygreendrobe.com/api";
 
 class Endpoints {
   Endpoints._();
@@ -9,6 +9,7 @@ class Endpoints {
 
   ///>>>>>>>>>>>>>>>>>>>>> auth and forget >>>>>>>>>>>>>>>>>>>>>>>>>
   static String login() => "/api/login";
+  static String signUpUrl() => "/v1/sign-up";
   static String postEmailForgetApiLink() =>"/api/forget-password";
   static String otpForgetApiLink() =>"/api/check-otp";
   static String forgetPasswordChangeApiLink() =>"/api/reset-password";
