@@ -51,7 +51,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                   UIHelper.verticalSpace(4.h),
                   Text(
                     "Please enter new password to reset your old password",
-                    style: TextFontStyle.Inter10W400.copyWith(
+                    style: TextFontStyle.inter10W400.copyWith(
                         fontSize: 14, color: AppColor.c757575),
                   ),
                   UIHelper.verticalSpace(23.h),

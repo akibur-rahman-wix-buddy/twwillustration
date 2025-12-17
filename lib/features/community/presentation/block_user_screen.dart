@@ -73,7 +73,7 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
                                 children: [
                                   Text(
                                     'Dennis Callis',
-                                    style: TextFontStyle.Inter10W400.copyWith(
+                                    style: TextFontStyle.inter10W400.copyWith(
                                       fontSize: 14.h,
                                       fontWeight: FontWeight.w500,
                                       color: AppColor.c000000,
@@ -81,7 +81,7 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
                                   ),
                                   Text(
                                     'Blocked on Oct 12, 2025',
-                                    style: TextFontStyle.Inter10W400.copyWith(
+                                    style: TextFontStyle.inter10W400.copyWith(
                                       fontSize: 10.h,
                                       fontWeight: FontWeight.w600,
                                       color: AppColor.c000000.withOpacity(0.4),
@@ -92,7 +92,7 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
                               const Spacer(),
                               Text(
                                 'Unblock',
-                                style: TextFontStyle.Inter10W400.copyWith(
+                                style: TextFontStyle.inter10W400.copyWith(
                                   fontSize: 14.h,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.cE53935,

@@ -1,5 +1,5 @@
 // ignore_for_file: constant_identifier_names
-const String baseUrl = "https://admin.numynd.app/api";
+const String baseUrl = "https://app.mygreendrobe.com/api";
 
 final class PaymentGateway {
   PaymentGateway._();
@@ -24,7 +24,7 @@ class Endpoints {
   ///>>>>>>>>>>>>>>>>>>>>> auth and forget >>>>>>>>>>>>>>>>>>>>>>>>>
   static String logInUrl() => "/v1/login";
   static String signUpUrl() => "/v1/sign-up";
-  static String logOutUrl() => "/api/logout";
+  static String logOutUrl() => "/v1/auth/logout";
   static String verifyOtpUrl() => "/v1/verify/otp";
   static String changePassURL() => "/api/password/update";
   static String getAllSongURL() => "/api/audio/all";

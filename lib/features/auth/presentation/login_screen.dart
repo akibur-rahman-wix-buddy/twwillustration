@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   UIHelper.verticalSpace(4.h),
                   Text(
                     "Please sign in with your Greendrobe account",
-                    style: TextFontStyle.Inter10W400.copyWith(
+                    style: TextFontStyle.inter10W400.copyWith(
                         fontSize: 14, color: AppColor.c757575),
                   ),
                   UIHelper.verticalSpace(23.h),
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           "Forgot password?",
-                          style: TextFontStyle.Inter10W400.copyWith(
+                          style: TextFontStyle.inter10W400.copyWith(
                             fontSize: 14,
                             color: AppColor.c757575,
                           ),
@@ -194,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: Text(
                       "Or Sign In with account",
-                      style: TextFontStyle.Inter10W400.copyWith(
+                      style: TextFontStyle.inter10W400.copyWith(
                           fontSize: 14, color: const Color(0xff5A5C5F)),
                     ),
                   ),
@@ -223,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           "Don't have an account?",
-                          style: TextFontStyle.Inter10W400.copyWith(
+                          style: TextFontStyle.inter10W400.copyWith(
                               fontSize: 14, color: const Color(0xff5A5C5F)),
                         ),
                         UIHelper.horizontalSpace(8.w),
@@ -258,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (mounted) {
           setState(() {
             isLoading = false;
-            NavigationService.navigateTo(Routes.navigationScreen);
+            NavigationService.navigateToUntilReplacement(Routes.navigationScreen);
           });
         } else {
           setState(() {

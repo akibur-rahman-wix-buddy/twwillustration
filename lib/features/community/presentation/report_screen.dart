@@ -76,7 +76,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       height: 40.h,
                       borderColor: AppColor.cFFFFFF,
                       color: AppColor.cFFFFFF,
-                      textStyle: TextFontStyle.Inter10W400.copyWith(
+                      textStyle: TextFontStyle.inter10W400.copyWith(
                         color: AppColor.c000000,
                         fontSize: 12.sp,
                       ),
@@ -90,7 +90,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       height: 40.h,
                       borderColor: AppColor.primaryColors,
                       color: AppColor.primaryColors,
-                      textStyle: TextFontStyle.Inter10W400.copyWith(
+                      textStyle: TextFontStyle.inter10W400.copyWith(
                         color: AppColor.c000000,
                         fontSize: 12.sp,
                       ),
