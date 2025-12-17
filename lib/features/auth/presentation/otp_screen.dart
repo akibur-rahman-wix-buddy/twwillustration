@@ -1,24 +1,21 @@
 // ignore_for_file: must_be_immutable
-
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
-import 'package:twwillustration/common_widgets/custom_snakbar.dart';
 import 'package:twwillustration/features/auth/widget/otp_verify_dialogue.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/networks/api_acess.dart';
-
 import '../../../assets_helper/app_fonts.dart';
 import '../../../common_widgets/customized_button.dart';
 import '../../../helpers/ui_helpers.dart';
 
 class OtpScreen extends StatefulWidget {
   dynamic userEmail;
-  OtpScreen({super.key, required this.userEmail});
+  bool forgetPass;
+  OtpScreen({super.key, required this.userEmail, required this.forgetPass});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -51,14 +48,14 @@ class _OtpScreenState extends State<OtpScreen> {
             UIHelper.verticalSpace(12.h),
             Text(
               "We have sent verification code to\n your email ${widget.userEmail}",
-              style: TextFontStyle.Inter10W400.copyWith(
+              style: TextFontStyle.inter10W400.copyWith(
                   fontSize: 16,
                   color: AppColor.c757575),
             ),
             UIHelper.verticalSpace(24.h),
             Text(
               "Enter verification code",
-              style: TextFontStyle.Inter10W400.copyWith(
+              style: TextFontStyle.inter10W400.copyWith(
                   fontSize: 16,
                   color: AppColor.c181818),
             ),
@@ -101,7 +98,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 children: [
                   Text(
                     "Don’t Get the code?",
-                    style: TextFontStyle.Inter10W400.copyWith(
+                    style: TextFontStyle.inter10W400.copyWith(
                         fontSize: 16, color: const Color(0xff5A5C5F)),
                   ),
                   UIHelper.horizontalSpace(8.w),
@@ -118,7 +115,7 @@ class _OtpScreenState extends State<OtpScreen> {
             Expanded(child: SizedBox()),
             isLoading ? Center(child: CircularProgressIndicator()) :
              CustomizedButton(
-              text: "Continue",
+              text: "Verify",
               onTap: () async{
                 setState(() {
                   isLoading = true;
@@ -129,7 +126,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
                   if(success){
                     showVerificationSuccessDialog(context, onTap: () {
-                       NavigationService.navigateToUntilReplacement(Routes.loginScreen);
+                       NavigationService.navigateToUntilReplacement(widget.forgetPass ? Routes.resetPassScreen : Routes.loginScreen);
                       },);
                   }
               } catch(e){

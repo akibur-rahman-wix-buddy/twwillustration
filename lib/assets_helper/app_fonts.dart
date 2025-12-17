@@ -149,7 +149,7 @@ class TextFontStyle {
       fontWeight: FontWeight.w800);
 
   /// =========================== Inter ======================= ///
-  static var Inter10W400 = TextStyle(
+  static var inter10W400 = TextStyle(
       fontFamily: 'Inter',
       fontFamilyFallback: const [
         'Open Sans',

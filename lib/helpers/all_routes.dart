@@ -19,12 +19,11 @@ import 'package:twwillustration/features/profile/presentation/followers_screen.d
 import 'package:twwillustration/features/profile/presentation/following_screen.dart';
 import 'package:twwillustration/features/profile/presentation/profile_screen.dart';
 import 'package:twwillustration/features/quick_stats_screen/quick_stats_screen.dart';
-import 'package:twwillustration/features/settings_screen.dart';
+import 'package:twwillustration/features/settings/presentation/settings_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/search_screen.dart';
 import 'package:twwillustration/navigation_screen.dart';
-import '../features/auth/presentation/forgot_otp_screen.dart';
 import '../features/auth/presentation/forgot_pass_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/reset_pass_screen.dart';
@@ -40,7 +39,6 @@ final class Routes {
   static const String signUpScreen = '/signUpScreen';
   static const String otpScreen = '/otpScreen';
   static const String forgotPassScreen = '/forgotPassScreen';
-  static const String forgotOtpScreen = '/forgotOtpScreen';
   static const String resetPassScreen = '/resetPassScreen';
 
   // * Home Routes
@@ -110,20 +108,15 @@ final class RouteGenerator {
         return Platform.isAndroid
             ? _FadedTransitionRoute(widget: OtpScreen(
               userEmail: args['userEmail'],
+              forgetPass: args['forgetPass'],
             ), settings: settings)
-            : CupertinoPageRoute(builder: (context) => OtpScreen(userEmail: args['userEmail'],));
+            : CupertinoPageRoute(builder: (context) => OtpScreen(userEmail: args['userEmail'], forgetPass: args['forgetPass'],));
 
       case Routes.forgotPassScreen:
         return Platform.isAndroid
             ? _FadedTransitionRoute(
                 widget: ForgotPassScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => ForgotPassScreen());
-
-      case Routes.forgotOtpScreen:
-        return Platform.isAndroid
-            ? _FadedTransitionRoute(
-                widget: ForgotOtpScreen(), settings: settings)
-            : CupertinoPageRoute(builder: (context) => ForgotOtpScreen());
 
       case Routes.resetPassScreen:
         return Platform.isAndroid

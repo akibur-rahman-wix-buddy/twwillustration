@@ -59,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   UIHelper.verticalSpace(4.h),
                   Text(
                     "Create your Greendrobe account to get started.",
-                    style: TextFontStyle.Inter10W400.copyWith(
+                    style: TextFontStyle.inter10W400.copyWith(
                       fontSize: 14,
                       color: AppColor.c757575,
                     ),
@@ -136,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return "Please enter an email";
                       } else if (!RegExp(
-                          r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
+                              r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$')
                           .hasMatch(value)) {
                         return "Please enter a valid email";
                       }
@@ -182,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         Text(
                           "Already have an account?",
-                          style: TextFontStyle.Inter10W400.copyWith(
+                          style: TextFontStyle.inter10W400.copyWith(
                             fontSize: 14,
                             color: const Color(0xff5A5C5F),
                           ),
@@ -201,62 +201,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   UIHelper.verticalSpace(32.h),
 
                   /// =============== Sign Up Button =============== ///
-                  isLoadong ? Center(child: CircularProgressIndicator()) :
-                   CustomizedButton(
-                    text: "Sign Up",
-                    onTap: () async{
-                      setState(() {
-                        isLoadong = true;
-                      });
-                      final firstName = firstNameController.text.trim();
-                      final lastName = lastNameameController.text.trim();
-                      final email = emailController.text.trim();
-                      final password = passController.text;
+                  isLoadong
+                      ? Center(child: CircularProgressIndicator())
+                      : CustomizedButton(
+                          text: "Sign Up",
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {
+                                isLoadong = true;
+                              });
+                              final firstName = firstNameController.text.trim();
+                              final lastName =
+                                  lastNameameController.text.trim();
+                              final email = emailController.text.trim();
+                              final password = passController.text;
 
-                      try{
-                        bool sucess = await postSignupRXObj.postSignupRX(
-                        firstName: firstName,
-                        lastName: lastName, 
-                        email: email, 
-                        password: password
-                        );
-                        if(sucess){
-                          NavigationService.navigateToWithArgs(Routes.otpScreen, {
-                            "userEmail": email,
-                          });
-                        }
-                        else{
-                          throw Exception();
-                        }
-                      }catch(error){
-                        print('$error');
-                      }finally{
-                        setState(() {
-                          isLoadong = false;
-                        });
-                      }
-
-                      // if (_formKey.currentState!.validate()) {
-                      //   NavigationService.navigateTo(Routes.otpScreen);
-                      // } 
-                      // else {
-                      //   print("Form is invalid!");
-                      // }
-                    },
-                    height: 47.h,
-                    width: double.infinity,
-                    textStyle: TextFontStyle.Inter10W600.copyWith(
-                      fontSize: 14,
-                      color: AppColor.c181818,
-                    ),
-                  ),
+                              try {
+                                bool sucess =
+                                    await postSignupRXObj.postSignupRX(
+                                        firstName: firstName,
+                                        lastName: lastName,
+                                        email: email,
+                                        password: password);
+                                if (sucess) {
+                                  NavigationService.navigateToWithArgs(
+                                      Routes.otpScreen, {
+                                    "userEmail": email,
+                                    "forgetPass":false,
+                                  });
+                                } else {
+                                  throw Exception();
+                                }
+                              } catch (error) {
+                                print('$error');
+                              } finally {
+                                setState(() {
+                                  isLoadong = false;
+                                });
+                              }
+                            }
+                          },
+                          height: 47.h,
+                          width: double.infinity,
+                          textStyle: TextFontStyle.Inter10W600.copyWith(
+                            fontSize: 14,
+                            color: AppColor.c181818,
+                          ),
+                        ),
                   UIHelper.verticalSpace(32.h),
 
                   /// =============== Social Login =============== ///
                   Center(
                     child: Text(
                       "Or Sign Up with account",
-                      style: TextFontStyle.Inter10W400.copyWith(
+                      style: TextFontStyle.inter10W400.copyWith(
                         fontSize: 14,
                         color: const Color(0xff5A5C5F),
                       ),
