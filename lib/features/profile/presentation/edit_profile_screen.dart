@@ -129,7 +129,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 20.h, bottom: 8.h),
                     child: Text(
-                      'Full Name',
+                      'First Name',
                       style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                         fontSize: 14.sp,
                         color: AppColor.c000000,
@@ -139,7 +139,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 CustomTextField(
-                  hintText: 'Enter your Full Name',
+                  hintText: 'Enter your First Name',
                 ),
 
                 Align(

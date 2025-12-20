@@ -6,9 +6,13 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
+import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
+import 'package:twwillustration/shimmer_widget/profile_screen_shimmer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,12 +22,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  
+
+
+  GetProfileDataModel? profileData;
+
   int selectedIndex = 0;
   int selectedCategoryIndex = 0;
   int selectedOutfitCategoryIndex = 0;
   final double value = 0.5;
-
+  bool isLoading = false;
   final List<String> categories = ['All', 'Shirt', 'Bottom', 'Shoes', 'Others'];
   final List<String> outfitcategories = [
     'All',
@@ -114,6 +121,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   ];
 
+  Future<void> fetchProfile() async{
+    setState(() {
+      isLoading = true;
+    });
+    try{
+      bool sucess = await getProfileRxObj.getProfileRx();
+      print('Sucess >>>>>>>>>>>>>>>>>>>>>>> $sucess');
+
+      if(sucess){
+        getProfileRxObj.getProfileData.listen((profile){
+          setState(() {
+            profileData = profile;
+          });
+        });
+        setState(() {
+          isLoading = false;
+        });
+      } else{
+        throw Exception();
+      }
+    } catch(error){
+      print('$error');
+    } finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +167,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               width: double.infinity,
               height: 350,
-              child: Stack(
+              child: isLoading ? ShimmerProfileScreen() :
+              Stack(
                 children: [
                   // Background Image
                   ClipRRect(
@@ -179,14 +222,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 width: 4,
                               ),
                             ),
-                            child: ClipOval(
-                              child: Image.asset(
-                                AppImages.profile,
-                                fit: BoxFit.cover,
-                                width: 70,
-                                height: 70,
-                              ),
-                            ),
+                            child: ShimmerClipOvalWidget(
+                              height: 70,
+                              weight: 70,
+                              networkImageLink: profileData?.data?.avatar ?? "",
+                            )
                           ),
                           Positioned(
                             bottom: 20,
@@ -227,7 +267,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Kenneth.Allen',
+                          '${profileData?.data!.firstName}.${profileData?.data!.lastName}',
                           style:
                               TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             fontSize: 20,
@@ -236,7 +276,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Text(
-                          'ID:863487345',
+                          'ID: ${profileData?.data?.uuid??""}',
                           style:
                               TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             fontSize: 16,
@@ -256,7 +296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Soul meets pencil ✍️',
+                          profileData?.data?.bio ?? '',
                           style:
                               TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             fontSize: 14,
@@ -394,7 +434,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: .5),
                       blurRadius: 10,
                       offset: Offset(0, 2),
                     ),
@@ -623,7 +663,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: .5),
             blurRadius: 5,
             offset: Offset(0, 2),
           ),
@@ -768,7 +808,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: .5),
             blurRadius: 5,
             offset: Offset(0, 2),
           ),
@@ -839,7 +879,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: .5),
                   blurRadius: 10,
                   offset: Offset(0, 2),
                 ),

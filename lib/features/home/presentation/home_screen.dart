@@ -6,9 +6,12 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
+import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +21,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  GetProfileDataModel? profileData;
+  bool isLoading = false;
+
   String? selectedOccasion;
   String? selectedMood;
   String? selectedColor;
@@ -25,6 +32,44 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<String> occasions = ["Birthday", "Wedding", "Party"];
   final List<String> moods = ["Happy", "Sad", "Excited"];
   final List<String> colors = ["Red", "Green", "Blue"];
+
+
+  Future<void> fetchProfile() async{
+    setState(() {
+      isLoading = true;
+    });
+    try{
+      bool sucess = await getProfileRxObj.getProfileRx();
+      print('Sucess >>>>>>>>>>>>>>>>>>>>>>> $sucess');
+
+      if(sucess){
+        getProfileRxObj.getProfileData.listen((profile){
+          setState(() {
+            profileData = profile;
+          });
+        });
+        setState(() {
+          isLoading = false;
+        });
+      } else{
+        throw Exception();
+      }
+    } catch(error){
+      print('$error');
+    } finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,18 +90,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         NavigationService.navigateTo(Routes.settingScreen);
                       },
-                      child: Image.asset(
-                        AppImages.profile,
+                      child: ShimmerClipOvalWidget(
                         height: 40.h,
-                        width: 40.w,
-                      ),
+                        weight: 40.w,
+                        networkImageLink: profileData?.data?.avatar ?? '',
+                      )
                     ),
                     UIHelper.horizontalSpace(10.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hi, Kenneth!',
+                          'Hi, ${profileData?.data?.firstName ?? ''}!',
                           style:
                               TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             fontSize: 18,
@@ -497,107 +542,52 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 UIHelper.verticalSpace(20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          width: 100.w,
-                          height: 280.h,
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                width: 0.50,
-                                color: Color(0xFFE8E8E8),
+                SizedBox(
+                  height: 220.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemBuilder: (context, index){
+                      return Padding(
+                        padding: EdgeInsets.only(right: 10.w),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 106.w,
+                              height: 191.h,
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 0.50,
+                                    color: Color(0xFFE8E8E8),
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child: const Center(
-                            child: Icon(Icons.add,
-                                size: 48, color: Colors.black54),
-                          ),
-                        ),
-                        UIHelper.verticalSpace(8.h),
-                        Text(
-                          'Yesterday',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            color: AppColor.c000000,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          width: 100.w,
-                          height: 280.h,
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                width: 0.50,
-                                color: Color(0xFFE8E8E8),
+                              child: const Center(
+                                child: Icon(Icons.add,
+                                    size: 48, color: Colors.black54),
                               ),
-                              borderRadius: BorderRadius.circular(16),
                             ),
-                          ),
-                          child: const Center(
-                            child: Icon(Icons.add,
-                                size: 48, color: Colors.black54),
-                          ),
-                        ),
-                        UIHelper.verticalSpace(8.h),
-                        Text(
-                          'Yesterday',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            color: AppColor.c000000,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          width: 100.w,
-                          height: 280.h,
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                width: 0.50,
-                                color: Color(0xFFE8E8E8),
+                            UIHelper.verticalSpace(8.h),
+                            Text(
+                              'Yesterday',
+                              style:
+                                  TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                color: AppColor.c000000,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
                               ),
-                              borderRadius: BorderRadius.circular(16),
                             ),
-                          ),
-                          child: const Center(
-                            child: Icon(Icons.add,
-                                size: 48, color: Colors.black54),
-                          ),
+                          ]
                         ),
-                        UIHelper.verticalSpace(8.h),
-                        Text(
-                          'Tomorrow',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            color: AppColor.c000000,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
+                      );
+                    }
                     ),
-                  ],
-                )
+                ),
               ],
             ),
           ),

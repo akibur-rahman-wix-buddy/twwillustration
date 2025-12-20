@@ -30,6 +30,6 @@ class Endpoints {
   static String getAllSongURL() => "/api/audio/all";
   static String getFavouriteSongURL() => "/api/favorites/all";
   static String updateProfileURL() => "/api/profile/update";
-  static String getProfileURL() => "/api/profile";
+  static String getProfileURL() => "/v1/auth/profile";
   static String postFavouriteURL() => "/api/favorites/toggle";
 }
