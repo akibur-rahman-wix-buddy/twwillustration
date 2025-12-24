@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
 import 'dart:developer';
 import 'package:rxdart/rxdart.dart';
-import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/features/auth/data/signup_data/signup_api.dart';
-import 'package:twwillustration/helpers/di.dart';
 import 'package:twwillustration/helpers/toast.dart';
-import 'package:twwillustration/networks/dio/dio.dart';
 import 'package:twwillustration/networks/rx_base.dart';
 
 final class PostSignupRX extends RxResponseInt<Map<String, dynamic>> {

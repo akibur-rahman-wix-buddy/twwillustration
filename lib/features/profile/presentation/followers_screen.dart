@@ -4,13 +4,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
-import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
+import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class FollowersScreen extends StatefulWidget {
-  const FollowersScreen({super.key});
+  final int userId;
+  const FollowersScreen({super.key, required this.userId});
 
   @override
   State<FollowersScreen> createState() => _FollowersScreenState();
@@ -19,12 +21,61 @@ class FollowersScreen extends StatefulWidget {
 class _FollowersScreenState extends State<FollowersScreen> {
   List<bool> loadingStates = List.generate(10, (index) => false);
 
+  bool isLoading = false;
+
+  List<Map<String, dynamic>> followers = [];
+  Map<String, dynamic> followingList = {};
+
+  Future<void> fetchFollower() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      int userId = widget.userId;
+
+      bool sucess = await postFollowerRxObj.postFollowerRx(userId);
+
+      if (sucess) {
+        postFollowerRxObj.getFollowerData.listen((result) {
+          if(!mounted) return;
+          setState(() {
+            followers = List<Map<String, dynamic>>.from(result['data'] as List);
+          });
+        });
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+      print(error);
+    } finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> toggleFollowUnfollow(int id) async{
+    try{
+      bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(id);
+
+      if(success){
+        toggleFollowUnfollowRxObj.getFollowUnfollowData.listen((data){
+          if(!mounted) return;
+          setState(() {
+            followingList = data['data'];
+          });
+        });
+      }
+    }catch(error){
+      print(error);
+    }
+  }
+
   void _handleFollowBack(int index) async {
     setState(() {
       loadingStates[index] = true;
     });
-
-    // ৫ সেকেন্ড অপেক্ষা করা
     await Future.delayed(Duration(seconds: 5));
 
     setState(() {
@@ -33,11 +84,18 @@ class _FollowersScreenState extends State<FollowersScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    fetchFollower();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.bgColor,
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: isLoading ? Center(child: CircularProgressIndicator(),) :
+            SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(
               20,
@@ -64,11 +122,16 @@ class _FollowersScreenState extends State<FollowersScreen> {
                   ],
                 ),
                 UIHelper.verticalSpace(24.h),
+                followers.isEmpty ? Center(child: Text(
+                  'No one has followed you.',
+                  style: TextFontStyle.textStyle20w600primaryColor2JosefinSans,
+                ),) :
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 10,
+                  itemCount: followers.length,
                   itemBuilder: (context, index) {
+                    final follower = followers[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 12.h),
                       child: Container(
@@ -80,17 +143,17 @@ class _FollowersScreenState extends State<FollowersScreen> {
                           padding: const EdgeInsets.all(8),
                           child: Row(
                             children: [
-                              Image.asset(
-                                AppImages.profile,
+                              ShimmerClipOvalWidget(
                                 height: 48.h,
-                                width: 48.w,
+                                weight: 48.h,
+                                networkImageLink: follower['avatar'],
                               ),
                               UIHelper.horizontalSpace(25),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Chris Glasser ${index + 1}',
+                                    '${follower['first_name']} ${follower['last_name']}',
                                     style: TextFontStyle
                                         .textStyle12w400NunitoSans
                                         .copyWith(
@@ -100,7 +163,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                     ),
                                   ),
                                   Text(
-                                    '@Chris Glasser ${index + 1}',
+                                    '@${follower['first_name']} ${follower['last_name']}',
                                     style: TextFontStyle
                                         .textStyle12w400NunitoSans
                                         .copyWith(
@@ -138,9 +201,10 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                       ),
                                     )
                                   : CustomButton(
-                                      name: 'Follow Back',
-                                      onCallBack: () =>
-                                          _handleFollowBack(index),
+                                      name: follower['is_following'] ? 'Unfollow' : 'Follow Back',
+                                      onCallBack: () {
+                                        toggleFollowUnfollow(follower['id']);
+                                      },
                                       context: context,
                                       minWidth: 130.w,
                                       height: 40.h,

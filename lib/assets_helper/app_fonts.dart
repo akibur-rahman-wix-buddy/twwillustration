@@ -58,6 +58,11 @@ class TextFontStyle {
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,
   );
+  static var textStyle14w600c000000 = GoogleFonts.poppins(
+    color: AppColor.c000000,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w600,
+  );
   static var textStyle16w400c5C5C5C = GoogleFonts.poppins(
     color: AppColor.c5C5C5C,
     fontSize: 16.sp,

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/features/add_outfit/add_outfit_screen.dart';
 import 'package:twwillustration/features/add_outfit/manage_outfit_screen.dart';
 import 'package:twwillustration/features/add_outfit/outfit_preview_screen.dart';
@@ -160,16 +161,18 @@ final class RouteGenerator {
             : CupertinoPageRoute(builder: (context) => EditProfileScreen());
 
       case Routes.followersScreen:
+      final args = settings.arguments as Map;
         return Platform.isAndroid
             ? _FadedTransitionRoute(
-                widget: FollowersScreen(), settings: settings)
-            : CupertinoPageRoute(builder: (context) => FollowersScreen());
+                widget: FollowersScreen(userId : args['userId']), settings: settings)
+            : CupertinoPageRoute(builder: (context) => FollowersScreen(userId : args['userId']));
 
       case Routes.followingScreen:
+      final args = settings.arguments as Map;
         return Platform.isAndroid
             ? _FadedTransitionRoute(
-                widget: FollowingScreen(), settings: settings)
-            : CupertinoPageRoute(builder: (context) => FollowingScreen());
+                widget: FollowingScreen(userId : args['userId']), settings: settings)
+            : CupertinoPageRoute(builder: (context) => FollowingScreen(userId : args['userId']));
 
       case Routes.closetDetailsScreen:
         return Platform.isAndroid

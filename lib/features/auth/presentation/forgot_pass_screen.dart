@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/constants/textfield_validation.dart';
@@ -89,9 +88,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
             Form(
               key: _formKey,
               child: CustomTextField(
-                fieldColor: AppColor.cFFFFFF,
                 borderColor: const Color(0xffe8e8e8),
-                height: 56.h,
                 hintText: "Enter your email",
                 controller: emailController,
                 validator: (value) => InputValidator.validateEmail(value)

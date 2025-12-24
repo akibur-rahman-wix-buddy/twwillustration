@@ -45,7 +45,6 @@ class _AddressScreenState extends State<AddressScreen> {
               CustomTextField(
                 controller: _streetController,
                 hintText: 'xxxx-xxxx-xxxx-xxxx',
-                height: 40.h,
               ),
               const SizedBox(height: 16),
 
@@ -53,7 +52,6 @@ class _AddressScreenState extends State<AddressScreen> {
               CustomTextField(
                 controller: _streetController,
                 hintText: 'Enter your city',
-                height: 40.h,
               ),
               const SizedBox(height: 16),
 
@@ -67,7 +65,6 @@ class _AddressScreenState extends State<AddressScreen> {
                         CustomTextField(
                           controller: _stateController,
                           hintText: 'Enter your state',
-                          height: 40.h,
                         ),
                       ],
                     ),
@@ -81,7 +78,6 @@ class _AddressScreenState extends State<AddressScreen> {
                         CustomTextField(
                           controller: _zipController,
                           hintText: 'Enter Zip Code',
-                          height: 40.h,
                         ),
                       ],
                     ),

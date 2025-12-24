@@ -6,12 +6,16 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
+import 'package:twwillustration/common_widgets/custom_shimmer_image.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/features/profile/model/get_categories_data_model.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
+import 'package:twwillustration/features/profile/model/get_single_category_data_model.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
+import 'package:twwillustration/shimmer_widget/colthes_shimmer.dart';
 import 'package:twwillustration/shimmer_widget/profile_screen_shimmer.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,16 +26,18 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-
   GetProfileDataModel? profileData;
+  int follower = 0;
+  int following = 0;
 
   int selectedIndex = 0;
   int selectedCategoryIndex = 0;
   int selectedOutfitCategoryIndex = 0;
   final double value = 0.5;
   bool isLoading = false;
-  final List<String> categories = ['All', 'Shirt', 'Bottom', 'Shoes', 'Others'];
+  bool isClothesLoading = false;
+
+  List<GetCategoriesDataModel> _categories = [];
   final List<String> outfitcategories = [
     'All',
     'Casual',
@@ -40,37 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'Sport'
   ];
 
-  final Map<String, List<ClothesItem>> clothesData = {
-    'All': [
-      ClothesItem(image: 'assets/outfit1.png', category: 'Shirt'),
-      ClothesItem(image: 'assets/outfit2.png', category: 'Work'),
-      ClothesItem(image: 'assets/outfit3.png', category: 'Formal'),
-      ClothesItem(image: 'assets/outfit4.png', category: 'Shirt'),
-      ClothesItem(image: 'assets/outfit5.png', category: 'Work'),
-      ClothesItem(image: 'assets/outfit6.png', category: 'Sport'),
-      ClothesItem(image: 'assets/outfit7.png', category: 'Shirt'),
-      ClothesItem(image: 'assets/outfit8.png', category: 'Formal'),
-      ClothesItem(image: 'assets/outfit9.png', category: 'Work'),
-    ],
-    'Shirt': [
-      ClothesItem(image: 'assets/outfit1.png', category: 'Shirt'),
-      ClothesItem(image: 'assets/outfit4.png', category: 'Shirt'),
-      ClothesItem(image: 'assets/outfit7.png', category: 'Shirt'),
-    ],
-    'Bottom': [
-      ClothesItem(image: 'assets/outfit2.png', category: 'Bottom'),
-      ClothesItem(image: 'assets/outfit5.png', category: 'Bottom'),
-      ClothesItem(image: 'assets/outfit9.png', category: 'Bottom'),
-    ],
-    'Shoes': [
-      ClothesItem(image: 'assets/outfit3.png', category: 'Shoes'),
-      ClothesItem(image: 'assets/outfit8.png', category: 'Shoes'),
-    ],
-    'Others': [
-      ClothesItem(image: 'assets/outfit6.png', category: 'Others'),
-    ],
-  };
-
+  List<GetSingleCategoryDataModel> _clothesData = [];
   // * outfit
   final Map<String, List<OutfitItem>> outfitData = {
     'All': [
@@ -121,31 +97,119 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   ];
 
-  Future<void> fetchProfile() async{
+  Future<void> fetchProfile() async {
     setState(() {
       isLoading = true;
     });
-    try{
+    try {
       bool sucess = await getProfileRxObj.getProfileRx();
-      print('Sucess >>>>>>>>>>>>>>>>>>>>>>> $sucess');
 
-      if(sucess){
-        getProfileRxObj.getProfileData.listen((profile){
+      if (sucess) {
+        getProfileRxObj.getProfileData.listen((profile) {
           setState(() {
             profileData = profile;
           });
+          fetchFollower();
+          fetchFollowing();
+          fetchCategories();
+          fetchSingleCategory(profileData?.data?.id ?? 0, null);
         });
         setState(() {
           isLoading = false;
         });
-      } else{
+      } else {
         throw Exception();
       }
-    } catch(error){
+    } catch (error) {
       print('$error');
-    } finally{
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> fetchFollower() async {
+    try {
+      if (profileData?.data?.id == null) {
+        return;
+      }
+      int userId = profileData!.data!.id!;
+
+      bool sucess = await postFollowerRxObj.postFollowerRx(userId);
+
+      if (sucess) {
+        postFollowerRxObj.getFollowerData.listen((result) {
+          setState(() {
+            follower = (result["data"] as List).length;
+          });
+        });
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> fetchFollowing() async {
+    try {
+      if (profileData?.data?.id == null) {
+        return;
+      }
+      int userId = profileData!.data!.id!;
+
+      bool sucess = await postFollowingRxObj.postFollowingRx(userId);
+
+      if (sucess) {
+        postFollowingRxObj.getFollowingData.listen((result) {
+          setState(() {
+            following = (result["data"] as List).length;
+          });
+        });
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> fetchCategories() async {
+    try {
+      bool sucess = await getCategoriesRxObj.getCategoriesRx();
+
+      if (sucess) {
+        getCategoriesRxObj.getCategoriesData.listen((categories) {
+          setState(() {
+            _categories = [categories];
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> fetchSingleCategory(int userID, int? productId) async {
+    try {
       setState(() {
-        isLoading = false;
+        isClothesLoading = true;
+      });
+      bool sucess =
+          await getSingleCategoryRxObj.getSingleCategoryRx(userID, productId);
+
+      if (sucess) {
+        getSingleCategoryRxObj.getSingleCategoryData.listen((clothes) {
+          setState(() {
+            _clothesData = [clothes];
+            print(">>>>>>>>>>>>>>>> data == ${_clothesData.first.data.toString()}");
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      print(error);
+    } finally {
+      setState(() {
+        isClothesLoading = false;
       });
     }
   }
@@ -167,194 +231,140 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               width: double.infinity,
               height: 350,
-              child: isLoading ? ShimmerProfileScreen() :
-              Stack(
-                children: [
-                  // Background Image
-                  ClipRRect(
-                    child: Image.asset(
-                      AppImages.profileCard,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                  ),
-
-                  // Back Button
-                  Positioned(
-                    top: 70,
-                    left: 16,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: SvgPicture.asset(AppIcons.backIcon),
-                    ),
-                  ),
-
-                  // Share Button
-                  Positioned(
-                    top: 70,
-                    right: 16,
-                    child: GestureDetector(
-                      onTap: () {
-                        // Share functionality
-                      },
-                      child: SvgPicture.asset(AppIcons.shareIcon),
-                    ),
-                  ),
-
-                  // Profile Picture
-                  Positioned(
-                    top: 130,
-                    left: 16,
-                    child: SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 4,
-                              ),
-                            ),
-                            child: ShimmerClipOvalWidget(
-                              height: 70,
-                              weight: 70,
-                              networkImageLink: profileData?.data?.avatar ?? "",
-                            )
+              child: isLoading
+                  ? ShimmerProfileScreen()
+                  : Stack(
+                      children: [
+                        // Background Image
+                        ClipRRect(
+                          child: Image.asset(
+                            AppImages.profileCard,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
                           ),
-                          Positioned(
-                            bottom: 20,
-                            right: 20,
-                            child: GestureDetector(
-                              onTap: () {
-                                // Add profile picture functionality
-                              },
-                              child: Container(
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 3,
+                        ),
+
+                        // Back Button
+                        Positioned(
+                          top: 70,
+                          left: 16,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: SvgPicture.asset(AppIcons.backIcon),
+                          ),
+                        ),
+
+                        // Share Button
+                        Positioned(
+                          top: 70,
+                          right: 16,
+                          child: GestureDetector(
+                            onTap: () {
+                              // Share functionality
+                            },
+                            child: SvgPicture.asset(AppIcons.shareIcon),
+                          ),
+                        ),
+
+                        // Profile Picture
+                        Positioned(
+                          top: 130,
+                          left: 16,
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 4,
+                                      ),
+                                    ),
+                                    child: ShimmerClipOvalWidget(
+                                      height: 70,
+                                      weight: 70,
+                                      networkImageLink:
+                                          profileData?.data?.avatar ?? "",
+                                    )),
+                                Positioned(
+                                  bottom: 20,
+                                  right: 20,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Add profile picture functionality
+                                    },
+                                    child: Container(
+                                      width: 28,
+                                      height: 28,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 3,
+                                        ),
+                                      ),
+                                      child: const Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                              ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
 
-                  // User Info
-                  Positioned(
-                    top: 140,
-                    left: 120,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${profileData?.data!.firstName}.${profileData?.data!.lastName}',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Text(
-                          'ID: ${profileData?.data?.uuid??""}',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Bio Section
-                  Positioned(
-                    top: 220,
-                    left: 16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          profileData?.data?.bio ?? '',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Text(
-                          '🎓 Psychology & business mind',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Text(
-                          'Based in USA | 15+ years',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Stats Section
-                  Positioned(
-                    top: 290,
-                    left: 16,
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            NavigationService.navigateTo(
-                              Routes.followersScreen,
-                            );
-                          },
+                        // User Info
+                        Positioned(
+                          top: 140,
+                          left: 120,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '45',
+                                '${profileData?.data!.firstName}.${profileData?.data!.lastName}',
                                 style: TextFontStyle.textStyle12w400NunitoSans
                                     .copyWith(
-                                  fontSize: 16.sp,
+                                  fontSize: 20,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
                               Text(
-                                'Followers',
+                                'ID: ${profileData?.data?.uuid ?? ""}',
                                 style: TextFontStyle.textStyle12w400NunitoSans
                                     .copyWith(
-                                  fontSize: 16.sp,
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Bio Section
+                        Positioned(
+                          top: 220,
+                          left: 16,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                profileData?.data?.bio ?? '',
+                                style: TextFontStyle.textStyle12w400NunitoSans
+                                    .copyWith(
+                                  fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -362,66 +372,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(width: 50),
-                        GestureDetector(
-                          onTap: () {
-                            NavigationService.navigateTo(
-                              Routes.followingScreen,
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                        // Stats Section
+                        Positioned(
+                          top: 290,
+                          left: 16,
+                          child: Row(
                             children: [
-                              Text(
-                                '35',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
+                              GestureDetector(
+                                onTap: () {
+                                  NavigationService.navigateToWithArgs(
+                                      Routes.followersScreen,
+                                      {'userId': profileData!.data!.id});
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      follower.toString(),
+                                      style: TextFontStyle
+                                          .textStyle12w400NunitoSans
+                                          .copyWith(
+                                        fontSize: 16.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Followers',
+                                      style: TextFontStyle
+                                          .textStyle12w400NunitoSans
+                                          .copyWith(
+                                        fontSize: 16.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Text(
-                                'Following',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
+                              SizedBox(width: 50),
+                              GestureDetector(
+                                onTap: () {
+                                  NavigationService.navigateToWithArgs(
+                                      Routes.followingScreen,
+                                      {'userId': profileData!.data!.id});
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      following.toString(),
+                                      style: TextFontStyle
+                                          .textStyle12w400NunitoSans
+                                          .copyWith(
+                                        fontSize: 16.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Following',
+                                      style: TextFontStyle
+                                          .textStyle12w400NunitoSans
+                                          .copyWith(
+                                        fontSize: 16.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
+
+                        // Edit Profile Button
+                        Positioned(
+                          top: 290,
+                          right: 20,
+                          child: CustomButton(
+                            name: 'Edit Profile',
+                            onCallBack: () {
+                              NavigationService.navigateTo(
+                                  Routes.editProfileScreen);
+                            },
+                            context: context,
+                            color: AppColor.cE4EDC9,
+                            textStyle: TextFontStyle.textStyle12w400NunitoSans
+                                .copyWith(
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w800,
+                            ),
+                            minWidth: 120.w,
+                            borderRadius: 37,
+                            borderColor: AppColor.c000000,
+                            height: 36.h,
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-
-                  // Edit Profile Button
-                  Positioned(
-                    top: 290,
-                    right: 20,
-                    child: CustomButton(
-                      name: 'Edit Profile',
-                      onCallBack: () {
-                        NavigationService.navigateTo(Routes.editProfileScreen);
-                      },
-                      context: context,
-                      color: AppColor.cE4EDC9,
-                      textStyle:
-                          TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                      ),
-                      minWidth: 120.w,
-                      borderRadius: 37,
-                      borderColor: AppColor.c000000,
-                      height: 36.h,
-                    ),
-                  ),
-                ],
-              ),
             ),
 
             // * Tab Navigation
@@ -479,14 +531,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  // SvgPicture.asset(
-                                  //   tab.icon as String,
-                                  //   width: 20,
-                                  //   height: 20,
-                                  //   color: isSelected
-                                  //       ? Colors.black87
-                                  //       : Colors.grey[600],
-                                  // ),
                                   tab.icon,
                                   SizedBox(width: 8),
                                   Text(
@@ -503,29 +547,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       fontSize: 14,
                                     ),
                                   ),
-                                  // if (tab.count != null) ...[
-                                  //   SizedBox(width: 2),
-                                  //   Container(
-                                  //     padding: EdgeInsets.symmetric(
-                                  //         horizontal: 6, vertical: 2),
-                                  //     decoration: BoxDecoration(
-                                  //       color: isSelected
-                                  //           ? Colors.grey[300]
-                                  //           : Colors.grey[400],
-                                  //       borderRadius: BorderRadius.circular(10),
-                                  //     ),
-                                  //     child: Text(
-                                  //       '${tab.count}',
-                                  //       style: TextFontStyle
-                                  //           .textStyle12w400NunitoSans
-                                  //           .copyWith(
-                                  //         color: Colors.black87,
-                                  //         fontSize: 10,
-                                  //         fontWeight: FontWeight.w600,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ],
                                 ],
                               ),
                             ),
@@ -570,77 +591,158 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildClothesContent() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: categories.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String category = entry.value;
-                  bool isSelected = selectedCategoryIndex == index;
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _categories.isEmpty || _categories.first.data == null
+                ? SizedBox.shrink()
+                : SizedBox(
+                    height: 40.h,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: _categories.first.data?.length,
+                        itemBuilder: (context, index) {
+                          final button = _categories.first.data?[index];
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedCategoryIndex = index;
+                              });
+                              fetchSingleCategory(profileData?.data?.id ?? 0, button?.id);
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 200),
+                              margin: EdgeInsets.only(right: 12),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                color: selectedCategoryIndex == index
+                                    ? _getCategoryColor(index)
+                                    : Colors.grey[200],
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Text(
+                                button?.title ?? '',
+                                style: TextFontStyle.textStyle12w400NunitoSans
+                                    .copyWith(
+                                  color: (selectedCategoryIndex == index)
+                                      ? Colors.black87
+                                      : Colors.grey[600],
+                                  fontWeight: (selectedCategoryIndex == index)
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+            // Padding(
+            //   padding:
+            //       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.horizontal,
+            //     child: Row(
+            //       children: categories.asMap().entries.map((entry) {
+            //         int index = entry.key;
+            //         String category = entry.value;
+            //         bool isSelected = selectedCategoryIndex == index;
 
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedCategoryIndex = index;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      margin: EdgeInsets.only(right: 12),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? _getCategoryColor(index)
-                            : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(25),
+            //         return GestureDetector(
+            //           onTap: () {
+            //             setState(() {
+            //               selectedCategoryIndex = index;
+            //             });
+            //           },
+            //           child: AnimatedContainer(
+            //             duration: Duration(milliseconds: 200),
+            //             margin: EdgeInsets.only(right: 12),
+            //             padding:
+            //                 EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            //             decoration: BoxDecoration(
+            //               color: isSelected
+            //                   ? _getCategoryColor(index)
+            //                   : Colors.grey[200],
+            //               borderRadius: BorderRadius.circular(25),
+            //             ),
+            //             child: Text(
+            //               category,
+            //               style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+            //                 color: isSelected ? Colors.black87 : Colors.grey[600],
+            //                 fontWeight:
+            //                     isSelected ? FontWeight.w600 : FontWeight.w500,
+            //                 fontSize: 14,
+            //               ),
+            //             ),
+            //           ),
+            //         );
+            //       }).toList(),
+            //     ),
+            //   ),
+            // ),
+
+            // * Clothes Grid
+
+
+
+
+            // _clothesData.first.data ==[]|| _clothesData.first.data!.isEmpty
+            //         ? Text(
+            //           'No data found',
+            //           style: TextFontStyle
+            //               .textStyle20w600c000A15ColorJosefinSans.copyWith(color: Colors.red),
+            //         ): Text(_clothesData.first.data!.toString())
+            //
+            //
+
+
+
+            isClothesLoading || isLoading
+                ? ClothesGridShimmer()
+                :  _clothesData.first.data ==[]|| _clothesData.first.data!.isEmpty
+                    ? Center(
+                      child: Column(
+                        children: [
+                          UIHelper.verticalSpace(100),
+                          Text(
+                            'No data found',
+                            style: TextFontStyle
+                                .textStyle20w600c000A15ColorJosefinSans.copyWith(color: Colors.red),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        category,
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          color: isSelected ? Colors.black87 : Colors.grey[600],
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.w500,
-                          fontSize: 14,
+                    )
+                    : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: GridView.builder(
+                        padding: EdgeInsets.all(0),
+                        shrinkWrap: true,
+                        primary: false,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 0.8,
                         ),
+                        itemCount: _clothesData.first.data?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final item = _clothesData.first.data?[index];
+                          return _buildClothesCard(
+                            ClothesItem(
+                              id: item?.id,
+                              image: item?.image,
+                              categories: item?.categories,
+                            ),
+                          );
+                        },
                       ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-
-          // * Clothes Grid
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-              ),
-              child: GridView.builder(
-                padding: EdgeInsets.all(0),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.8,
-                ),
-                itemCount:
-                    clothesData[categories[selectedCategoryIndex]]?.length ?? 0,
-                itemBuilder: (context, index) {
-                  final item =
-                      clothesData[categories[selectedCategoryIndex]]![index];
-                  return _buildClothesCard(item);
-                },
-              ),
-            ),
-          ),
-        ],
+                    )
+          ],
+        ),
       ),
     );
   }
@@ -683,18 +785,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        NavigationService.navigateTo(
-                          Routes.closetDetailsScreen,
-                        );
-                      },
-                      child: Image.asset(
-                        AppImages.fullDress,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                        onTap: () {
+                          NavigationService.navigateTo(
+                            Routes.closetDetailsScreen,
+                          );
+                        },
+                        child: ShimmerImage(
+                            imageUrl: item.image ?? '',
+                            placeholder: item.categories?.first.title ?? '',
+                            height: 80.h,
+                            width: 80.w)),
                   ],
                 ),
               ),
@@ -963,8 +1063,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
-
 }
 
 class TabItem {
@@ -980,13 +1078,11 @@ class TabItem {
 }
 
 class ClothesItem {
-  final String image;
-  final String category;
+  int? id;
+  String? image;
+  List<Categories>? categories;
 
-  ClothesItem({
-    required this.image,
-    required this.category,
-  });
+  ClothesItem({this.id, this.image, this.categories});
 }
 
 class OutfitItem {

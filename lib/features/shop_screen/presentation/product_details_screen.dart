@@ -19,6 +19,9 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+
+  final _questionController = TextEditingController();
+
   final List<Map<String, dynamic>> products = [
     {
       'image': AppImages.dressImage, // Replace with valid URL or asset
@@ -290,10 +293,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomTextField(
-                            hintText: 'Have a question? Ask here',
-                            width: 190.w,
-                            height: 40.h,
+                          SizedBox(width: 190.w,
+                            child: CustomTextField(
+                              controller: _questionController,
+                              hintText: 'Have a question? Ask here',
+                            ),
                           ),
                           UIHelper.horizontalSpace(12.w),
                           CustomButton(

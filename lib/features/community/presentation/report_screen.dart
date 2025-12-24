@@ -17,6 +17,11 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
+
+  final _reportSourchController = TextEditingController();
+  final _reportDesController = TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +48,8 @@ class _ReportScreenState extends State<ReportScreen> {
                 ),
                 UIHelper.verticalSpaceMedium,
                 CustomTextField(
+                  controller: _reportSourchController,
                   hintText: 'Misleading or Incorrect Information',
-                  height: 45.h,
                 ),
                 UIHelper.verticalSpaceMedium,
                 Align(
@@ -60,8 +65,9 @@ class _ReportScreenState extends State<ReportScreen> {
                 ),
                 UIHelper.verticalSpaceMedium,
                 CustomTextField(
+                  controller: _reportDesController,
                   hintText: 'Misleading or Incorrect Information',
-                  height: 150.h,
+                  maxline: 4,
                 ),
                 UIHelper.verticalSpaceMedium,
                 Row(

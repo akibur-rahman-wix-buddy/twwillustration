@@ -21,6 +21,9 @@ class AIScreen extends StatefulWidget {
 }
 
 class _AIScreenState extends State<AIScreen> {
+
+  final aiTextController = TextEditingController();
+
   final List<String> categories = [
     "Casual",
     "Formal",
@@ -562,7 +565,7 @@ class _AIScreenState extends State<AIScreen> {
                 UIHelper.verticalSpace(14.h),
                 CustomTextField(
                   hintText: 'Find an outfit for...',
-                  controller: TextEditingController(),
+                  controller: aiTextController,
                 ),
                 UIHelper.verticalSpace(14.h),
                 // * custom button

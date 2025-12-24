@@ -15,6 +15,9 @@ class BlockUserScreen extends StatefulWidget {
 }
 
 class _BlockUserScreenState extends State<BlockUserScreen> {
+
+  final _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +32,8 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
             child: Column(
               children: [
                 CustomTextField(
+                  controller: _searchController,
                   hintText: 'Search blocked users',
-                  height: 45.h,
                 ),
                 UIHelper.verticalSpace(10.h),
                 Align(

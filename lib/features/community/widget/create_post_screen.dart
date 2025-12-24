@@ -21,6 +21,9 @@ class CreatePostScreen extends StatefulWidget {
 }
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
+
+  final _captionController = TextEditingController();
+
   final ImagePicker _picker = ImagePicker();
 
   // Main picked image (hero card)
@@ -349,7 +352,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
                 // -------- Caption --------
                 CustomTextField(
-                    height: 170.h, maxline: 10, hintText: 'Write a caption...'),
+                  controller: _captionController,
+                     maxline: 5, hintText: 'Write a caption...'),
 
                 UIHelper.verticalSpace(20.h),
 

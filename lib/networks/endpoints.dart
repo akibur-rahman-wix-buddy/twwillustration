@@ -29,7 +29,21 @@ class Endpoints {
   static String changePassURL() => "/api/password/update";
   static String getAllSongURL() => "/api/audio/all";
   static String getFavouriteSongURL() => "/api/favorites/all";
-  static String updateProfileURL() => "/api/profile/update";
+
+
+  ///>>>>>>>>>>>>>>>>>>>>> profile >>>>>>>>>>>>>>>>>>>>>>
+  static String editProfileURL() => "/v1/auth/profile";
   static String getProfileURL() => "/v1/auth/profile";
   static String postFavouriteURL() => "/api/favorites/toggle";
+  static String getFollowerURL() => "/v1/friendship/follower";
+  static String getFollowingURL() => "/v1/friendship/following";
+  static String toggleFollowUnfollowURL(int id) => '/v1/friendship/toggle/$id';
+  static String getCategoriesURL() => '/v1/closet/categories';
+  static String getSingleCategoriesURl(int userId, int? productId) {
+    if(productId == null){
+      return '/v1/closet?userID=$userId&categoryID=';
+    } else{
+      return '/v1/closet?userID=$userId&categoryID=$productId';
+    }
+  } 
 }

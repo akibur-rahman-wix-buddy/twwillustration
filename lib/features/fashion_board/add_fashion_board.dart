@@ -338,6 +338,10 @@ class AddInspireBookScreen extends StatefulWidget {
 }
 
 class _AddInspireBookScreenState extends State<AddInspireBookScreen> {
+
+  final _outFitController = TextEditingController();
+  final _noteController = TextEditingController();
+
   int counter = 0;
   String selected = 'Public';
 
@@ -432,8 +436,8 @@ class _AddInspireBookScreenState extends State<AddInspireBookScreen> {
                         ),
                         UIHelper.verticalSpace(10.h),
                         CustomTextField(
+                          controller: _outFitController,
                           hintText: 'Enter outfit name',
-                          height: 40.h,
                         ),
 
                         // ---------------- Tag Section ----------------
@@ -663,8 +667,9 @@ class _AddInspireBookScreenState extends State<AddInspireBookScreen> {
                         ),
                         UIHelper.verticalSpace(10.h),
                         CustomTextField(
+                          controller: _noteController,
                           hintText: 'Add a note',
-                          height: 150.h,
+                          maxline: 4,
                         ),
                         UIHelper.verticalSpace(10.h),
                       ],
