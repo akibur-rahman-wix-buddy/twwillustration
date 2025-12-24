@@ -20,14 +20,18 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+
+
   bool showOverlay = true;
   int selectedIndex = 0;
+  bool isLoading = false;
 
   @override
   void initState() {
     _checkFirstTime();
     super.initState();
   }
+
 
   Future<void> _checkFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,15 +51,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
     });
   }
 
-  // List of screens that correspond to the bottom navigation bar indices
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const WardrobeScreen(),
-    const AIScreen(),
-    const ShopDashboardScreen(),
-    const CommunityScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -65,8 +60,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
             alignment: Alignment.bottomCenter,
             children: [
               IndexedStack(
-                index: selectedIndex, // This tells which screen to show
-                children: _screens,
+                index: selectedIndex,
+                children: [
+                  const HomeScreen(),
+                  const WardrobeScreen(),
+                  const AIScreen(),
+                  const ShopDashboardScreen(),
+                  const CommunityScreen(),
+                ],
               ),
               Positioned(
                 bottom: 10.h,

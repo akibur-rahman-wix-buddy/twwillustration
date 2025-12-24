@@ -7,22 +7,59 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/features/community/presentation/all_tab_screen.dart';
 import 'package:twwillustration/features/community/presentation/following_screen.dart';
 import 'package:twwillustration/features/community/presentation/trending_screen.dart';
+import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class CommunityScreen extends StatefulWidget {
-  const CommunityScreen({Key? key}) : super(key: key);
+  const CommunityScreen({Key? key,}) : super(key: key);
 
   @override
   State<CommunityScreen> createState() => _CommunityScreenState();
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
+
+  GetProfileDataModel? profileData;
+  int userId = 0;
+  bool isLoading = false;
+
   int selected = 0;
   late final PageController _pageController;
+
+  
+  Future<void> fetchProfile() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      bool sucess = await getProfileRxObj.getProfileRx();
+
+      if (sucess) {
+        getProfileRxObj.getProfileData.listen((profile) {
+          setState(() {
+            profileData = profile;
+            userId = profileData!.data!.id ?? 0;
+          });
+          print('user id >>>>>>>>>>>>>>>>>>>>>>> $userId');
+        });
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      print('$error');
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    fetchProfile();
     _pageController = PageController(initialPage: selected);
   }
 
@@ -60,15 +97,16 @@ class _CommunityScreenState extends State<CommunityScreen> {
             ),
 
             // content area with page swiping
+            isLoading ? const Center(child: CircularProgressIndicator()) :
             Expanded(
               child: PageView(
                 controller: _pageController,
                 physics: const BouncingScrollPhysics(),
                 onPageChanged: (i) => setState(() => selected = i),
-                children: const [
+                children: [
                   AllTabScreen(),
                   TrendingTabScreen(),
-                  FollowingTabScreen(),
+                  FollowingTabScreen(userId: userId),
                 ],
               ),
             ),

@@ -398,7 +398,6 @@ class CommentSheetContent extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomTextField(
-                        height: 40.h,
                         hintText: "Add a comment...",
                         controller: TextEditingController(),
                       ),

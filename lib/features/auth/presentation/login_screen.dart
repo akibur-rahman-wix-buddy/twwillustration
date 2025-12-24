@@ -78,9 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   UIHelper.verticalSpace(12.h),
                   CustomTextField(
-                    fieldColor: AppColor.cFFFFFF,
                     borderColor: const Color(0xffe8e8e8),
-                    height: 56.h,
                     hintText: "Enter your email",
                     controller: emailController,
                     validator: (value) {
@@ -108,9 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   UIHelper.verticalSpace(12.h),
                   CustomTextField(
-                    fieldColor: AppColor.cFFFFFF,
                     borderColor: const Color(0xffe8e8e8),
-                    height: 56.h,
                     hintText: "Enter your password",
                     controller: passController,
                     validator: (value) {
