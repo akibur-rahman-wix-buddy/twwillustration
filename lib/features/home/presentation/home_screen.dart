@@ -12,6 +12,7 @@ import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
+import 'package:twwillustration/shimmer_widget/home_screen_shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,10 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
     try{
-      bool sucess = await getProfileRxObj.getProfileRx();
-      print('Sucess >>>>>>>>>>>>>>>>>>>>>>> $sucess');
+      bool success = await getProfileRxObj.getProfileRx();
 
-      if(sucess){
+      if(success){
         getProfileRxObj.getProfileData.listen((profile){
           setState(() {
             profileData = profile;
@@ -76,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColor.bgColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
+          child: isLoading ? HomeScreenShimmer() :
+          Padding(
             padding: EdgeInsets.symmetric(
               vertical: 60.h,
               horizontal: 20.w,
@@ -148,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 10,
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           spacing: 77,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 139,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,

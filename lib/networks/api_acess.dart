@@ -4,6 +4,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:twwillustration/features/auth/data/signup_data/signup_rx.dart';
 import 'package:twwillustration/features/auth/data/verify_otp/verify_otp_rx.dart';
 import 'package:twwillustration/features/profile/data/edit_profile/edit_profile_rx.dart';
+import 'package:twwillustration/features/profile/data/outfits/get_single_outfit/get_single_outfit_rx.dart';
 import 'package:twwillustration/features/profile/data/post_follower/post_follower_rx.dart';
 import 'package:twwillustration/features/profile/data/get_profile/get_profile_rx.dart';
 import 'package:twwillustration/features/profile/data/post_following/post_following_rx.dart';
@@ -11,6 +12,7 @@ import 'package:twwillustration/features/profile/data/toggle_follow_unfollow/tog
 import 'package:twwillustration/features/profile/model/get_categories_data_model.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/features/profile/model/get_single_category_data_model.dart';
+import 'package:twwillustration/features/profile/model/get_single_outfit_data_model.dart';
 import 'package:twwillustration/features/settings/data/logout_rx.dart';
 
 import '../features/profile/data/clothes/get_categories/get_categories_rx.dart';
@@ -54,9 +56,13 @@ ToggleFollowUnfollowRx toggleFollowUnfollowRxObj = ToggleFollowUnfollowRx(
     dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
 GetCategoriesRx getCategoriesRxObj = GetCategoriesRx(
-    empty: GetCategoriesDataModel(), 
+    empty: GetCategoriesDataModel(),
     dataFetcher: BehaviorSubject<GetCategoriesDataModel>());
 
 GetSingleCategoryRx getSingleCategoryRxObj = GetSingleCategoryRx(
-    empty: GetSingleCategoryDataModel(), 
+    empty: GetSingleCategoryDataModel(),
     dataFetcher: BehaviorSubject<GetSingleCategoryDataModel>());
+
+GetSingleOutfitRx getSingleOutfitRxObj = GetSingleOutfitRx(
+    empty: GetSingleOutfitDataModel(),
+    dataFetcher: BehaviorSubject<GetSingleOutfitDataModel>());

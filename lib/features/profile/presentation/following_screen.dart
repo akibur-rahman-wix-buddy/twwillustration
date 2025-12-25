@@ -19,25 +19,9 @@ class FollowingScreen extends StatefulWidget {
 }
 
 class _FollowingScreenState extends State<FollowingScreen> {
-  List<bool> loadingStates = List.generate(10, (index) => false);
   bool isLoading = false;
 
   List<Map<String, dynamic>> followings = [];
-  Map<String, dynamic> followingList = {};
-
-  void _handleFollowBack(int index) async {
-    setState(() {
-      loadingStates[index] = true;
-    });
-
-    // ৫ সেকেন্ড অপেক্ষা করা
-    await Future.delayed(Duration(seconds: 5));
-
-    setState(() {
-      loadingStates[index] = false;
-    });
-  }
-
   Future<void> fetchFollowing() async {
     try {
       setState(() {
@@ -60,23 +44,6 @@ class _FollowingScreenState extends State<FollowingScreen> {
       print(error);
     } finally {
       isLoading = false;
-    }
-  }
-
-  Future<void> toggleFollowUnfollow(int id) async{
-    try{
-      bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(id);
-
-      if(success){
-        toggleFollowUnfollowRxObj.getFollowUnfollowData.listen((data){
-          if(!mounted) return;
-          setState(() {
-            followingList = data['data'];
-          });
-        });
-      }
-    }catch(error){
-      print(error);
     }
   }
 
@@ -182,40 +149,33 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                             ],
                                           ),
                                           Spacer(),
-                                          // লোডিং অবস্থা অনুযায়ী বাটন অথবা লোডিং দেখানো
-                                          loadingStates[index]
-                                              ? Container(
-                                                  width: 130.w,
-                                                  height: 40.h,
-                                                  decoration: BoxDecoration(
-                                                    color: AppColor.cD5E7B0,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColor.cD5E7B0),
-                                                  ),
-                                                  child: Center(
-                                                    child: SizedBox(
-                                                      width: 20.w,
-                                                      height: 20.h,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        strokeWidth: 2,
-                                                        valueColor:
-                                                            AlwaysStoppedAnimation<
-                                                                Color>(
-                                                          AppColor.blackColor,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              : CustomButton(
-                                                  name: following['is_following'] ? 'Unfollow' : 'Follow',
-                                                  onCallBack: () {
-                                                    toggleFollowUnfollow(following['id']);
+                                               CustomButton(
+                                                  name:
+                                                      following['is_following']
+                                                          ? 'Unfollow'
+                                                          : 'Follow',
+                                                  onCallBack: () async {
+                                                    final wasFollowing =
+                                                        following[
+                                                            'is_following'];
+                                                    setState(() {
+                                                      following[
+                                                              'is_following'] =
+                                                          !wasFollowing;
+                                                    });
+                                                    bool success =
+                                                        await toggleFollowUnfollowRxObj
+                                                            .toggleFollowUnfollowRx(
+                                                                following[
+                                                                    'id']);
+                                                    await getProfileRxObj.getProfileRx();
+                                                    if (!success) {
+                                                      setState(() {
+                                                        following[
+                                                                'is_following'] =
+                                                            wasFollowing;
+                                                      });
+                                                    }
                                                   },
                                                   context: context,
                                                   minWidth: 130.w,
