@@ -346,6 +346,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             print('Success >>>>>>>>>>>>>>>>>> $success');
 
                             if (success) {
+                       await getProfileRxObj.getProfileRx();
                               ToastUtil.showShortToast(
                                   'Profile update sucessfully');
                               if(mounted){

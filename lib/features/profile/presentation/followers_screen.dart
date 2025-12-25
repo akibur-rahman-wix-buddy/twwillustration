@@ -24,7 +24,7 @@ class _FollowersScreenState extends State<FollowersScreen> {
   bool isLoading = false;
 
   List<Map<String, dynamic>> followers = [];
-  Map<String, dynamic> followingList = {};
+  // Map<String, dynamic> followingList = {};
 
   Future<void> fetchFollower() async {
     try {
@@ -55,22 +55,22 @@ class _FollowersScreenState extends State<FollowersScreen> {
     }
   }
 
-  Future<void> toggleFollowUnfollow(int id) async{
-    try{
-      bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(id);
+  // Future<void> toggleFollowUnfollow(int id) async{
+  //   try{
+  //     bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(id);
 
-      if(success){
-        toggleFollowUnfollowRxObj.getFollowUnfollowData.listen((data){
-          if(!mounted) return;
-          setState(() {
-            followingList = data['data'];
-          });
-        });
-      }
-    }catch(error){
-      print(error);
-    }
-  }
+  //     if(success){
+  //       toggleFollowUnfollowRxObj.getFollowUnfollowData.listen((data){
+  //         if(!mounted) return;
+  //         setState(() {
+  //           followingList = data['data'];
+  //         });
+  //       });
+  //     }
+  //   }catch(error){
+  //     print(error);
+  //   }
+  // }
 
   void _handleFollowBack(int index) async {
     setState(() {
@@ -175,7 +175,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                 ],
                               ),
                               Spacer(),
-                              // লোডিং অবস্থা অনুযায়ী বাটন অথবা লোডিং দেখানো
                               loadingStates[index]
                                   ? Container(
                                       width: 130.w,
@@ -202,8 +201,18 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                     )
                                   : CustomButton(
                                       name: follower['is_following'] ? 'Unfollow' : 'Follow Back',
-                                      onCallBack: () {
-                                        toggleFollowUnfollow(follower['id']);
+                                      onCallBack: () async{
+                                        final wasFollowing = follower['is_following'];
+                                        setState(() {
+                                          follower['is_following'] = !wasFollowing;
+                                        });
+                                        bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(follower['id']);
+                                        await getProfileRxObj.getProfileRx();
+                                        if(!success){
+                                          setState(() {
+                                            follower['is_following'] = wasFollowing;
+                                          });
+                                        }
                                       },
                                       context: context,
                                       minWidth: 130.w,

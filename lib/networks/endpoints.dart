@@ -46,4 +46,11 @@ class Endpoints {
       return '/v1/closet?userID=$userId&categoryID=$productId';
     }
   } 
+  static String getSingleOutfitesURL(int userId, String? category){
+    if(category == null){
+      return '/v1/outfit?userID=$userId&search=';
+    } else{
+      return '/v1/outfit?userID=$userId&search=$category';
+    }
+  }
 }

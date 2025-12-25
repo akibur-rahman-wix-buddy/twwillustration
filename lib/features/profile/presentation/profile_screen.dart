@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
+import 'package:twwillustration/assets_helper/app_lottie.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_shimmer_image.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
 import 'package:twwillustration/features/profile/model/get_categories_data_model.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/features/profile/model/get_single_category_data_model.dart';
+import 'package:twwillustration/features/profile/model/get_single_outfit_data_model.dart' hide Categories;
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
@@ -32,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   int selectedIndex = 0;
   int selectedCategoryIndex = 0;
+  int selectedOutfitIndex = 0;
   int selectedOutfitCategoryIndex = 0;
   final double value = 0.5;
   bool isLoading = false;
@@ -48,36 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   List<GetSingleCategoryDataModel> _clothesData = [];
   // * outfit
-  final Map<String, List<OutfitItem>> outfitData = {
-    'All': [
-      OutfitItem(image: 'assets/outfit1.png', category: 'Casual'),
-      OutfitItem(image: 'assets/outfit2.png', category: 'Work'),
-      OutfitItem(image: 'assets/outfit3.png', category: 'Formal'),
-      OutfitItem(image: 'assets/outfit4.png', category: 'Casual'),
-      OutfitItem(image: 'assets/outfit5.png', category: 'Work'),
-      OutfitItem(image: 'assets/outfit6.png', category: 'Sport'),
-      OutfitItem(image: 'assets/outfit7.png', category: 'Casual'),
-      OutfitItem(image: 'assets/outfit8.png', category: 'Formal'),
-      OutfitItem(image: 'assets/outfit9.png', category: 'Work'),
-    ],
-    'Casual': [
-      OutfitItem(image: 'assets/outfit1.png', category: 'Casual'),
-      OutfitItem(image: 'assets/outfit4.png', category: 'Casual'),
-      OutfitItem(image: 'assets/outfit7.png', category: 'Casual'),
-    ],
-    'Work': [
-      OutfitItem(image: 'assets/outfit2.png', category: 'Work'),
-      OutfitItem(image: 'assets/outfit5.png', category: 'Work'),
-      OutfitItem(image: 'assets/outfit9.png', category: 'Work'),
-    ],
-    'Formal': [
-      OutfitItem(image: 'assets/outfit3.png', category: 'Formal'),
-      OutfitItem(image: 'assets/outfit8.png', category: 'Formal'),
-    ],
-    'Sport': [
-      OutfitItem(image: 'assets/outfit6.png', category: 'Sport'),
-    ],
-  };
+  List<GetSingleOutfitDataModel> _outfitData = [];
 
   final List<TabItem> tabs = [
     TabItem(
@@ -102,9 +77,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isLoading = true;
     });
     try {
-      bool sucess = await getProfileRxObj.getProfileRx();
+      bool success = await getProfileRxObj.getProfileRx();
 
-      if (sucess) {
+      if (success) {
         getProfileRxObj.getProfileData.listen((profile) {
           setState(() {
             profileData = profile;
@@ -134,9 +109,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
       int userId = profileData!.data!.id!;
 
-      bool sucess = await postFollowerRxObj.postFollowerRx(userId);
+      bool success = await postFollowerRxObj.postFollowerRx(userId);
 
-      if (sucess) {
+      if (success) {
         postFollowerRxObj.getFollowerData.listen((result) {
           setState(() {
             follower = (result["data"] as List).length;
@@ -155,9 +130,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
       int userId = profileData!.data!.id!;
 
-      bool sucess = await postFollowingRxObj.postFollowingRx(userId);
+      bool success = await postFollowingRxObj.postFollowingRx(userId);
 
-      if (sucess) {
+      if (success) {
         postFollowingRxObj.getFollowingData.listen((result) {
           setState(() {
             following = (result["data"] as List).length;
@@ -171,9 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> fetchCategories() async {
     try {
-      bool sucess = await getCategoriesRxObj.getCategoriesRx();
+      bool success = await getCategoriesRxObj.getCategoriesRx();
 
-      if (sucess) {
+      if (success) {
         getCategoriesRxObj.getCategoriesData.listen((categories) {
           setState(() {
             _categories = [categories];
@@ -192,14 +167,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         isClothesLoading = true;
       });
-      bool sucess =
+      bool success =
           await getSingleCategoryRxObj.getSingleCategoryRx(userID, productId);
 
-      if (sucess) {
+      if (success) {
         getSingleCategoryRxObj.getSingleCategoryData.listen((clothes) {
           setState(() {
             _clothesData = [clothes];
-            print(">>>>>>>>>>>>>>>> data == ${_clothesData.first.data.toString()}");
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      print(error);
+    } finally {
+      setState(() {
+        isClothesLoading = false;
+      });
+    }
+  }
+
+  Future<void> fetchSingleOutfit(int userID, String? category) async {
+    try {
+      setState(() {
+        isClothesLoading = true;
+      });
+      bool success =
+          await getSingleOutfitRxObj.getSingleOutfitRx(userID, category);
+
+      if (success) {
+        getSingleOutfitRxObj.getSingleOutfitData.listen((outfit) {
+          setState(() {
+            _outfitData = [outfit];
           });
         });
       } else {
@@ -503,18 +503,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                       return Expanded(
                         child: GestureDetector(
-                          onTap: () {
+                          onTap: () async{
                             setState(() {
                               selectedIndex = index;
                             });
+                            if(selectedIndex == 0 || selectedIndex == 1) fetchCategories();
+                            if(selectedIndex == 0) fetchSingleCategory(profileData!.data!.id!, 1);
+                            if(selectedIndex == 1) fetchSingleOutfit(profileData!.data!.id!, 'All');
                           },
                           child: AnimatedContainer(
                             duration: Duration(milliseconds: 200),
                             margin: EdgeInsets.symmetric(horizontal: 4),
                             decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColor.cFFFFFF
-                                  : AppColor.cFFFFFF,
+                              color: AppColor.cFFFFFF,
                               borderRadius: BorderRadius.circular(25),
                               border: Border.all(
                                 color: isSelected
@@ -568,7 +569,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context, 
+            builder: (BuildContext context){
+              return Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24.r),
+                    topRight: Radius.circular(24.r)
+                  ),
+                  color: AppColor.cFFFFFF
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                      child: Container(
+                        height: 4,
+                        width: 32.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.r),
+                          color: Color(0xFF757575)
+                        ),
+                      ),
+                    ),
+                    UIHelper.verticalSpace(16.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 168.h,
+                          width: 164.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24.r),
+                            border: Border.all(width: 1, color: Colors.grey)
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(AppIcons.addClosetImage, height: 48.h, width: 48.h,),
+                              UIHelper.verticalSpace(16.h),
+                              Text(
+                                'Add Closet',
+                                style: TextFontStyle.textStyle16w400c5C5C5C.copyWith(color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 168.h,
+                          width: 164.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24.r),
+                            border: Border.all(width: 1, color: Colors.grey)
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(AppIcons.addOutfitImage, height: 48.h, width: 48.h,),
+                              UIHelper.verticalSpace(16.h),
+                              Text(
+                                'Add Outfit',
+                                style: TextFontStyle.textStyle16w400c5C5C5C.copyWith(color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    UIHelper.verticalSpace(50.h)
+                  ],
+                ),
+              );
+            }
+            );
+        },
         child: Icon(Icons.add),
       ),
     );
@@ -610,7 +688,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               setState(() {
                                 selectedCategoryIndex = index;
                               });
-                              fetchSingleCategory(profileData?.data?.id ?? 0, button?.id);
+                              fetchSingleCategory(
+                                  profileData?.data?.id ?? 0, button?.id);
                             },
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 200),
@@ -640,107 +719,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           );
                         }),
                   ),
-            // Padding(
-            //   padding:
-            //       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            //   child: SingleChildScrollView(
-            //     scrollDirection: Axis.horizontal,
-            //     child: Row(
-            //       children: categories.asMap().entries.map((entry) {
-            //         int index = entry.key;
-            //         String category = entry.value;
-            //         bool isSelected = selectedCategoryIndex == index;
-
-            //         return GestureDetector(
-            //           onTap: () {
-            //             setState(() {
-            //               selectedCategoryIndex = index;
-            //             });
-            //           },
-            //           child: AnimatedContainer(
-            //             duration: Duration(milliseconds: 200),
-            //             margin: EdgeInsets.only(right: 12),
-            //             padding:
-            //                 EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            //             decoration: BoxDecoration(
-            //               color: isSelected
-            //                   ? _getCategoryColor(index)
-            //                   : Colors.grey[200],
-            //               borderRadius: BorderRadius.circular(25),
-            //             ),
-            //             child: Text(
-            //               category,
-            //               style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-            //                 color: isSelected ? Colors.black87 : Colors.grey[600],
-            //                 fontWeight:
-            //                     isSelected ? FontWeight.w600 : FontWeight.w500,
-            //                 fontSize: 14,
-            //               ),
-            //             ),
-            //           ),
-            //         );
-            //       }).toList(),
-            //     ),
-            //   ),
-            // ),
+            UIHelper.verticalSpaceMedium,
 
             // * Clothes Grid
 
-
-
-
-            // _clothesData.first.data ==[]|| _clothesData.first.data!.isEmpty
-            //         ? Text(
-            //           'No data found',
-            //           style: TextFontStyle
-            //               .textStyle20w600c000A15ColorJosefinSans.copyWith(color: Colors.red),
-            //         ): Text(_clothesData.first.data!.toString())
-            //
-            //
-
-
-
             isClothesLoading || isLoading
                 ? ClothesGridShimmer()
-                :  _clothesData.first.data ==[]|| _clothesData.first.data!.isEmpty
+                : _clothesData.first.data == [] ||
+                        _clothesData.first.data!.isEmpty
                     ? Center(
-                      child: Column(
-                        children: [
-                          UIHelper.verticalSpace(100),
-                          Text(
-                            'No data found',
-                            style: TextFontStyle
-                                .textStyle20w600c000A15ColorJosefinSans.copyWith(color: Colors.red),
-                          ),
-                        ],
-                      ),
-                    )
-                    : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: GridView.builder(
-                        padding: EdgeInsets.all(0),
-                        shrinkWrap: true,
-                        primary: false,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 0.8,
+                        child: Column(
+                          children: [
+                            UIHelper.verticalSpace(50),
+                            Lottie.asset(AppLotties.noDataFound)
+                          ],
                         ),
-                        itemCount: _clothesData.first.data?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final item = _clothesData.first.data?[index];
-                          return _buildClothesCard(
-                            ClothesItem(
-                              id: item?.id,
-                              image: item?.image,
-                              categories: item?.categories,
-                            ),
-                          );
-                        },
-                      ),
-                    )
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: GridView.builder(
+                          padding: EdgeInsets.all(0),
+                          shrinkWrap: true,
+                          primary: false,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 0.8,
+                          ),
+                          itemCount: _clothesData.first.data?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final item = _clothesData.first.data?[index];
+                            return _buildClothesCard(
+                              ClothesItem(
+                                id: item?.id,
+                                image: item?.image,
+                                categories: item?.categories,
+                              ),
+                            );
+                          },
+                        ),
+                      )
           ],
         ),
       ),
@@ -813,79 +833,123 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildOutfitsContent() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: outfitcategories.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String category = entry.value;
-                  bool isSelected = selectedOutfitCategoryIndex == index;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedOutfitCategoryIndex = index;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      margin: EdgeInsets.only(right: 12),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? _getOutfitCategoryColor(index)
-                            : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Text(
-                        category,
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          color: isSelected ? Colors.black87 : Colors.grey[600],
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.w500,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-
-          // * Out Fit Clothes Grid
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-              ),
-              child: GridView.builder(
-                padding: EdgeInsets.all(0),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.8,
-                ),
-                itemCount:
-                    outfitData[outfitcategories[selectedOutfitCategoryIndex]]
-                            ?.length ??
-                        0,
-                itemBuilder: (context, index) {
-                  final item = outfitData[
-                      outfitcategories[selectedOutfitCategoryIndex]]![index];
-                  return _buildOutfitCard(item);
-                },
-              ),
-            ),
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _categories.isEmpty || _categories.first.data == null
+                ? SizedBox.shrink()
+                : SizedBox(
+                    height: 40.h,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: _categories.first.data?.length,
+                        itemBuilder: (context, index) {
+                          final button = _categories.first.data?[index];
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedOutfitIndex = index;
+                              });
+                              fetchSingleOutfit(profileData?.data?.id ?? 0, button?.title);
+                            },
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 200),
+                              margin: EdgeInsets.only(right: 12),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              decoration: BoxDecoration(
+                                color: selectedOutfitIndex == index
+                                    ? _getCategoryColor(index)
+                                    : Colors.grey[200],
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Text(
+                                button?.title ?? '',
+                                style: TextFontStyle.textStyle12w400NunitoSans
+                                    .copyWith(
+                                  color: (selectedOutfitIndex == index)
+                                      ? Colors.black87
+                                      : Colors.grey[600],
+                                  fontWeight: (selectedOutfitIndex == index)
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+            UIHelper.verticalSpaceMedium,
+            isClothesLoading || isLoading
+                  ? ClothesGridShimmer()
+                  : _clothesData.first.data == [] ||
+                          _clothesData.first.data!.isEmpty
+                      ? Center(
+                          child: Column(
+                            children: [
+                              UIHelper.verticalSpace(50),
+                              Lottie.asset(AppLotties.noDataFound)
+                            ],
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: GridView.builder(
+                            padding: EdgeInsets.all(0),
+                            shrinkWrap: true,
+                            primary: false,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              childAspectRatio: 0.8,
+                            ),
+                            itemCount: _clothesData.first.data?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              final item = _clothesData.first.data?[index];
+                              return _buildClothesCard(
+                                ClothesItem(
+                                  id: item?.id,
+                                  image: item?.image,
+                                  categories: item?.categories,
+                                ),
+                              );
+                            },
+                          ),
+                        )
+        
+            // * Out Fit Clothes Grid
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(
+            //       horizontal: 16.0,
+            //     ),
+            //     child: GridView.builder(
+            //       padding: EdgeInsets.all(0),
+            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //         crossAxisCount: 3,
+            //         crossAxisSpacing: 10,
+            //         mainAxisSpacing: 10,
+            //         childAspectRatio: 0.8,
+            //       ),
+            //       itemCount:
+            //           outfitData[outfitcategories[selectedOutfitCategoryIndex]]
+            //                   ?.length ??
+            //               0,
+            //       itemBuilder: (context, index) {
+            //         final item = outfitData[
+            //             outfitcategories[selectedOutfitCategoryIndex]]![index];
+            //         return _buildOutfitCard(item);
+            //       },
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }
