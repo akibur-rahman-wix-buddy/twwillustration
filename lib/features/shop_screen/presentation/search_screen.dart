@@ -6,6 +6,7 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
+import 'package:twwillustration/common_widgets/custom_textfeild.dart';
 import 'package:twwillustration/features/shop_screen/presentation/shop_dashboard_screen.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
@@ -17,6 +18,9 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+
+  final _searchController = TextEditingController();
+
   final List<Map<String, dynamic>> products = [
     {
       'image': AppImages.dressImage, // Replace with valid URL or asset
@@ -63,6 +67,12 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             child: Column(
               children: [
+                    CustomTextField(
+                  controller: _searchController,
+                  hintText: 'Search here.....',
+                  onChanged: (value) {},
+                ),
+                UIHelper.verticalSpace(10.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

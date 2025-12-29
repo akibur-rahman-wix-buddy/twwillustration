@@ -23,7 +23,7 @@ final class ToggleFollowUnfollowRx extends RxResponseInt<Map<String, dynamic>>{
       await handleSuccessWithReturn(data);
       return true;
     } catch(error){
-      return handleErrorWithReturn(error);
+      return await handleErrorWithReturn(error);
     }
   }
 

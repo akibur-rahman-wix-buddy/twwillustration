@@ -3,12 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
-import 'package:twwillustration/assets_helper/app_image.dart';
+import 'package:twwillustration/assets_helper/app_lottie.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
-import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
+import 'package:twwillustration/features/community/widget/post_card.dart';
+import 'package:twwillustration/networks/api_acess.dart';
+import 'package:twwillustration/shimmer_widget/post_card_shimmer.dart';
 
 /// demo content pages (replace with your real widgets)
 class AllTabScreen extends StatefulWidget {
@@ -19,6 +23,47 @@ class AllTabScreen extends StatefulWidget {
 }
 
 class _AllTabScreenState extends State<AllTabScreen> {
+  bool isLoading = false;
+
+  List<GetListOfPostDataModel> _listOfPost = [];
+
+  Future<void> featchListOfPost(String? search, String? filter) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      bool success = await getListOfPostRxObj.getListOfPostRx(search, filter);
+
+      if (success) {
+        getListOfPostRxObj.getListOfPostData.listen((posts) {
+          setState(() {
+            _listOfPost = [posts];
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      print(error);
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> toggleLikeUnlike(int postId) async{
+    try{
+      bool success = await toggleLikeUnlikeRxObj.toggleLikeUnlikeRx(postId);
+    } catch(error){
+      print(error);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    featchListOfPost(null, 'all');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,227 +71,267 @@ class _AllTabScreenState extends State<AllTabScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: ListView.builder(
-            itemCount: 10,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 16.h),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset(
-                                AppImages.profile,
-                                height: 32.h,
-                                width: 32.w,
-                              ),
-                              UIHelper.horizontalSpace(10.w),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Katis Sims",
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      color: AppColor.blackColor,
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Jun 12, 2025 1:48 am",
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      color: AppColor.blackColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          UIHelper.horizontalSpace(10.w),
-                          Row(
-                            children: [
-                              Container(
-                                width: 60.w,
-                                decoration: BoxDecoration(
-                                  color: AppColor.cD5E7B0,
-                                  borderRadius: BorderRadius.circular(35.r),
-                                ),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Follow",
-                                      style: TextFontStyle
-                                          .textStyle12w400NunitoSans
-                                          .copyWith(
-                                        color: AppColor.c000000,
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              UIHelper.horizontalSpace(10.w),
-                              Image.asset(
-                                AppImages.threeDotImages,
-                                height: 20.h,
-                                width: 20.w,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      UIHelper.verticalSpace(10.h),
-                      Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-                        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          color: AppColor.blackColor,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      UIHelper.verticalSpace(10.h),
-                      Image.asset(AppImages.bagImages),
-                      UIHelper.verticalSpace(15.h),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Text(
-                              'Streetwear on point',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
-                                color: AppColor.blackColor,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            UIHelper.horizontalSpace(10.w),
-                            Text(
-                              '#streetwear #casual',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
-                                color: AppColor.c247E00,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      UIHelper.verticalSpace(10.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColor.cF3F5F7,
-                                    borderRadius: BorderRadius.circular(25.r),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 8,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(AppIcons.loveIcon),
-                                        UIHelper.horizontalSpace(5.w),
-                                        Text(
-                                          '24',
-                                          style: TextFontStyle
-                                              .textStyle12w400NunitoSans
-                                              .copyWith(
-                                            color: AppColor.blackColor,
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              UIHelper.horizontalSpace(10.w),
-                              GestureDetector(
-                                onTap: () {
-                                  CommentBottomSheet.show(context);
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColor.cF3F5F7,
-                                    borderRadius: BorderRadius.circular(25.r),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 8,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(AppIcons.chatsIcon),
-                                        UIHelper.horizontalSpace(5.w),
-                                        Text(
-                                          '24',
-                                          style: TextFontStyle
-                                              .textStyle12w400NunitoSans
-                                              .copyWith(
-                                            color: AppColor.blackColor,
-                                            fontSize: 13.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          UIHelper.horizontalSpace(10.w),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColor.cF3F5F7,
-                              borderRadius: BorderRadius.circular(25.r),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0, vertical: 5),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(AppIcons.sendsIcon),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+          child: isLoading
+              ? PostCardShimmer()
+              : _listOfPost.isEmpty ||
+                      _listOfPost.first.data == null ||
+                      _listOfPost.first.data!.isEmpty
+                  ? SizedBox(
+                      height: 400.h,
+                      width: double.infinity,
+                      child: Lottie.asset(AppLotties.noPostFound,
+                          fit: BoxFit.contain))
+                  : ListView.builder(
+                      itemCount: _listOfPost.first.data?.length,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final post = _listOfPost.first.data?[index];
+                        return PostCard(
+                          name:
+                              '${post?.user?.firstName ?? ''} ${post?.user?.lastName ?? ''}',
+                          time: post?.publishedAt ?? '',
+                          toggleFollow: () {},
+                          title: post?.caption ?? '',
+                          descreption: post?.caption ?? '',
+                          tag: post?.tags?.map((t) => t.tag ?? "").toList(),
+                          isFollow: post?.isFollowed ?? '',
+                          onLove: () async{
+                            setState(() {
+                              if (post?.isLiked == true) {
+                                post?.isLiked = false;
+                                post?.likesCount = (post.likesCount ?? 1) - 1;
+                              } else {
+                                post?.isLiked = true;
+                                post?.likesCount = (post.likesCount ?? 0) + 1;
+                              }
+                            });
+                            await toggleLikeUnlike(post?.id ?? 0);
+                          },
+                          onComment: () {},
+                          onShare: () {},
+                          likeCount: post?.likesCount ?? 0,
+                          commentCount: post?.commentsCount ?? 0,
+                          imagePath: post?.medias?.first.path ?? '',
+                          isLike: post?.isLiked ?? false,
+                        );
+
+                        // return Container(
+                        //   margin: EdgeInsets.only(bottom: 16.h),
+                        //   decoration: BoxDecoration(
+                        //     color: Colors.white,
+                        //     borderRadius: BorderRadius.circular(20.r),
+                        //   ),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(12),
+                        //     child: Column(
+                        //       children: [
+                        //         Row(
+                        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //           children: [
+                        //             Row(
+                        //               children: [
+                        //                 Image.asset(
+                        //                   AppImages.profile,
+                        //                   height: 32.h,
+                        //                   width: 32.w,
+                        //                 ),
+                        //                 UIHelper.horizontalSpace(10.w),
+                        //                 Column(
+                        //                   crossAxisAlignment: CrossAxisAlignment.start,
+                        //                   children: [
+                        //                     Text(
+                        //                       "Katis Sims",
+                        //                       style: TextFontStyle
+                        //                           .textStyle12w400NunitoSans
+                        //                           .copyWith(
+                        //                         color: AppColor.blackColor,
+                        //                         fontSize: 13.sp,
+                        //                         fontWeight: FontWeight.w700,
+                        //                       ),
+                        //                     ),
+                        //                     Text(
+                        //                       "Jun 12, 2025 1:48 am",
+                        //                       style: TextFontStyle
+                        //                           .textStyle12w400NunitoSans
+                        //                           .copyWith(
+                        //                         color: AppColor.blackColor,
+                        //                       ),
+                        //                     ),
+                        //                   ],
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //             UIHelper.horizontalSpace(10.w),
+                        //             Row(
+                        //               children: [
+                        //                 Container(
+                        //                   width: 60.w,
+                        //                   decoration: BoxDecoration(
+                        //                     color: AppColor.cD5E7B0,
+                        //                     borderRadius: BorderRadius.circular(35.r),
+                        //                   ),
+                        //                   child: Center(
+                        //                     child: Padding(
+                        //                       padding: const EdgeInsets.all(8.0),
+                        //                       child: Text(
+                        //                         "Follow",
+                        //                         style: TextFontStyle
+                        //                             .textStyle12w400NunitoSans
+                        //                             .copyWith(
+                        //                           color: AppColor.c000000,
+                        //                           fontSize: 10.sp,
+                        //                           fontWeight: FontWeight.w700,
+                        //                         ),
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //                 UIHelper.horizontalSpace(10.w),
+                        //                 Image.asset(
+                        //                   AppImages.threeDotImages,
+                        //                   height: 20.h,
+                        //                   width: 20.w,
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //           ],
+                        //         ),
+                        //         UIHelper.verticalSpace(10.h),
+                        //         Text(
+                        //           'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                        //           'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                        //           style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                        //             color: AppColor.blackColor,
+                        //             fontSize: 13.sp,
+                        //             fontWeight: FontWeight.w400,
+                        //           ),
+                        //         ),
+                        //         UIHelper.verticalSpace(10.h),
+                        //         Image.asset(AppImages.bagImages),
+                        //         UIHelper.verticalSpace(15.h),
+                        //         Align(
+                        //           alignment: Alignment.centerLeft,
+                        //           child: Row(
+                        //             children: [
+                        //               Text(
+                        //                 'Streetwear on point',
+                        //                 style: TextFontStyle.textStyle12w400NunitoSans
+                        //                     .copyWith(
+                        //                   color: AppColor.blackColor,
+                        //                   fontSize: 13.sp,
+                        //                   fontWeight: FontWeight.w700,
+                        //                 ),
+                        //               ),
+                        //               UIHelper.horizontalSpace(10.w),
+                        //               Text(
+                        //                 '#streetwear #casual',
+                        //                 style: TextFontStyle.textStyle12w400NunitoSans
+                        //                     .copyWith(
+                        //                   color: AppColor.c247E00,
+                        //                   fontSize: 13.sp,
+                        //                   fontWeight: FontWeight.w700,
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //         UIHelper.verticalSpace(10.h),
+                        //         Row(
+                        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //           children: [
+                        //             Row(
+                        //               children: [
+                        //                 GestureDetector(
+                        //                   onTap: () {},
+                        //                   child: Container(
+                        //                     decoration: BoxDecoration(
+                        //                       color: AppColor.cF3F5F7,
+                        //                       borderRadius: BorderRadius.circular(25.r),
+                        //                     ),
+                        //                     child: Padding(
+                        //                       padding: const EdgeInsets.symmetric(
+                        //                         horizontal: 15,
+                        //                         vertical: 8,
+                        //                       ),
+                        //                       child: Row(
+                        //                         children: [
+                        //                           SvgPicture.asset(AppIcons.loveIcon),
+                        //                           UIHelper.horizontalSpace(5.w),
+                        //                           Text(
+                        //                             '24',
+                        //                             style: TextFontStyle
+                        //                                 .textStyle12w400NunitoSans
+                        //                                 .copyWith(
+                        //                               color: AppColor.blackColor,
+                        //                               fontSize: 13.sp,
+                        //                               fontWeight: FontWeight.w400,
+                        //                             ),
+                        //                           ),
+                        //                         ],
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //                 UIHelper.horizontalSpace(10.w),
+                        //                 GestureDetector(
+                        //                   onTap: () {
+                        //                     CommentBottomSheet.show(context);
+                        //                   },
+                        //                   child: Container(
+                        //                     decoration: BoxDecoration(
+                        //                       color: AppColor.cF3F5F7,
+                        //                       borderRadius: BorderRadius.circular(25.r),
+                        //                     ),
+                        //                     child: Padding(
+                        //                       padding: const EdgeInsets.symmetric(
+                        //                         horizontal: 15,
+                        //                         vertical: 8,
+                        //                       ),
+                        //                       child: Row(
+                        //                         children: [
+                        //                           SvgPicture.asset(AppIcons.chatsIcon),
+                        //                           UIHelper.horizontalSpace(5.w),
+                        //                           Text(
+                        //                             '24',
+                        //                             style: TextFontStyle
+                        //                                 .textStyle12w400NunitoSans
+                        //                                 .copyWith(
+                        //                               color: AppColor.blackColor,
+                        //                               fontSize: 13.sp,
+                        //                               fontWeight: FontWeight.w400,
+                        //                             ),
+                        //                           ),
+                        //                         ],
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //             UIHelper.horizontalSpace(10.w),
+                        //             Container(
+                        //               decoration: BoxDecoration(
+                        //                 color: AppColor.cF3F5F7,
+                        //                 borderRadius: BorderRadius.circular(25.r),
+                        //               ),
+                        //               child: Padding(
+                        //                 padding: const EdgeInsets.symmetric(
+                        //                     horizontal: 15.0, vertical: 5),
+                        //                 child: Row(
+                        //                   children: [
+                        //                     SvgPicture.asset(AppIcons.sendsIcon),
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // );
+                      },
+                    ),
         ),
       ),
     );

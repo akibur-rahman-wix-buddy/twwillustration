@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:twwillustration/constants/app_constants.dart';
+import 'package:twwillustration/features/FAQ/presentation/faq_screen.dart';
 import 'package:twwillustration/features/add_outfit/add_outfit_screen.dart';
 import 'package:twwillustration/features/add_outfit/manage_outfit_screen.dart';
 import 'package:twwillustration/features/add_outfit/outfit_preview_screen.dart';
@@ -10,6 +10,7 @@ import 'package:twwillustration/features/ai_suggestion/presentation/subscription
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
 import 'package:twwillustration/features/closet_details/presentation/add_closet_screen.dart';
 import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
+import 'package:twwillustration/features/block_user/presentation/block_user_screen.dart';
 import 'package:twwillustration/features/community/widget/create_post_screen.dart';
 import 'package:twwillustration/features/fashion_board/add_fashion_board.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
@@ -53,6 +54,8 @@ final class Routes {
   static const String followersScreen = '/followersScreen';
   static const String followingScreen = '/followingScreen';
   static const String closetDetailsScreen = '/closetDetailsScreen';
+  static const String blockUserScreen = '/blockUserScreen';
+  static const String faqScreen = '/faqScreen';
 
   // * My Tree Routes
   static const String waterDropLogScreen = '/waterDropLogScreen';
@@ -175,10 +178,11 @@ final class RouteGenerator {
             : CupertinoPageRoute(builder: (context) => FollowingScreen(userId : args['userId']));
 
       case Routes.closetDetailsScreen:
+      final args = settings.arguments as Map;
         return Platform.isAndroid
             ? _FadedTransitionRoute(
-                widget: ClosetDetailsScreen(), settings: settings)
-            : CupertinoPageRoute(builder: (context) => ClosetDetailsScreen());
+                widget: ClosetDetailsScreen(imageBytes: args['imageBytes'],), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ClosetDetailsScreen(imageBytes: args['imageBytes']));
 
       case Routes.waterDropLogScreen:
         return Platform.isAndroid
@@ -238,6 +242,16 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: QuickStatsScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => QuickStatsScreen());
+
+      case Routes.blockUserScreen:
+        return Platform.isAndroid
+          ? _FadedTransitionRoute(widget: BlockUserScreen(), settings: settings)
+          : CupertinoPageRoute(builder: (context) => BlockUserScreen());
+
+      case Routes.faqScreen:
+        return Platform.isAndroid
+          ? _FadedTransitionRoute(widget: FaqScreen(), settings: settings)
+          : CupertinoPageRoute(builder: (context) => FaqScreen());
 
       case Routes.outfitScreen:
         return Platform.isAndroid

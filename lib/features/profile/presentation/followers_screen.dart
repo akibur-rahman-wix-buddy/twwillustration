@@ -55,33 +55,6 @@ class _FollowersScreenState extends State<FollowersScreen> {
     }
   }
 
-  // Future<void> toggleFollowUnfollow(int id) async{
-  //   try{
-  //     bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(id);
-
-  //     if(success){
-  //       toggleFollowUnfollowRxObj.getFollowUnfollowData.listen((data){
-  //         if(!mounted) return;
-  //         setState(() {
-  //           followingList = data['data'];
-  //         });
-  //       });
-  //     }
-  //   }catch(error){
-  //     print(error);
-  //   }
-  // }
-
-  void _handleFollowBack(int index) async {
-    setState(() {
-      loadingStates[index] = true;
-    });
-    await Future.delayed(Duration(seconds: 5));
-
-    setState(() {
-      loadingStates[index] = false;
-    });
-  }
 
   @override
   void initState() {

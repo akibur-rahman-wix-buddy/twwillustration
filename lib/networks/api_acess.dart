@@ -1,8 +1,16 @@
 import 'package:rxdart/subjects.dart';
+import 'package:twwillustration/features/FAQ/data/get_faq_rx.dart';
+import 'package:twwillustration/features/FAQ/model/get_faq_data_model.dart';
 import 'package:twwillustration/features/auth/data/login_data/login_rx.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:twwillustration/features/auth/data/signup_data/signup_rx.dart';
 import 'package:twwillustration/features/auth/data/verify_otp/verify_otp_rx.dart';
+import 'package:twwillustration/features/block_user/data/get_block_user/get_block_user_rx.dart';
+import 'package:twwillustration/features/block_user/data/toggle_block_unblock/toggle_block_unblock_rx.dart';
+import 'package:twwillustration/features/block_user/model/get_block_user_data_model.dart';
+import 'package:twwillustration/features/community/data/get_list_of_post/get_list_of_post_rx.dart';
+import 'package:twwillustration/features/community/data/toggle_like_unlike/toggle_like_unlike_rx.dart';
+import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
 import 'package:twwillustration/features/profile/data/edit_profile/edit_profile_rx.dart';
 import 'package:twwillustration/features/profile/data/outfits/get_single_outfit/get_single_outfit_rx.dart';
 import 'package:twwillustration/features/profile/data/post_follower/post_follower_rx.dart';
@@ -14,7 +22,6 @@ import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/features/profile/model/get_single_category_data_model.dart';
 import 'package:twwillustration/features/profile/model/get_single_outfit_data_model.dart';
 import 'package:twwillustration/features/settings/data/logout_rx.dart';
-
 import '../features/profile/data/clothes/get_categories/get_categories_rx.dart';
 import '../features/profile/data/clothes/get_single_category/get_single_category_rx..dart';
 
@@ -66,3 +73,22 @@ GetSingleCategoryRx getSingleCategoryRxObj = GetSingleCategoryRx(
 GetSingleOutfitRx getSingleOutfitRxObj = GetSingleOutfitRx(
     empty: GetSingleOutfitDataModel(),
     dataFetcher: BehaviorSubject<GetSingleOutfitDataModel>());
+
+GetBlockUserRx getBlockUserRxObj = GetBlockUserRx(
+    empty: GetBlockUserDataModel(),
+    dataFetcher: BehaviorSubject<GetBlockUserDataModel>());
+
+ToggleBlockUnblockRx toggleBlockUnblockRxObj = ToggleBlockUnblockRx(
+    empty: <String, dynamic>{},
+    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+GetFaqRx getFaqRxObj = GetFaqRx(
+    empty: GetFAQDataModel(), dataFetcher: BehaviorSubject<GetFAQDataModel>());
+
+GetListOfPostRx getListOfPostRxObj = GetListOfPostRx(
+    empty: GetListOfPostDataModel(),
+    dataFetcher: BehaviorSubject<GetListOfPostDataModel>());
+
+ToggleLikeUnlikeRx toggleLikeUnlikeRxObj = ToggleLikeUnlikeRx(
+    empty: <String, dynamic>{},
+    dataFetcher: BehaviorSubject<Map<String, dynamic>>());

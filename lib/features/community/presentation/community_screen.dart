@@ -2,12 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
+import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/features/community/presentation/all_tab_screen.dart';
 import 'package:twwillustration/features/community/presentation/following_screen.dart';
 import 'package:twwillustration/features/community/presentation/trending_screen.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
+import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 
@@ -87,7 +91,41 @@ class _CommunityScreenState extends State<CommunityScreen> {
           children: [
             UIHelper.verticalSpace(60.h),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: SvgPicture.asset(
+                          AppIcons.backIcon,
+                          height: 40.h,
+                          width: 40.w,
+                        ),
+                      ),
+                      Text(
+                        'Community',
+                        style: TextFontStyle.textStyle20w600c000A15ColorJosefinSans.copyWith(
+                          color: Color(0xFF2F2F2F),
+                          fontWeight: FontWeight.w700
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          NavigationService.navigateTo(Routes.createPostScreen);
+                        },
+                        child: SvgPicture.asset(
+                          AppIcons.addIcon,
+                          height: 40.h,
+                          width: 40.w,
+                        ),
+                      ),
+                    ],
+                  ),
+            ),
+            UIHelper.verticalSpace(16.h),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SegmentedFilterBar(
                 items: const ['All', 'Trending', 'Following'],
                 selectedIndex: selected,

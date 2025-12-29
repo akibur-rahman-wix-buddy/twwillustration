@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -151,6 +152,45 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     );
   }
 
+//   Widget _buildClosetTile(File file) {
+//   return Stack(
+//     children: [
+//       ClipRRect(
+//         borderRadius: BorderRadius.circular(12.r),
+//         child: Image.file(
+//           file,
+//           width: 72.w,
+//           height: 72.w,
+//           fit: BoxFit.cover,
+//         ),
+//       ),
+//       Positioned(
+//         top: 4,
+//         right: 4,
+//         child: InkWell(
+//           onTap: () {
+//             setState(() => _closetImages.removeWhere((x) => x.path == file.path));
+//           },
+//           child: Container(
+//             height: 20,
+//             width: 20,
+//             decoration: const BoxDecoration(
+//               shape: BoxShape.circle,
+//               color: Colors.white,
+//             ),
+//             child: const Icon(
+//               Icons.cancel_outlined,
+//               size: 16,
+//               color: Colors.black,
+//             ),
+//           ),
+//         ),
+//       ),
+//     ],
+//   );
+// }
+
+
   Widget _buildAddTile() {
     return InkWell(
       onTap: _showClosetAddSheet,
@@ -205,8 +245,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       label: Text(
         '#$tag',
         style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-          fontSize: 14.sp,
-          color: AppColor.c000000,
+          fontSize: 16.sp,
+         color: Color(0xFF757575),
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -214,7 +254,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       onDeleted: () => setState(() => _tags.removeAt(index)),
       backgroundColor: Colors.white,
       shape: StadiumBorder(side: BorderSide(color: Colors.grey.shade300)),
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );
   }
@@ -301,7 +341,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // -------- Main media card --------
-                InkWell(
+                DottedBorder(
+                  options: RoundedRectDottedBorderOptions(
+                    radius: Radius.circular(12.r),
+                    dashPattern: [4,2],
+                    strokeWidth: 1,
+                    color: Colors.grey
+                    ),
+                  child: InkWell(
                   borderRadius: BorderRadius.circular(8.r),
                   onTap: _showSourceSheet,
                   child: Container(
@@ -341,19 +388,103 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                               ],
                             ),
                           )
-                        : Image.file(File(_pickedImage!.path),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity),
+                        : ClipRRect(
+                          borderRadius: BorderRadius.circular(12.r),
+                          child: Image.file(File(_pickedImage!.path),
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                              height: double.infinity),
+                        ),
+                  ),
+                ),
+                ),
+
+                UIHelper.verticalSpace(24.h),
+
+                Text(
+                  'Caption',
+                  style: TextFontStyle.Inter10W500.copyWith(
+                    fontSize: 16,
+                    color: Color(0xFF5E5E5E)
+                  ),
+                ),
+
+                UIHelper.verticalSpace(9.h),
+
+                // -------- Caption --------
+                DottedBorder(
+                  options: RoundedRectDottedBorderOptions(
+                    radius: Radius.circular(12.r),
+                    dashPattern: [4,2],
+                    strokeWidth: 1,
+                    color: Colors.grey
+                    ),
+                  child: Container(
+                    height: 173.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.r),
+                      color: Colors.white
+                    ),
+                    child: CustomTextField(
+                      controller: _captionController,
+                      fieldColor: Colors.transparent,
+                      borderColor: Colors.transparent,
+                         maxline: 7, 
+                         height: 172.h,
+                         hintText: 'Write a caption...',
+                         hintTextSyle: TextFontStyle.inter10W400.copyWith(
+                            fontSize: 16.sp,
+                            color: Color(0xFF757575)
+                          ),
+                         ),
                   ),
                 ),
 
                 UIHelper.verticalSpace(20.h),
+                // -------- Tags --------
+                Text(
+                  'Tag',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 14.sp,
+                    color: AppColor.c000000,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                UIHelper.verticalSpace(10.h),
 
-                // -------- Caption --------
-                CustomTextField(
-                  controller: _captionController,
-                     maxline: 5, hintText: 'Write a caption...'),
+                Container(
+                  padding: EdgeInsets.all(12.w),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF6F7F9),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Wrap(
+                    spacing: 10.w,
+                    runSpacing: 10.h,
+                    children: [
+                      for (int i = 0; i < _tags.length; i++)
+                        _buildTagChip(_tags[i], i),
+                      ActionChip(
+                        avatar: const Icon(Icons.add, size: 18),
+                        label: Text(
+                          'Add tag',
+                          style: TextFontStyle.inter10W400.copyWith(
+                            fontSize: 16.sp,
+                            color: Color(0xFF757575)
+                          ),
+                        ),
+                        onPressed: _onAddTagTap,
+                        backgroundColor: Colors.white,
+                        shape: StadiumBorder(
+                            side: BorderSide(color: Colors.grey.shade300)),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 8.h),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ],
+                  ),
+                ),
 
                 UIHelper.verticalSpace(20.h),
 
@@ -390,44 +521,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
                 UIHelper.verticalSpace(20.h),
 
-                // -------- Tags --------
-                Text(
-                  'Tag',
-                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                    fontSize: 14.sp,
-                    color: AppColor.c000000,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                UIHelper.verticalSpace(10.h),
-                Container(
-                  padding: EdgeInsets.all(12.w),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF6F7F9),
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Wrap(
-                    spacing: 10.w,
-                    runSpacing: 10.h,
-                    children: [
-                      for (int i = 0; i < _tags.length; i++)
-                        _buildTagChip(_tags[i], i),
-                      ActionChip(
-                        avatar: const Icon(Icons.add, size: 18),
-                        label: const Text('Add tag'),
-                        onPressed: _onAddTagTap,
-                        backgroundColor: Colors.white,
-                        shape: StadiumBorder(
-                            side: BorderSide(color: Colors.grey.shade300)),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 12.w, vertical: 6.h),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                    ],
-                  ),
-                ),
-
-                UIHelper.verticalSpace(20.h),
 
                 // -------- Visibility (new) --------
                 _visibilityRow(),
@@ -454,6 +547,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 // ),
                 CustomButton(
                   name: 'Post outfit',
+                  borderRadius: 46.r,
+                  height: 47.h,
                   onCallBack: () {
                     Get.to(() => ListSuccessfulScreen());
                   },

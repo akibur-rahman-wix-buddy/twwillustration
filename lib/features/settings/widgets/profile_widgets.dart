@@ -6,27 +6,34 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
-class ProfileWidgets extends StatelessWidget {
+class ProfileWidgets extends StatefulWidget {
   final SvgPicture icon;
   final String title;
   final VoidCallback? onTap;
+  final Widget? notificationSwitch;
   const ProfileWidgets({
     super.key,
     required this.icon,
     required this.title,
-    this.onTap,
+    this.onTap, 
+    this.notificationSwitch, 
   });
 
   @override
+  State<ProfileWidgets> createState() => _ProfileWidgetsState();
+}
+
+class _ProfileWidgetsState extends State<ProfileWidgets> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Row(
         children: [
-          icon,
+          widget.icon,
           UIHelper.horizontalSpace(12.w),
           Text(
-            title,
+            widget.title,
             style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
               fontSize: 16.sp,
               color: AppColor.c5A5C5F,
@@ -34,7 +41,7 @@ class ProfileWidgets extends StatelessWidget {
             ),
           ),
           Spacer(),
-          SvgPicture.asset(AppIcons.nextArrow),
+         widget.notificationSwitch ?? SvgPicture.asset(AppIcons.nextArrow),
         ],
       ),
     );

@@ -58,6 +58,7 @@ class AppIcons {
   static const String arrowNext = '$iconsRoute/arrowNext.svg';
   static const String addClosetImage = '$iconsRoute/add_closet_image.svg';
   static const String addOutfitImage = '$iconsRoute/add_outfit_image.svg';
+  static const String blockUserIcon = '$iconsRoute/block_user_icon.svg';
 
   // * my tree screen icons
   static const String treeStage = '$iconsRoute/treeStage.svg';
@@ -90,4 +91,7 @@ class AppIcons {
   static const String addOutfit = '$iconsRoute/addOutfit.svg';
   static const String upPhoto = '$iconsRoute/upPhoto.svg';
   static const String takePhoto = '$iconsRoute/takePhoto.svg';
+  static const String cancel = '$iconsRoute/cancel.svg';
+  static const String checkMark = "$iconsRoute/check_mark.svg";
+  static const String add = '$iconsRoute/add.svg';
 }
