@@ -6,6 +6,7 @@ class AppImages {
   static const String onbrdImg3 = '$_basePath/onbrdImg3.png';
   static const String pgIndicator = '$_basePath/pgIndicator.png';
   static const String pgIndicatorFill = '$_basePath/pgIndicatorFill.png';
+  static const String placeholderImage = '$_basePath/placeholder_image.png';
   static const String onbButtonBg = '$_basePath/onbButtonBg.png';
   static const String onbButton = '$_basePath/onbButton.png';
   static const String fullSplash = '$_basePath/fullSplash.png';

@@ -27,6 +27,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool isLoading = false;
   bool profileIsLoading = false;
+  bool notifactoionEnable = true;
 
   GetProfileDataModel? profileData;
 
@@ -200,10 +201,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               title: 'My Favourites',
                               onTap: () {},
                             ),
+                            UIHelper.verticalSpace(24.h),ProfileWidgets(
+                              icon: SvgPicture.asset(AppIcons.blockUserIcon),
+                              title: 'Block User',
+                              onTap: () {
+                                NavigationService.navigateTo(Routes.blockUserScreen);
+                              },
+                            ),
                             UIHelper.verticalSpace(24.h),
                             ProfileWidgets(
                               icon: SvgPicture.asset(AppIcons.notificationIcon),
                               title: 'Notifications',
+                              notificationSwitch: Switch(
+                                value: notifactoionEnable,
+                                activeColor: Colors.white,
+                                inactiveThumbColor: Colors.white,
+                                inactiveTrackColor: Colors.grey[300],
+                                activeTrackColor: Color(0xFFD5E7B0),
+                                 onChanged: (value){
+                                  setState(() {
+                                    notifactoionEnable = value;
+                                  });
+                                 }
+                                ),
                               onTap: () {},
                             ),
                             UIHelper.verticalSpace(24.h),
@@ -257,7 +277,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                             UIHelper.verticalSpace(24.h),
                             SettingsWidgets(
-                              onTap: () {},
+                              onTap: () {
+                                NavigationService.navigateTo(Routes.faqScreen);
+                              },
                               icons: SvgPicture.asset(AppIcons.faq),
                               title: 'FAQs',
                             ),

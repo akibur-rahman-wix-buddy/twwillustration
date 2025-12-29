@@ -53,4 +53,23 @@ class Endpoints {
       return '/v1/outfit?userID=$userId&search=$category';
     }
   }
+  static String getBlockUsreURl(String? search){
+    if(search == null){
+      return '/v1/user/blocked?search=&page&per_page';
+    } else{
+      return '/v1/user/blocked?search=$search&page&per_page';
+    }
+  }
+  static String toggleBlockUnblockURL(int id) => '/v1/user/$id/toggle-block';
+  static String getFAQURL() => '/v1/setting/faqs';
+  static String getListOfPostURL(String? search, String? filter) {
+    if(search != null){
+      return '/v1/community/posts?search=$search&filter=&page&per_page';
+    } else if(filter != null){
+      return '/v1/community/posts?search=&filter=$filter&page&per_page';
+    } else{
+      return '/v1/community/posts?search=&filter=&page&per_page';
+    }
+  }
+  static String toggleLikeUnlikeURL(int postId) => '/v1/community/post/$postId/like';
 }

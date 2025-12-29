@@ -26,6 +26,7 @@ class CustomTextField extends StatefulWidget {
   final GestureTapCallback? onTap;
   final bool? readOnly;
   final TextStyle? hintTextSyle;
+  final ValueChanged<String>? onChanged;
 
   const CustomTextField({
     super.key,
@@ -48,7 +49,8 @@ class CustomTextField extends StatefulWidget {
     this.onTap, 
     this.readOnly, 
     this.hintTextSyle, 
-    this.inputFormatters,
+    this.inputFormatters, 
+    this.onChanged,
   });
 
   @override
@@ -85,7 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           child: Row(
             children: [
               if (widget.leftIcon != null) ...[
-                SvgPicture.asset(widget.leftIcon!, height: 20.h, width: 20.w),
+                SvgPicture.asset(widget.leftIcon!, height: 35.h, width: 35.w),
                 SizedBox(width: 10.w),
               ],
               Expanded(
@@ -98,6 +100,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   validator: widget.validator,
                   inputFormatters: widget.inputFormatters,
                   readOnly: widget.readOnly ?? false,
+                  onChanged: widget.onChanged,
 
                   style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                     color: Colors.black,
@@ -110,7 +113,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     hintText: widget.hintText,
                     hintStyle: widget.hintTextSyle ??
                         TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      color: AppColor.c979797,
+                      color: Color(0xFF757575),
                       fontSize: 14.sp,
                     ),
                     border: InputBorder.none,

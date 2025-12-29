@@ -28,7 +28,7 @@ class _LoadingState extends State<Loading> {
   }
 
   loadInitialData() async {
-    //AutoAppUpdateUtil.instance.checkAppUpdate();
+    // AutoAppUpdateUtil.instance.checkAppUpdate();
     await setInitValue();
 
     if (appData.read(kKeyIsLoggedIn)) {

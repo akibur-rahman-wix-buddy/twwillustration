@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
-import 'package:twwillustration/helpers/toast.dart';
 import 'package:twwillustration/networks/dio/dio.dart';
 import 'package:twwillustration/networks/endpoints.dart';
 import 'package:twwillustration/networks/exception_handler/data_source.dart';
@@ -18,7 +17,7 @@ final class GetProfileAPI {
 
       if(response.statusCode == 200){
         final data = response.data;
-        ToastUtil.showShortToast('Get Profile Data');
+        // ToastUtil.showShortToast('Get Profile Data');
         return GetProfileDataModel.fromJson(data);
       } else{
 
