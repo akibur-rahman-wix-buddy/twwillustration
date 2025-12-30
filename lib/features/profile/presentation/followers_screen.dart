@@ -110,51 +110,53 @@ class _FollowersScreenState extends State<FollowersScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: EdgeInsets.all(8.sp),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ShimmerClipOvalWidget(
                                 height: 48.h,
                                 weight: 48.h,
                                 networkImageLink: follower['avatar'],
                               ),
-                              UIHelper.horizontalSpace(25),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${follower['first_name']} ${follower['last_name']}',
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w900,
-                                      color: AppColor.blackColor,
+                              SizedBox(
+                                width: 155.w,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${follower['first_name']} ${follower['last_name']}',
+                                      style: TextFontStyle
+                                          .textStyle12w400NunitoSans
+                                          .copyWith(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColor.blackColor,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    '@${follower['first_name']} ${follower['last_name']}',
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w900,
-                                      color: AppColor.blackColor,
+                                    Text(
+                                      '@${follower['first_name']} ${follower['last_name']}',
+                                      style: TextFontStyle
+                                          .textStyle12w400NunitoSans
+                                          .copyWith(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xFF757575),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                              Spacer(),
                               loadingStates[index]
                                   ? Container(
-                                      width: 130.w,
+                                      width: 109.w,
                                       height: 40.h,
                                       decoration: BoxDecoration(
                                         color: AppColor.cD5E7B0,
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(8.r),
                                         border:
                                             Border.all(color: AppColor.cD5E7B0),
                                       ),
@@ -188,7 +190,8 @@ class _FollowersScreenState extends State<FollowersScreen> {
                                         }
                                       },
                                       context: context,
-                                      minWidth: 130.w,
+                                      minWidth: 109.w,
+                                      borderRadius: 100,
                                       height: 40.h,
                                       color: AppColor.cD5E7B0,
                                       borderColor: AppColor.cD5E7B0,

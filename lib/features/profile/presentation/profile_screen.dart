@@ -357,19 +357,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Positioned(
                           top: 220,
                           left: 16,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                profileData?.data?.bio ?? '',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                          child: SizedBox(
+                            width: 250.w,
+                            child: Text(
+                              profileData?.data?.bio ?? '',
+                              style: TextFontStyle.textStyle12w400NunitoSans
+                                  .copyWith(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w800,
                               ),
-                            ],
+                              softWrap: true,
+                            ),
                           ),
                         ),
 
