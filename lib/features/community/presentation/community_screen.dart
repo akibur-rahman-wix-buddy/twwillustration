@@ -95,14 +95,15 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: SvgPicture.asset(
-                          AppIcons.backIcon,
-                          height: 40.h,
-                          width: 40.w,
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {},
+                      //   child: SvgPicture.asset(
+                      //     AppIcons.backIcon,
+                      //     height: 40.h,
+                      //     width: 40.w,
+                      //   ),
+                      // ),
+                      SizedBox(width: 40,),
                       Text(
                         'Community',
                         style: TextFontStyle.textStyle20w600c000A15ColorJosefinSans.copyWith(

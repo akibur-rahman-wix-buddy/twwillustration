@@ -202,8 +202,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                       // * Profile Picture
                       SizedBox(
-                        width: 100,
-                        height: 100,
+                        width: 64,
+                        height: 64,
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
@@ -217,8 +217,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ),
                               child: (_profileImage != null)
                                   ? Container(
-                                      height: 70.h,
-                                      width: 70.w,
+                                      height: 64.h,
+                                      width: 64.h,
                                       decoration:
                                           BoxDecoration(shape: BoxShape.circle),
                                       child: ClipRRect(
@@ -231,20 +231,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       ),
                                     )
                                   : ShimmerClipOvalWidget(
-                                      height: 70.h,
-                                      weight: 70.h,
+                                      height: 64.h,
+                                      weight: 64.h,
                                       networkImageLink:
                                           profileData?.data?.avatar ?? '',
                                     ),
                             ),
                             Positioned(
-                              bottom: 20,
-                              right: 20,
+                              bottom: 0.h,
+                              right: 0.h,
                               child: GestureDetector(
                                 onTap: pickProfileImage,
                                 child: Container(
-                                  width: 28,
-                                  height: 28,
+                                  width: 24,
+                                  height: 24,
                                   decoration: BoxDecoration(
                                     color: Colors.green,
                                     shape: BoxShape.circle,
@@ -277,6 +277,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         title: 'Bio',
                         hintText: 'Enter your bio (max 100 characters)',
                         maxline: 3,
+                        height: 100,
                         
                       ),
                       UIHelper.verticalSpace(16.h),
@@ -306,7 +307,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             .copyWith(color: Color(0xFF000000)),
                         readOnly: true,
                         onTap: () =>
-                            showSnackBarMessage('You can only see your email'),
+                            showSnackBarMessage('You can\'t edit your email'),
                       ),
                       UIHelper.verticalSpace(16.h),
 

@@ -123,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           children: [
                             ShimmerClipOvalWidget(
                               height: 64.h,
-                              weight: 64.w,
+                              weight: 64.h,
                               networkImageLink: profileData?.data?.avatar ?? '',
                             ),
                             UIHelper.horizontalSpace(16.w),

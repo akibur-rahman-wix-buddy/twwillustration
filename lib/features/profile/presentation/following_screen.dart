@@ -114,6 +114,8 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8),
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           ShimmerClipOvalWidget(
                                             height: 48.h,
@@ -121,75 +123,72 @@ class _FollowingScreenState extends State<FollowingScreen> {
                                             networkImageLink:
                                                 following['avatar'],
                                           ),
-                                          UIHelper.horizontalSpace(25),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '${following['first_name']} ${following['last_name']}',
-                                                style: TextFontStyle
-                                                    .textStyle12w400NunitoSans
-                                                    .copyWith(
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w900,
-                                                  color: AppColor.blackColor,
-                                                ),
-                                              ),
-                                              Text(
-                                                '@${following['first_name']} ${following['last_name']}',
-                                                style: TextFontStyle
-                                                    .textStyle12w400NunitoSans
-                                                    .copyWith(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w900,
-                                                  color: AppColor.blackColor,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Spacer(),
-                                               CustomButton(
-                                                  name:
-                                                      following['is_following']
-                                                          ? 'Unfollow'
-                                                          : 'Follow',
-                                                  onCallBack: () async {
-                                                    final wasFollowing =
-                                                        following[
-                                                            'is_following'];
-                                                    setState(() {
-                                                      following[
-                                                              'is_following'] =
-                                                          !wasFollowing;
-                                                    });
-                                                    bool success =
-                                                        await toggleFollowUnfollowRxObj
-                                                            .toggleFollowUnfollowRx(
-                                                                following[
-                                                                    'id']);
-                                                    await getProfileRxObj.getProfileRx();
-                                                    if (!success) {
-                                                      setState(() {
-                                                        following[
-                                                                'is_following'] =
-                                                            wasFollowing;
-                                                      });
-                                                    }
-                                                  },
-                                                  context: context,
-                                                  minWidth: 130.w,
-                                                  height: 40.h,
-                                                  color: AppColor.cD5E7B0,
-                                                  borderColor: AppColor.cD5E7B0,
-                                                  textStyle: TextFontStyle
+                                          SizedBox(
+                                            width: 155.w,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${following['first_name']} ${following['last_name']}',
+                                                  style: TextFontStyle
                                                       .textStyle12w400NunitoSans
                                                       .copyWith(
-                                                    fontSize: 16.sp,
-                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.w600,
                                                     color: AppColor.blackColor,
                                                   ),
                                                 ),
+                                                Text(
+                                                  '@${following['first_name']} ${following['last_name']}',
+                                                  style: TextFontStyle
+                                                      .textStyle12w400NunitoSans
+                                                      .copyWith(
+                                                    fontSize: 12.sp,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color(0xFF757575),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          CustomButton(
+                                            name: following['is_following']
+                                                ? 'Unfollow'
+                                                : 'Follow',
+                                            onCallBack: () async {
+                                              final wasFollowing =
+                                                  following['is_following'];
+                                              setState(() {
+                                                following['is_following'] =
+                                                    !wasFollowing;
+                                              });
+                                              bool success =
+                                                  await toggleFollowUnfollowRxObj
+                                                      .toggleFollowUnfollowRx(
+                                                          following['id']);
+                                              await getProfileRxObj
+                                                  .getProfileRx();
+                                              if (!success) {
+                                                setState(() {
+                                                  following['is_following'] =
+                                                      wasFollowing;
+                                                });
+                                              }
+                                            },
+                                            context: context,
+                                            minWidth: 109.w,
+                                            height: 40.h,
+                                            color: AppColor.cD5E7B0,
+                                            borderColor: AppColor.cD5E7B0,
+                                            textStyle: TextFontStyle
+                                                .textStyle12w400NunitoSans
+                                                .copyWith(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w900,
+                                              color: AppColor.blackColor,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),

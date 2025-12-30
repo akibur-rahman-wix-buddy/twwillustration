@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:twwillustration/common_widgets/custom_snakbar.dart';
 import 'package:twwillustration/loading_screen.dart';
 import 'helpers/all_routes.dart';
 import 'helpers/di.dart';
@@ -61,6 +62,7 @@ class UtillScreenMobile extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return GetMaterialApp(
+          scaffoldMessengerKey: scaffoldMessengerKey,
           debugShowCheckedModeBanner: false,
           builder: (context, widget) {
             return MediaQuery(
