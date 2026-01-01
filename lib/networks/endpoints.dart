@@ -72,4 +72,9 @@ class Endpoints {
     }
   }
   static String toggleLikeUnlikeURL(int postId) => '/v1/community/post/$postId/like';
+  static String getMaterialsURL() => '/v1/closet/materials';
+  static String postAddClosetURL() => '/v1/closet/store';
+  static String getSingleClosetURl(int closetId) => '/v1/closet/show/$closetId';
+  static String postUpdateClosetURL(int closetId) => '/v1/closet/update/$closetId';
+  static String deleteClosetURL(int closetId) => '/v1/closet/delete/$closetId';
 }

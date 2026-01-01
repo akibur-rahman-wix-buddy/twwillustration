@@ -688,7 +688,7 @@ class _AddClosetScreenState extends State<AddClosetScreen> {
                             .copyWith(color: Colors.black, fontSize: 14.sp),
                         color: const Color(0xFFE1FBB9),
                         onCallBack: () {
-                          NavigationService.navigateToWithArgs(Routes.closetDetailsScreen, {
+                          NavigationService.navigateToWithArgs(Routes.closetDetailsAddScreen, {
                             'imageBytes' : selectedImage
                           });
                         },

@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductSliderCard extends StatefulWidget {
   const ProductSliderCard({
@@ -51,8 +50,8 @@ class _ProductCardState extends State<ProductSliderCard> {
       onTap: widget.onTap,
       borderRadius: BorderRadius.circular(widget.borderRadius + 2),
       child: Container(
-        width: widget.width ?? 280.w,
-        height: widget.height ?? 300.h,
+        width: widget.width,
+        height: widget.height,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(widget.borderRadius + 10),

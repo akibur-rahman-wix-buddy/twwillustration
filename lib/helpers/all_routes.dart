@@ -8,9 +8,10 @@ import 'package:twwillustration/features/ai_screen/presentation/ai_screen.dart';
 import 'package:twwillustration/features/ai_screen/presentation/outfit_suggestion_screen.dart';
 import 'package:twwillustration/features/ai_suggestion/presentation/subscription_screen.dart';
 import 'package:twwillustration/features/auth/presentation/otp_screen.dart';
-import 'package:twwillustration/features/closet_details/presentation/add_closet_screen.dart';
-import 'package:twwillustration/features/closet_details/presentation/closet_details_screen.dart';
+import 'package:twwillustration/features/closet/presentation/add_closet_screen.dart';
 import 'package:twwillustration/features/block_user/presentation/block_user_screen.dart';
+import 'package:twwillustration/features/closet/presentation/closet_details_add_screen.dart';
+import 'package:twwillustration/features/closet/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/community/widget/create_post_screen.dart';
 import 'package:twwillustration/features/fashion_board/add_fashion_board.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
@@ -54,6 +55,7 @@ final class Routes {
   static const String followersScreen = '/followersScreen';
   static const String followingScreen = '/followingScreen';
   static const String closetDetailsScreen = '/closetDetailsScreen';
+  static const String closetDetailsAddScreen = '/closetDetailsAddScreen';
   static const String blockUserScreen = '/blockUserScreen';
   static const String faqScreen = '/faqScreen';
 
@@ -178,11 +180,17 @@ final class RouteGenerator {
             : CupertinoPageRoute(builder: (context) => FollowingScreen(userId : args['userId']));
 
       case Routes.closetDetailsScreen:
+      final  args = settings.arguments as Map;
+       return Platform.isAndroid
+        ?  _FadedTransitionRoute(widget: ClosetDetailsScreen(closetId: args['closetId']), settings: settings)
+        : CupertinoPageRoute(builder: (context) => ClosetDetailsScreen(closetId: args['closetId']));
+
+      case Routes.closetDetailsAddScreen:
       final args = settings.arguments as Map;
         return Platform.isAndroid
             ? _FadedTransitionRoute(
-                widget: ClosetDetailsScreen(imageBytes: args['imageBytes'],), settings: settings)
-            : CupertinoPageRoute(builder: (context) => ClosetDetailsScreen(imageBytes: args['imageBytes']));
+                widget: ClosetDetailsAddScreen(imageBytes: args['imageBytes'],), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ClosetDetailsAddScreen(imageBytes: args['imageBytes']));
 
       case Routes.waterDropLogScreen:
         return Platform.isAndroid

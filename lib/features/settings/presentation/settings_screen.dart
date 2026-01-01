@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
-import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
 import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
