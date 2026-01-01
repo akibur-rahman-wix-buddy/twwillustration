@@ -8,6 +8,12 @@ import 'package:twwillustration/features/auth/data/verify_otp/verify_otp_rx.dart
 import 'package:twwillustration/features/block_user/data/get_block_user/get_block_user_rx.dart';
 import 'package:twwillustration/features/block_user/data/toggle_block_unblock/toggle_block_unblock_rx.dart';
 import 'package:twwillustration/features/block_user/model/get_block_user_data_model.dart';
+import 'package:twwillustration/features/closet/data/add_closet/post_add_closet_rx.dart';
+import 'package:twwillustration/features/closet/data/delete_closet/delete_closet_rx.dart';
+import 'package:twwillustration/features/closet/data/get_materials/get_materials_rx.dart';
+import 'package:twwillustration/features/closet/data/get_single_closet/get_single_closet_rx.dart';
+import 'package:twwillustration/features/closet/model/get_materilas_data_model.dart';
+import 'package:twwillustration/features/closet/model/get_single_closet_data_model.dart';
 import 'package:twwillustration/features/community/data/get_list_of_post/get_list_of_post_rx.dart';
 import 'package:twwillustration/features/community/data/toggle_like_unlike/toggle_like_unlike_rx.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
@@ -90,5 +96,21 @@ GetListOfPostRx getListOfPostRxObj = GetListOfPostRx(
     dataFetcher: BehaviorSubject<GetListOfPostDataModel>());
 
 ToggleLikeUnlikeRx toggleLikeUnlikeRxObj = ToggleLikeUnlikeRx(
+    empty: <String, dynamic>{},
+    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+GetMaterialsRx getMaterialsRxObj = GetMaterialsRx(
+    empty: GetMaterialsDataModel(),
+    dataFetcher: BehaviorSubject<GetMaterialsDataModel>());
+
+PostAddClosetRx postAddClosetRxObj = PostAddClosetRx(
+    empty: <String, dynamic>{},
+    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+GetSingleClosetRx getSingleClosetRxObj = GetSingleClosetRx(
+    empty: GetSingleClosetDataModel(),
+    dataFetcher: BehaviorSubject<GetSingleClosetDataModel>());
+
+DeleteClosetRx deleteClosetRxObj = DeleteClosetRx(
     empty: <String, dynamic>{},
     dataFetcher: BehaviorSubject<Map<String, dynamic>>());

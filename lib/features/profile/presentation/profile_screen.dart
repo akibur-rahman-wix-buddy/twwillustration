@@ -599,23 +599,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          height: 168.h,
-                          width: 164.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24.r),
-                            border: Border.all(width: 1, color: Colors.grey)
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(AppIcons.addClosetImage, height: 48.h, width: 48.h,),
-                              UIHelper.verticalSpace(16.h),
-                              Text(
-                                'Add Closet',
-                                style: TextFontStyle.textStyle16w400c5C5C5C.copyWith(color: Colors.black),
-                              )
-                            ],
+                        GestureDetector(
+                          onTap: () => NavigationService.navigateTo(Routes.addClosetScreen),
+                          child: Container(
+                            height: 168.h,
+                            width: 164.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24.r),
+                              border: Border.all(width: 1, color: Colors.grey)
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(AppIcons.addClosetImage, height: 48.h, width: 48.h,),
+                                UIHelper.verticalSpace(16.h),
+                                Text(
+                                  'Add Closet',
+                                  style: TextFontStyle.textStyle16w400c5C5C5C.copyWith(color: Colors.black),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         Container(
@@ -778,48 +781,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildClothesCard(ClothesItem item) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: .5),
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          NavigationService.navigateTo(
-                            Routes.closetDetailsScreen,
-                          );
-                        },
-                        child: ShimmerImage(
-                            imageUrl: item.image ?? '',
-                            placeholder: item.categories?.first.title ?? '',
-                            height: 80.h,
-                            width: 80.w)),
-                  ],
+    return GestureDetector(
+      onTap: () {
+        NavigationService.navigateToWithArgs(Routes.closetDetailsScreen, {'closetId' : item.id});
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: .5),
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            NavigationService.navigateTo(
+                              Routes.closetDetailsScreen,
+                            );
+                          },
+                          child: ShimmerImage(
+                              imageUrl: item.image ?? '',
+                              placeholder: item.categories?.first.title ?? '',
+                              height: 80.h,
+                              width: 80.w)),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -920,33 +928,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                         )
-        
-            // * Out Fit Clothes Grid
-            // Expanded(
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(
-            //       horizontal: 16.0,
-            //     ),
-            //     child: GridView.builder(
-            //       padding: EdgeInsets.all(0),
-            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //         crossAxisCount: 3,
-            //         crossAxisSpacing: 10,
-            //         mainAxisSpacing: 10,
-            //         childAspectRatio: 0.8,
-            //       ),
-            //       itemCount:
-            //           outfitData[outfitcategories[selectedOutfitCategoryIndex]]
-            //                   ?.length ??
-            //               0,
-            //       itemBuilder: (context, index) {
-            //         final item = outfitData[
-            //             outfitcategories[selectedOutfitCategoryIndex]]![index];
-            //         return _buildOutfitCard(item);
-            //       },
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

@@ -57,7 +57,7 @@ class _FollowingTabScreenState extends State<FollowingTabScreen> {
 
   Future<void> toggleLikeUnlike(int postId) async {
     try {
-      bool success = await toggleLikeUnlikeRxObj.toggleLikeUnlikeRx(postId);
+      await toggleLikeUnlikeRxObj.toggleLikeUnlikeRx(postId);
     } catch (error) {
       print(error);
     }

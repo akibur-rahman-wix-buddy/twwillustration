@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -7,37 +7,49 @@ import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
+import 'package:twwillustration/common_widgets/custom_snakbar.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
+import 'package:twwillustration/features/closet/model/get_materilas_data_model.dart';
+import 'package:twwillustration/features/closet/model/post_add_closet_model.dart';
 import 'package:twwillustration/features/profile/model/get_categories_data_model.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
-import 'package:twwillustration/networks/api_acess.dart'
-    show getCategoriesRxObj;
+import 'package:twwillustration/networks/api_acess.dart';
 
-class ClosetDetailsScreen extends StatefulWidget {
+class ClosetDetailsAddScreen extends StatefulWidget {
   final Uint8List imageBytes;
 
-  const ClosetDetailsScreen({super.key, required this.imageBytes});
+  const ClosetDetailsAddScreen({super.key, required this.imageBytes});
 
   @override
-  State<ClosetDetailsScreen> createState() => _ClosetDetailsScreenState();
+  State<ClosetDetailsAddScreen> createState() => _ClosetDetailsAddScreenState();
 }
 
-class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
+class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
   final _searchController = TextEditingController();
   late TextEditingController _occationContriller;
   late TextEditingController _brandController;
+  late TextEditingController _patternController;
+  late TextEditingController _priceController;
+  late TextEditingController _titleController;
   final _colorController = TextEditingController();
 
   DateTime? purchasedDate;
+  bool isLoading = false;
 
   List<GetCategoriesDataModel> _liatOfCategories = [];
+  List<GetMaterialsDataModel> _materialList = [];
 
   final List<Map<String, dynamic>> _selectedCategories = [];
   final List<String> _colorList = [];
 
   String selectedVisibility = 'published';
   List<String> visibilityOptions = ['published', 'private'];
+
+  String? selectedMaterials;
+
+  String? selectedSeason;
+  List<String> seasonOption = ['Summer', 'Winter', 'Rainy', 'Spring', 'Autumn'];
 
   String selectedSize = "M";
   final List<String> sizes = ["M", "L", "XL", "XXL"];
@@ -71,12 +83,53 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
     }
   }
 
+  Future<void> fetchMaterials() async {
+    try {
+      bool success = await getMaterialsRxObj.getMaterialsRx();
+
+      if (success) {
+        getMaterialsRxObj.getMaterialsData.listen((materials) {
+          setState(() {
+            _materialList = [materials];
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> postAddCloset(PostAddClosetModel closet) async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      bool success = await postAddClosetRxObj.postAddClosetRx(closet);
+      if (success) {
+        showSnackBarMessage('Closet Added Sucessfully');
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     fetchCategories();
+    fetchMaterials();
     _occationContriller = TextEditingController();
     _brandController = TextEditingController();
+    _patternController = TextEditingController();
+    _priceController = TextEditingController();
+    _titleController = TextEditingController();
   }
 
   @override
@@ -101,7 +154,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                         },
                         child: SvgPicture.asset(AppIcons.backIcon)),
                     Text(
-                      'Closet Details',
+                      'Add Closet',
                       style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                         fontSize: 20.sp,
                         color: AppColor.c000000,
@@ -127,14 +180,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                         fit: BoxFit.contain,
                         height: 180.h,
                         width: 180.w,
-                      )
-                      // Image.asset(
-                      //   AppImages.shirtImages,
-                      //   fit: BoxFit.contain,
-                      //   height: 180.h,
-                      //   width: 180.w,
-                      // ),
-                      ),
+                      )),
                 ),
                 UIHelper.verticalSpaceMedium,
                 Container(
@@ -148,7 +194,133 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                     child: Column(
                       children: [
                         // * #######################
+                        // * ####### title
+                        UIHelper.verticalSpace(16.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Title',
+                              style: TextFontStyle.textStyle12w400NunitoSans
+                                  .copyWith(
+                                fontSize: 16.sp,
+                                color: AppColor.c000000,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            UIHelper.horizontalSpaceSmall,
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: 300.h,
+                                        width: double.infinity,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w, vertical: 30.h),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20.r),
+                                                topRight:
+                                                    Radius.circular(20.r)),
+                                            color: Colors.white),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Add Title',
+                                                  style: TextFontStyle
+                                                      .Inter10W600.copyWith(
+                                                    fontSize: 20.sp,
+                                                    color: Color(0xFF2F2F2F),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  icon: Icon(
+                                                      Icons.cancel_outlined,
+                                                      size: 25.sp),
+                                                ),
+                                              ],
+                                            ),
+                                            UIHelper.verticalSpaceMedium,
+                                            CustomTextField(
+                                              controller: _titleController,
+                                              inputFormatters: [
+                                                LengthLimitingTextInputFormatter(
+                                                    30),
+                                                FilteringTextInputFormatter
+                                                    .allow(RegExp(r'[a-z A-Z]'))
+                                              ],
+                                              hintText: 'Casual Shirt',
+                                            ),
+                                            Spacer(),
+                                            CustomButton(
+                                                name: 'Save',
+                                                textStyle:
+                                                    TextFontStyle.Inter10W600
+                                                        .copyWith(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                color: AppColor.cD5E7B0,
+                                                borderRadius: 100,
+                                                onCallBack: () {
+                                                  setState(() {
+                                                    _titleController =
+                                                        _titleController;
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                                context: context)
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: _titleController.text.isEmpty
+                                      ? Color(0xFFF0F0F0)
+                                      : AppColor.cD5E7B0,
+                                  borderRadius: BorderRadius.circular(30.r),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 5.0,
+                                  ),
+                                  child: Text(
+                                    _titleController.text.isEmpty
+                                        ? 'Add'
+                                        : _titleController.text,
+                                    style: TextFontStyle
+                                        .textStyle12w400NunitoSans
+                                        .copyWith(
+                                      fontSize: 16.sp,
+                                      color: AppColor.c000000,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // * #######################
                         // * ####### Category
+
+                        UIHelper.verticalSpace(16.h),
+                        Divider(
+                          color: AppColor.cE8E8E8,
+                        ),
                         UIHelper.verticalSpace(16.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -298,7 +470,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                       child: Text(
                                                           'No category found'))
                                                   : SizedBox(
-                                                      height: 200.h,
+                                                      height: 250.h,
                                                       child: ListView.builder(
                                                         itemCount:
                                                             _liatOfCategories
@@ -326,20 +498,17 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                                         category
                                                                             .id,
                                                                   );
-
                                                                   if (!alreadyExists &&
                                                                       _selectedCategories
                                                                               .length <
                                                                           5) {
-                                                                    setState(
-                                                                        () {
-                                                                      _selectedCategories
-                                                                          .add({
-                                                                        "id": category
-                                                                            .id,
-                                                                        "title":
-                                                                            category.title,
-                                                                      });
+                                                                    _selectedCategories
+                                                                        .add({
+                                                                      "id": category
+                                                                          .id,
+                                                                      "title":
+                                                                          category
+                                                                              .title,
                                                                     });
                                                                   }
                                                                 }
@@ -373,6 +542,21 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                         },
                                                       ),
                                                     ),
+                                              Spacer(),
+                                              CustomButton(
+                                                  name: "Save",
+                                                  color: AppColor.cD5E7B0,
+                                                  borderRadius: 100.r,
+                                                  textStyle: TextFontStyle
+                                                          .Inter10W600
+                                                      .copyWith(
+                                                          color: Colors.black,
+                                                          fontSize: 16.sp),
+                                                  onCallBack: () {
+                                                    setState(() {});
+                                                    Navigator.pop(context);
+                                                  },
+                                                  context: context)
                                             ],
                                           ),
                                         );
@@ -384,65 +568,25 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                               child: Container(
                                 width:
                                     _selectedCategories.isEmpty ? 200.h : 250.h,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 8.h,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: _selectedCategories.isEmpty
+                                  color: _selectedCategories.isNotEmpty
                                       ? AppColor.cD5E7B0
-                                      : Colors.transparent,
+                                      : Color(0xFFF0F0F0),
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 5.0,
-                                  ),
-                                  child: _selectedCategories.isNotEmpty
-                                      ? Wrap(
-                                          spacing: 8,
-                                          runSpacing: 8,
-                                          children: [
-                                            ..._selectedCategories
-                                                .take(3)
-                                                .map((item) {
-                                              return Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 12,
-                                                    vertical: 8),
-                                                decoration: BoxDecoration(
-                                                  color: AppColor.cD5E7B0,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.r),
-                                                ),
-                                                child: Text(item['title']),
-                                              );
-                                            }),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 16, vertical: 8),
-                                              decoration: BoxDecoration(
-                                                color: Color(0xFFF0F0F0),
-                                                borderRadius:
-                                                    BorderRadius.circular(30.r),
-                                              ),
-                                              child: Text(
-                                                'Add',
-                                                style: TextFontStyle
-                                                    .textStyle12w400NunitoSans
-                                                    .copyWith(
-                                                  fontSize: 16.sp,
-                                                  color: AppColor.c000000,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Select Categories',
+                                child: _selectedCategories.isNotEmpty
+                                    ? Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 175.w,
+                                            child: Text(
+                                              _selectedCategories
+                                                  .map((item) => item['title'])
+                                                  .join(", "),
                                               style: TextFontStyle
                                                   .textStyle12w400NunitoSans
                                                   .copyWith(
@@ -450,18 +594,36 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                 color: AppColor.c000000,
                                                 fontWeight: FontWeight.w400,
                                               ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            SvgPicture.asset(AppIcons.arrowNext)
-                                          ],
-                                        ),
-                                ),
+                                          ),
+                                          SvgPicture.asset(AppIcons.arrowNext)
+                                        ],
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Select Categories',
+                                            style: TextFontStyle
+                                                .textStyle12w400NunitoSans
+                                                .copyWith(
+                                              fontSize: 16.sp,
+                                              color: AppColor.c000000,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          SvgPicture.asset(AppIcons.arrowNext),
+                                        ],
+                                      ),
                               ),
                             ),
                           ],
                         ),
 
                         // * #######################
-                        // * ####### Category
+                        // * ####### Occasion
                         UIHelper.verticalSpace(16.h),
                         Divider(
                           color: AppColor.cE8E8E8,
@@ -484,8 +646,10 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                               onTap: () {
                                 showModalBottomSheet(
                                     context: context,
+                                    isScrollControlled: true,
                                     builder: (BuildContext context) {
                                       return Container(
+                                        height: 300.h,
                                         width: double.infinity,
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 20.w, vertical: 30.h),
@@ -522,7 +686,8 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                             UIHelper.verticalSpaceMedium,
                                             CustomTextField(
                                               controller: _occationContriller,
-                                              hintText: 'Work/ Birthday/ party',
+                                              hintText:
+                                                  'Weading/ Birthday/ party',
                                             ),
                                             Spacer(),
                                             CustomButton(
@@ -601,9 +766,11 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                               onTap: () {
                                 showModalBottomSheet(
                                     context: context,
+                                    isScrollControlled: true,
                                     builder: (BuildContext context) {
                                       return Container(
                                         width: double.infinity,
+                                        height: 300.h,
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 20.w, vertical: 30.h),
                                         decoration: BoxDecoration(
@@ -724,7 +891,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                       builder: (context, setModalState) {
                                         return Container(
                                           width: double.infinity,
-                                          height: 625.h,
+                                          height: 525.h,
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20.w, vertical: 30.h),
                                           decoration: BoxDecoration(
@@ -746,6 +913,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                     onTap: () {
                                                       setModalState(() =>
                                                           _colorList.clear());
+                                                      _colorController.clear();
                                                     },
                                                     child: Text(
                                                       'Reset',
@@ -779,12 +947,85 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                               UIHelper.verticalSpace(16.h),
 
                                               // Search Field
-                                              CustomTextField(
-                                                controller: _colorController,
-                                                fieldColor: Colors.transparent,
-                                                borderColor: Colors.grey,
-                                                height: 50.h,
-                                                hintText: 'Red/ Green/ Blue',
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: CustomTextField(
+                                                      controller:
+                                                          _colorController,
+                                                      fieldColor:
+                                                          Colors.transparent,
+                                                      borderColor: Colors.grey,
+                                                      height: 50.h,
+                                                      readOnly:
+                                                          _colorList.length == 5
+                                                              ? true
+                                                              : false,
+                                                      hintText:
+                                                          'Red/ Green/ Blue',
+                                                    ),
+                                                  ),
+                                                  UIHelper.horizontalSpaceSmall,
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      setModalState(() {
+                                                        if (_colorController
+                                                                .text
+                                                                .isNotEmpty &&
+                                                            _colorController
+                                                                    .text
+                                                                    .length >
+                                                                2) {
+                                                          final alreadyExists =
+                                                              _colorList.any((item) =>
+                                                                  item ==
+                                                                  _colorController
+                                                                      .text
+                                                                      .trim());
+
+                                                          if (!alreadyExists &&
+                                                              _colorList
+                                                                      .length <
+                                                                  5) {
+                                                            setState(() {
+                                                              _colorList.add(
+                                                                  _colorController
+                                                                      .text
+                                                                      .trim());
+                                                            });
+                                                          }
+                                                          setState(() {
+                                                            _colorController
+                                                                .clear();
+                                                          });
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 12.w,
+                                                              vertical: 8.h),
+                                                      decoration: BoxDecoration(
+                                                          color:
+                                                              AppColor.cD5E7B0,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30.r)),
+                                                      child: Text(
+                                                        'Add',
+                                                        style: TextFontStyle
+                                                                .Inter10W600
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize:
+                                                                    16.sp),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
 
                                               UIHelper.verticalSpaceSmall,
@@ -830,7 +1071,21 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                         );
                                                       }).toList(),
                                                     ),
-                                              UIHelper.verticalSpaceSmall,
+                                              Spacer(),
+                                              CustomButton(
+                                                  name: 'Save',
+                                                  onCallBack: () {
+                                                    setState(() {});
+                                                    Navigator.pop(context);
+                                                  },
+                                                  color: AppColor.cD5E7B0,
+                                                  borderRadius: 100,
+                                                  textStyle: TextFontStyle
+                                                          .Inter10W600
+                                                      .copyWith(
+                                                          color: Colors.black,
+                                                          fontSize: 16.sp),
+                                                  context: context)
                                             ],
                                           ),
                                         );
@@ -840,28 +1095,63 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                 );
                               },
                               child: Container(
+                                width: _colorList.isEmpty ? 150.w : 220.w,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12.w,
+                                  vertical: 5.h,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: _colorList.isEmpty
-                                      ? Color(0xFFF0F0F0)
-                                      : AppColor.cD5E7B0,
+                                  color: _colorList.isNotEmpty
+                                      ? AppColor.cD5E7B0
+                                      : Color(0xFFF0F0F0),
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 5.0,
-                                  ),
-                                  child: Text(
-                                    'Add Colors',
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      fontSize: 16.sp,
-                                      color: AppColor.c000000,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
+                                child: _colorList.isNotEmpty
+                                    ? Container(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 3),
+                                        decoration: BoxDecoration(
+                                          color: AppColor.cD5E7B0,
+                                          borderRadius:
+                                              BorderRadius.circular(20.r),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 168.w,
+                                              child: Text(
+                                                _colorList.take(5).join(", "),
+                                                style: TextFontStyle
+                                                    .textStyle12w400NunitoSans
+                                                    .copyWith(
+                                                  fontSize: 16.sp,
+                                                  color: AppColor.c000000,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            SvgPicture.asset(AppIcons.arrowNext)
+                                          ],
+                                        ),
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'Add Colors',
+                                            style: TextFontStyle
+                                                .textStyle12w400NunitoSans
+                                                .copyWith(
+                                              fontSize: 16.sp,
+                                              color: AppColor.c000000,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          SvgPicture.asset(AppIcons.arrowNext)
+                                        ],
+                                      ),
                               ),
                             ),
                           ],
@@ -874,6 +1164,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                           color: AppColor.cE8E8E8,
                         ),
                         UIHelper.verticalSpace(16.h),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -887,32 +1178,64 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                               ),
                             ),
                             UIHelper.horizontalSpaceSmall,
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColor.cD5E7B0,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 5.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Cotton',
-                                      style: TextFontStyle
-                                          .textStyle12w400NunitoSans
-                                          .copyWith(
-                                        fontSize: 16.sp,
-                                        color: AppColor.c000000,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    SvgPicture.asset(AppIcons.arrowNext)
-                                  ],
-                                ),
-                              ),
+                            GestureDetector(
+                              child: Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  decoration: BoxDecoration(
+                                    color: selectedMaterials == null
+                                        ? Color(0xFFF0F0F0)
+                                        : AppColor.cD5E7B0,
+                                    borderRadius: BorderRadius.circular(30.r),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                          isExpanded: false,
+                                          value: selectedMaterials,
+                                          hint: Text(
+                                            'Select Material',
+                                            style: TextFontStyle.inter10W400
+                                                .copyWith(
+                                                    color: Colors.black,
+                                                    fontSize: 16.sp),
+                                          ),
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          style: TextFontStyle
+                                              .textStyle12w400NunitoSans
+                                              .copyWith(
+                                            fontSize: 16.sp,
+                                            color: AppColor.c000000,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          dropdownColor: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                          items: (_materialList.isNotEmpty &&
+                                                  _materialList
+                                                      .first.data!.isNotEmpty)
+                                              ? _materialList.first.data!.map<
+                                                      DropdownMenuItem<String>>(
+                                                  (item) {
+                                                  return DropdownMenuItem<
+                                                          String>(
+                                                      value: item.id.toString(),
+                                                      child: Text(
+                                                        item.name ?? '',
+                                                        style: TextFontStyle
+                                                            .inter10W400
+                                                            .copyWith(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize:
+                                                                    16.sp),
+                                                      ));
+                                                }).toList()
+                                              : [],
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedMaterials = value;
+                                            });
+                                          }))),
                             ),
                           ],
                         ),
@@ -937,30 +1260,97 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                               ),
                             ),
                             UIHelper.horizontalSpaceSmall,
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColor.cD5E7B0,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 5.0,
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        width: double.infinity,
+                                        height: 300.h,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w, vertical: 30.h),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20.r),
+                                                topRight:
+                                                    Radius.circular(20.r)),
+                                            color: Colors.white),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Add Pattern',
+                                                  style: TextFontStyle
+                                                      .Inter10W600.copyWith(
+                                                    fontSize: 20.sp,
+                                                    color: Color(0xFF2F2F2F),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  icon: Icon(
+                                                      Icons.cancel_outlined,
+                                                      size: 25.sp),
+                                                ),
+                                              ],
+                                            ),
+                                            UIHelper.verticalSpaceMedium,
+                                            CustomTextField(
+                                              controller: _patternController,
+                                              hintText:
+                                                  'Striped/ Checked/ Plain',
+                                            ),
+                                            Spacer(),
+                                            CustomButton(
+                                                name: 'Save',
+                                                textStyle:
+                                                    TextFontStyle.Inter10W600
+                                                        .copyWith(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                color: AppColor.cD5E7B0,
+                                                borderRadius: 100,
+                                                onCallBack: () {
+                                                  setState(() {
+                                                    _patternController =
+                                                        _patternController;
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                                context: context)
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 5.h,
                                 ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Striped',
-                                      style: TextFontStyle
-                                          .textStyle12w400NunitoSans
-                                          .copyWith(
-                                        fontSize: 16.sp,
-                                        color: AppColor.c000000,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    SvgPicture.asset(AppIcons.arrowNext)
-                                  ],
+                                decoration: BoxDecoration(
+                                  color: _patternController.text.isEmpty
+                                      ? Color(0xFFF0F0F0)
+                                      : AppColor.cD5E7B0,
+                                  borderRadius: BorderRadius.circular(30.r),
+                                ),
+                                child: Text(
+                                  _patternController.text.isEmpty
+                                      ? 'Add'
+                                      : _patternController.text,
+                                  style: TextFontStyle.textStyle12w400NunitoSans
+                                      .copyWith(
+                                    fontSize: 16.sp,
+                                    color: AppColor.c000000,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
@@ -1024,79 +1414,6 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                           ],
                         ),
 
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       'Visibility',
-                        //       style: TextFontStyle.textStyle12w400NunitoSans
-                        //           .copyWith(
-                        //         fontSize: 16.sp,
-                        //         color: AppColor.c000000,
-                        //         fontWeight: FontWeight.w800,
-                        //       ),
-                        //     ),
-                        //     UIHelper.horizontalSpaceSmall,
-                        //     GestureDetector(
-                        //       onTap: () {
-                        //         DropdownButtonHideUnderline(
-                        //           child: DropdownButton<String>(
-                        //             value: selectedVisibility,
-                        //             icon: Icon(Icons.arrow_drop_down),
-                        //             style: TextFontStyle
-                        //                 .textStyle12w400NunitoSans
-                        //                 .copyWith(
-                        //               fontSize: 16.sp,
-                        //               color: AppColor.c000000,
-                        //               fontWeight: FontWeight.w400,
-                        //             ),
-                        //             dropdownColor: Colors.white,
-                        //             borderRadius: BorderRadius.circular(12.r),
-                        //             items: visibilityOptions.map((option) {
-                        //               return DropdownMenuItem<String>(
-                        //                 value: option,
-                        //                 child: Text(option),
-                        //               );
-                        //             }).toList(),
-                        //             onChanged: (newValue) {
-                        //               setState(() {
-                        //                 selectedVisibility = newValue!;
-                        //               });
-                        //             },
-                        //           ),
-                        //         );
-                        //       },
-                        //       child: Container(
-                        //         decoration: BoxDecoration(
-                        //           color: AppColor.cD5E7B0,
-                        //           borderRadius: BorderRadius.circular(10.r),
-                        //         ),
-                        //         child: Padding(
-                        //           padding: const EdgeInsets.symmetric(
-                        //             horizontal: 16,
-                        //             vertical: 5.0,
-                        //           ),
-                        //           child: Row(
-                        //             children: [
-                        //               Text(
-                        //                 'Only me',
-                        //                 style: TextFontStyle
-                        //                     .textStyle12w400NunitoSans
-                        //                     .copyWith(
-                        //                   fontSize: 16.sp,
-                        //                   color: AppColor.c000000,
-                        //                   fontWeight: FontWeight.w400,
-                        //                 ),
-                        //               ),
-                        //               SvgPicture.asset(AppIcons.arrowNext)
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-
                         // * #######################
                         // * ####### Purchase Date
                         UIHelper.verticalSpace(16.h),
@@ -1119,7 +1436,9 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                             UIHelper.horizontalSpaceSmall,
                             Container(
                               decoration: BoxDecoration(
-                                color: AppColor.cD5E7B0,
+                                color: purchasedDate == null
+                                    ? Color(0xFFF0F0F0)
+                                    : AppColor.cD5E7B0,
                                 borderRadius: BorderRadius.circular(30.r),
                               ),
                               child: Padding(
@@ -1142,7 +1461,10 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                     }
                                   },
                                   child: Text(
-                                    purchasedDate == null ? 'Select date' : DateFormat('dd MMM yyyy').format(purchasedDate!),
+                                    purchasedDate == null
+                                        ? 'Select date'
+                                        : DateFormat('dd MMM yyyy')
+                                            .format(purchasedDate!),
                                     style: TextFontStyle
                                         .textStyle12w400NunitoSans
                                         .copyWith(
@@ -1217,48 +1539,6 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                             ),
                           ],
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       'Size',
-                        //       style: TextFontStyle.textStyle12w400NunitoSans
-                        //           .copyWith(
-                        //         fontSize: 16.sp,
-                        //         color: AppColor.c000000,
-                        //         fontWeight: FontWeight.w800,
-                        //       ),
-                        //     ),
-                        //     UIHelper.horizontalSpaceSmall,
-                        //     Container(
-                        //       decoration: BoxDecoration(
-                        //         color: AppColor.cD5E7B0,
-                        //         borderRadius: BorderRadius.circular(10.r),
-                        //       ),
-                        //       child: Padding(
-                        //         padding: const EdgeInsets.symmetric(
-                        //           horizontal: 16,
-                        //           vertical: 5.0,
-                        //         ),
-                        //         child: Row(
-                        //           children: [
-                        //             Text(
-                        //               'L',
-                        //               style: TextFontStyle
-                        //                   .textStyle12w400NunitoSans
-                        //                   .copyWith(
-                        //                 fontSize: 16.sp,
-                        //                 color: AppColor.c000000,
-                        //                 fontWeight: FontWeight.w400,
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-
                         // * #######################
                         // * ####### Price
                         UIHelper.verticalSpace(16.h),
@@ -1279,29 +1559,102 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                               ),
                             ),
                             UIHelper.horizontalSpaceSmall,
-                            Container(
-                              decoration: BoxDecoration(
-                                color: AppColor.cD5E7B0,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 5.0,
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        width: double.infinity,
+                                        height: 300.h,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w, vertical: 30.h),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20.r),
+                                                topRight:
+                                                    Radius.circular(20.r)),
+                                            color: Colors.white),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  'Add Price',
+                                                  style: TextFontStyle
+                                                      .Inter10W600.copyWith(
+                                                    fontSize: 20.sp,
+                                                    color: Color(0xFF2F2F2F),
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  icon: Icon(
+                                                      Icons.cancel_outlined,
+                                                      size: 25.sp),
+                                                ),
+                                              ],
+                                            ),
+                                            UIHelper.verticalSpaceMedium,
+                                            CustomTextField(
+                                                controller: _priceController,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .allow(RegExp(r'[0-9.]')),
+                                                  LengthLimitingTextInputFormatter(
+                                                      15)
+                                                ],
+                                                hintText: '120.58',
+                                                leftIcon: AppIcons.dollar),
+                                            Spacer(),
+                                            CustomButton(
+                                                name: 'Save',
+                                                textStyle:
+                                                    TextFontStyle.Inter10W600
+                                                        .copyWith(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                color: AppColor.cD5E7B0,
+                                                borderRadius: 100,
+                                                onCallBack: () {
+                                                  setState(() {
+                                                    _priceController =
+                                                        _priceController;
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                                context: context)
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 5.h,
                                 ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      '\$120',
-                                      style: TextFontStyle
-                                          .textStyle12w400NunitoSans
-                                          .copyWith(
-                                        fontSize: 16.sp,
-                                        color: AppColor.c000000,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
+                                decoration: BoxDecoration(
+                                  color: _priceController.text.isEmpty
+                                      ? Color(0xFFF0F0F0)
+                                      : AppColor.cD5E7B0,
+                                  borderRadius: BorderRadius.circular(30.r),
+                                ),
+                                child: Text(
+                                  _priceController.text.isEmpty
+                                      ? 'Add'
+                                      : '\$${_priceController.text}',
+                                  style: TextFontStyle.textStyle12w400NunitoSans
+                                      .copyWith(
+                                    fontSize: 16.sp,
+                                    color: AppColor.c000000,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
@@ -1329,31 +1682,46 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                             ),
                             UIHelper.horizontalSpaceSmall,
                             Container(
-                              decoration: BoxDecoration(
-                                color: AppColor.cD5E7B0,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 5.0,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
                                 ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Winter',
-                                      style: TextFontStyle
-                                          .textStyle12w400NunitoSans
-                                          .copyWith(
-                                        fontSize: 16.sp,
-                                        color: AppColor.c000000,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
+                                decoration: BoxDecoration(
+                                  color: selectedSeason == null
+                                      ? Color(0xFFF0F0F0)
+                                      : AppColor.cD5E7B0,
+                                  borderRadius: BorderRadius.circular(30.r),
                                 ),
-                              ),
-                            ),
+                                child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<String>(
+                                        value: selectedSeason,
+                                        hint: Text(
+                                          'Select Season',
+                                          style: TextFontStyle.inter10W400
+                                              .copyWith(
+                                                  color: Colors.black,
+                                                  fontSize: 16.sp),
+                                        ),
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        style: TextFontStyle
+                                            .textStyle12w400NunitoSans
+                                            .copyWith(
+                                          fontSize: 16.sp,
+                                          color: AppColor.c000000,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        dropdownColor: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12.r),
+                                        items: seasonOption.map((season) {
+                                          return DropdownMenuItem(
+                                              value: season,
+                                              child: Text(season));
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            selectedSeason = newValue;
+                                          });
+                                        }))),
                           ],
                         ),
                         UIHelper.verticalSpace(16.h),
@@ -1361,6 +1729,38 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                     ),
                   ),
                 ),
+                UIHelper.verticalSpaceMedium,
+                CustomButton(
+                    name: 'Add Closet',
+                    onCallBack: () async {
+                      (_titleController.text.isEmpty ||
+                              _selectedCategories.isEmpty ||
+                              _colorList.isEmpty ||
+                              selectedMaterials == null ||
+                              _priceController.text.isEmpty)
+                          ? showSnackBarMessage(
+                              'Title, Categoruy, Color, Material & Pattern is Required')
+                          : postAddCloset(PostAddClosetModel(
+                              title: _titleController.text.trim(),
+                              categories: _selectedCategories,
+                              occation: _occationContriller.text.trim(),
+                              brand: _brandController.text.trim(),
+                              colors: _colorList,
+                              materialId:
+                                  int.tryParse(selectedMaterials ?? "") ?? 0,
+                              pattern: _patternController.text.trim(),
+                              visibility: selectedVisibility,
+                              purchasedDate: purchasedDate,
+                              size: selectedSize,
+                              price: _priceController.text.trim(),
+                              season: selectedSeason,
+                              image: widget.imageBytes));
+                    },
+                    color: AppColor.cD5E7B0,
+                    textStyle: TextFontStyle.Inter10W600.copyWith(
+                        color: Colors.black, fontSize: 16.sp),
+                    borderRadius: 100.r,
+                    context: context),
                 UIHelper.verticalSpaceMedium,
               ],
             ),
