@@ -15,9 +15,12 @@ import 'package:twwillustration/features/closet/data/get_single_closet/get_singl
 import 'package:twwillustration/features/closet/data/update_closet/update_closet_rx.dart';
 import 'package:twwillustration/features/closet/model/get_materilas_data_model.dart';
 import 'package:twwillustration/features/closet/model/get_single_closet_data_model.dart';
+import 'package:twwillustration/features/community/data/add_post/post_add_post_rx.dart';
 import 'package:twwillustration/features/community/data/get_list_of_post/get_list_of_post_rx.dart';
+import 'package:twwillustration/features/community/data/get_post_details/get_post_details_rx.dart';
 import 'package:twwillustration/features/community/data/toggle_like_unlike/toggle_like_unlike_rx.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
+import 'package:twwillustration/features/community/model/get_post_details_data_model.dart';
 import 'package:twwillustration/features/profile/data/edit_profile/edit_profile_rx.dart';
 import 'package:twwillustration/features/profile/data/outfits/get_single_outfit/get_single_outfit_rx.dart';
 import 'package:twwillustration/features/profile/data/post_follower/post_follower_rx.dart';
@@ -37,85 +40,70 @@ PostSigninRX postSigninRX = PostSigninRX(
   dataFetcher: BehaviorSubject<Map<String, dynamic>>(),
 );
 
-PostSignupRX postSignupRXObj = PostSignupRX(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+PostSignupRX postSignupRXObj =
+    PostSignupRX(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-PostVerifyOtpRx postVerifyOtpRxObj = PostVerifyOtpRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+PostVerifyOtpRx postVerifyOtpRxObj =
+    PostVerifyOtpRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-PostLogoutRx postLogoutRxObj = PostLogoutRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+PostLogoutRx postLogoutRxObj =
+    PostLogoutRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-GetProfileRx getProfileRxObj = GetProfileRx(
-    empty: GetProfileDataModel(),
-    dataFetcher: BehaviorSubject<GetProfileDataModel>());
+GetProfileRx getProfileRxObj =
+    GetProfileRx(empty: GetProfileDataModel(), dataFetcher: BehaviorSubject<GetProfileDataModel>());
 
-PostEditProfileRx postEditProfileRxObj = PostEditProfileRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+PostEditProfileRx postEditProfileRxObj =
+    PostEditProfileRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-PostFollowerRx postFollowerRxObj = PostFollowerRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+PostFollowerRx postFollowerRxObj =
+    PostFollowerRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-PostFollowingRx postFollowingRxObj = PostFollowingRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+PostFollowingRx postFollowingRxObj =
+    PostFollowingRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-ToggleFollowUnfollowRx toggleFollowUnfollowRxObj = ToggleFollowUnfollowRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+ToggleFollowUnfollowRx toggleFollowUnfollowRxObj =
+    ToggleFollowUnfollowRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-GetCategoriesRx getCategoriesRxObj = GetCategoriesRx(
-    empty: GetCategoriesDataModel(),
-    dataFetcher: BehaviorSubject<GetCategoriesDataModel>());
+GetCategoriesRx getCategoriesRxObj =
+    GetCategoriesRx(empty: GetCategoriesDataModel(), dataFetcher: BehaviorSubject<GetCategoriesDataModel>());
 
 GetSingleCategoryRx getSingleCategoryRxObj = GetSingleCategoryRx(
-    empty: GetSingleCategoryDataModel(),
-    dataFetcher: BehaviorSubject<GetSingleCategoryDataModel>());
+    empty: GetSingleCategoryDataModel(), dataFetcher: BehaviorSubject<GetSingleCategoryDataModel>());
 
-GetSingleOutfitRx getSingleOutfitRxObj = GetSingleOutfitRx(
-    empty: GetSingleOutfitDataModel(),
-    dataFetcher: BehaviorSubject<GetSingleOutfitDataModel>());
+GetSingleOutfitRx getSingleOutfitRxObj =
+    GetSingleOutfitRx(empty: GetSingleOutfitDataModel(), dataFetcher: BehaviorSubject<GetSingleOutfitDataModel>());
 
-GetBlockUserRx getBlockUserRxObj = GetBlockUserRx(
-    empty: GetBlockUserDataModel(),
-    dataFetcher: BehaviorSubject<GetBlockUserDataModel>());
+GetBlockUserRx getBlockUserRxObj =
+    GetBlockUserRx(empty: GetBlockUserDataModel(), dataFetcher: BehaviorSubject<GetBlockUserDataModel>());
 
-ToggleBlockUnblockRx toggleBlockUnblockRxObj = ToggleBlockUnblockRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+ToggleBlockUnblockRx toggleBlockUnblockRxObj =
+    ToggleBlockUnblockRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-GetFaqRx getFaqRxObj = GetFaqRx(
-    empty: GetFAQDataModel(), dataFetcher: BehaviorSubject<GetFAQDataModel>());
+GetFaqRx getFaqRxObj = GetFaqRx(empty: GetFAQDataModel(), dataFetcher: BehaviorSubject<GetFAQDataModel>());
 
-GetListOfPostRx getListOfPostRxObj = GetListOfPostRx(
-    empty: GetListOfPostDataModel(),
-    dataFetcher: BehaviorSubject<GetListOfPostDataModel>());
+GetListOfPostRx getListOfPostRxObj =
+    GetListOfPostRx(empty: GetListOfPostDataModel(), dataFetcher: BehaviorSubject<GetListOfPostDataModel>());
 
-ToggleLikeUnlikeRx toggleLikeUnlikeRxObj = ToggleLikeUnlikeRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+ToggleLikeUnlikeRx toggleLikeUnlikeRxObj =
+    ToggleLikeUnlikeRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-GetMaterialsRx getMaterialsRxObj = GetMaterialsRx(
-    empty: GetMaterialsDataModel(),
-    dataFetcher: BehaviorSubject<GetMaterialsDataModel>());
+GetMaterialsRx getMaterialsRxObj =
+    GetMaterialsRx(empty: GetMaterialsDataModel(), dataFetcher: BehaviorSubject<GetMaterialsDataModel>());
 
-PostAddClosetRx postAddClosetRxObj = PostAddClosetRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+PostAddClosetRx postAddClosetRxObj =
+    PostAddClosetRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-GetSingleClosetRx getSingleClosetRxObj = GetSingleClosetRx(
-    empty: GetSingleClosetDataModel(),
-    dataFetcher: BehaviorSubject<GetSingleClosetDataModel>());
+GetSingleClosetRx getSingleClosetRxObj =
+    GetSingleClosetRx(empty: GetSingleClosetDataModel(), dataFetcher: BehaviorSubject<GetSingleClosetDataModel>());
 
-DeleteClosetRx deleteClosetRxObj = DeleteClosetRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+DeleteClosetRx deleteClosetRxObj =
+    DeleteClosetRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
 
-UpdateClosetRx updateClosetRxObj = UpdateClosetRx(
-    empty: <String, dynamic>{},
-    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+UpdateClosetRx updateClosetRxObj =
+    UpdateClosetRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+PostAddPostRx postAddPostRxObj =
+    PostAddPostRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+GetPostDetailsRx getPostDetailsRxObj =
+    GetPostDetailsRx(empty: GetPostDetailsDataModel(), dataFetcher: BehaviorSubject<GetPostDetailsDataModel>());

@@ -20,7 +20,6 @@ class PostCard extends StatefulWidget {
   final String name;
   final String time;
   final VoidCallback toggleFollow;
-  final String title;
   final String descreption;
   final List? tag;
   final VoidCallback onLove;
@@ -37,7 +36,6 @@ class PostCard extends StatefulWidget {
       required this.name,
       required this.time,
       required this.toggleFollow,
-      required this.title,
       required this.descreption,
       this.tag,
       required this.onLove,
@@ -45,8 +43,8 @@ class PostCard extends StatefulWidget {
       required this.onShare,
       required this.likeCount,
       required this.commentCount,
-      required this.imagePath, 
-      required this.isLike, 
+      required this.imagePath,
+      required this.isLike,
       required this.isFollow});
 
   @override
@@ -83,19 +81,16 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         Text(
                           widget.name,
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             color: AppColor.blackColor,
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         Text(
-                          DateFormat("MMM dd, yyyy h:mm a").format(
-                              DateFormat("MMM dd, yyyy HH:mm:ss")
-                                  .parse(widget.time)),
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          DateFormat("MMM dd, yyyy h:mm a")
+                              .format(DateFormat("MMM dd, yyyy HH:mm:ss").parse(widget.time)),
+                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             color: AppColor.blackColor,
                           ),
                         ),
@@ -106,32 +101,31 @@ class _PostCardState extends State<PostCard> {
                 UIHelper.horizontalSpace(10.w),
                 Row(
                   children: [
-                    widget.isFollow == 'self' ?
-                    SizedBox.shrink() :
-                    GestureDetector(
-                      onTap: widget.toggleFollow,
-                      child: Container(
-                        width: 60.w,
-                        decoration: BoxDecoration(
-                          color: AppColor.cD5E7B0,
-                          borderRadius: BorderRadius.circular(35.r),
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              widget.isFollow == 'yes' ? 'Unfollow' : "Follow",
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
-                                color: AppColor.c000000,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w700,
+                    widget.isFollow == 'self'
+                        ? SizedBox.shrink()
+                        : GestureDetector(
+                            onTap: widget.toggleFollow,
+                            child: Container(
+                              width: 60.w,
+                              decoration: BoxDecoration(
+                                color: AppColor.cD5E7B0,
+                                borderRadius: BorderRadius.circular(35.r),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    widget.isFollow == 'yes' ? 'Unfollow' : "Follow",
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                      color: AppColor.c000000,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                     UIHelper.horizontalSpace(10.w),
                     Image.asset(
                       AppImages.threeDotImages,
@@ -152,36 +146,19 @@ class _PostCardState extends State<PostCard> {
               ),
             ),
             UIHelper.verticalSpace(10.h),
-            ShimmerImage(
-                imageUrl: '',
-                placeholder: AppImages.placeholderImage,
-                height: 191.h,
-                width: double.infinity),
+            ShimmerImage(imageUrl: '', placeholder: AppImages.placeholderImage, height: 191.h, width: double.infinity),
             UIHelper.verticalSpace(15.h),
             Align(
               alignment: Alignment.centerLeft,
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: widget.title,
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      color: AppColor.blackColor,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    ),
-                    TextSpan(
-                      text: widget.tag != null ? widget.tag!.map((t) => " #$t").join("")  : "",
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      color: AppColor.c247E00,
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    )
-                  ]
-                )
+              child: Text(
+                widget.tag != null ? widget.tag!.map((t) => " #$t").join("") : "",
+                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                  color: AppColor.c247E00,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
+
               // Row(
               //   children: [
               //     Text(
@@ -228,8 +205,7 @@ class _PostCardState extends State<PostCard> {
                               UIHelper.horizontalSpace(5.w),
                               Text(
                                 widget.likeCount.toString(),
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   color: AppColor.blackColor,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w400,
@@ -259,8 +235,7 @@ class _PostCardState extends State<PostCard> {
                               UIHelper.horizontalSpace(5.w),
                               Text(
                                 widget.commentCount.toString(),
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   color: AppColor.blackColor,
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w400,
@@ -282,8 +257,7 @@ class _PostCardState extends State<PostCard> {
                       borderRadius: BorderRadius.circular(25.r),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
                       child: Row(
                         children: [
                           SvgPicture.asset(AppIcons.sendsIcon),
@@ -360,15 +334,13 @@ class CommentSheetContent extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const CircleAvatar(
                           radius: 18,
-                          backgroundImage: NetworkImage(
-                              "https://randomuser.me/api/portraits/women/44.jpg"),
+                          backgroundImage: NetworkImage("https://randomuser.me/api/portraits/women/44.jpg"),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -377,8 +349,7 @@ class CommentSheetContent extends StatelessWidget {
                             children: [
                               Text(
                                 "Sarah Johnson",
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13.sp,
                                   color: AppColor.blackColor,
@@ -387,8 +358,7 @@ class CommentSheetContent extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   fontSize: 12.sp,
                                   color: AppColor.blackColor,
                                 ),
@@ -398,9 +368,7 @@ class CommentSheetContent extends StatelessWidget {
                                 children: [
                                   Text(
                                     "2h ago",
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       fontSize: 12.sp,
                                       color: AppColor.c000000,
                                     ),
@@ -408,9 +376,7 @@ class CommentSheetContent extends StatelessWidget {
                                   SizedBox(width: 16),
                                   Text(
                                     "Like",
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       fontSize: 12.sp,
                                       color: AppColor.c000000,
                                     ),
@@ -418,9 +384,7 @@ class CommentSheetContent extends StatelessWidget {
                                   SizedBox(width: 16),
                                   Text(
                                     "Reply",
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       fontSize: 12.sp,
                                       color: AppColor.c000000,
                                     ),
@@ -440,8 +404,7 @@ class CommentSheetContent extends StatelessWidget {
             // Add comment field
             SafeArea(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 child: Row(
                   children: [
                     Expanded(
