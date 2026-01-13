@@ -3,16 +3,17 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
+import 'package:twwillustration/common_widgets/custom_snackbar.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
-import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
+import 'package:twwillustration/features/community/model/post_add_post_data_model.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -38,11 +39,31 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   // Visibility
   final List<String> _visibilityOptions = const [
-    'Public',
-    'Friends',
-    'Private'
+    'published',
+    'private'
   ];
-  String _visibility = 'Public';
+  String _visibility = 'published';
+
+  bool isPosting = false;
+
+  Future<void> postAddPost(PostAddPostDataModel post) async{
+    setState(() {
+      isPosting = true;
+    });
+    try{
+      bool success = await postAddPostRxObj.postAddPostRx(post);
+      if(success){
+        showSnackBarMessage(context, 'Posted Sucessfully');
+        setState(() {
+          isPosting = false;
+        });
+      } else{
+        throw Exception();
+      }
+    } catch(error){
+      print(error);
+    }
+  }
 
   // ===================== Media Picker (main card) =====================
   void _showSourceSheet() {
@@ -151,45 +172,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       child: Image.file(file, width: 72.w, height: 72.w, fit: BoxFit.cover),
     );
   }
-
-//   Widget _buildClosetTile(File file) {
-//   return Stack(
-//     children: [
-//       ClipRRect(
-//         borderRadius: BorderRadius.circular(12.r),
-//         child: Image.file(
-//           file,
-//           width: 72.w,
-//           height: 72.w,
-//           fit: BoxFit.cover,
-//         ),
-//       ),
-//       Positioned(
-//         top: 4,
-//         right: 4,
-//         child: InkWell(
-//           onTap: () {
-//             setState(() => _closetImages.removeWhere((x) => x.path == file.path));
-//           },
-//           child: Container(
-//             height: 20,
-//             width: 20,
-//             decoration: const BoxDecoration(
-//               shape: BoxShape.circle,
-//               color: Colors.white,
-//             ),
-//             child: const Icon(
-//               Icons.cancel_outlined,
-//               size: 16,
-//               color: Colors.black,
-//             ),
-//           ),
-//         ),
-//       ),
-//     ],
-//   );
-// }
-
 
   Widget _buildAddTile() {
     return InkWell(
@@ -368,7 +350,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     height: 40.h, width: 40.w),
                                 UIHelper.verticalSpace(10.h),
                                 Text(
-                                  'Add Photo or Video',
+                                  'Add Photo',
                                   style: TextFontStyle.textStyle12w400NunitoSans
                                       .copyWith(
                                     fontSize: 14.sp,
@@ -420,7 +402,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     color: Colors.grey
                     ),
                   child: Container(
-                    height: 173.h,
+                    height: 175.h,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.r),
@@ -526,31 +508,25 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 _visibilityRow(),
 
                 UIHelper.verticalSpace(24.h),
-
-                // -------- Submit --------
-                // ElevatedButton(
-                //   onPressed: () {
-                //     final closetPaths =
-                //         _closetImages.map((e) => e.path).toList();
-                //     // ignore: avoid_print
-                //     print('CLOSET ARRAY ON SUBMIT: $closetPaths');
-                //     // ignore: avoid_print
-                //     print('TAGS ARRAY ON SUBMIT: $_tags');
-                //     // ignore: avoid_print
-                //     print('VISIBILITY: $_visibility');
-
-                //     ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(content: Text('Post ready to submit')),
-                //     );
-                //   },
-                //   child: const Text('Post'),
-                // ),
                 CustomButton(
-                  name: 'Post outfit',
+                  name: isPosting ? 'Posting...' : 'Post',
                   borderRadius: 46.r,
                   height: 47.h,
                   onCallBack: () {
-                    Get.to(() => ListSuccessfulScreen());
+                    if(_captionController.text.isNotEmpty && _pickedImage != null ){
+                      final post = PostAddPostDataModel(
+                      caption: _captionController.text.trim(), 
+                      image: _pickedImage!, 
+                      tags: _tags, 
+                      visibility: _visibility
+                      );
+
+                      postAddPost(post);
+                    } else if(_pickedImage == null){
+                      showSnackBarMessage(context, 'Image is required');
+                    } else if(_captionController.text.isEmpty){
+                      showSnackBarMessage(context, 'Caption is required');
+                    }
                   },
                   context: context,
                   color: AppColor.cD5E7B0,

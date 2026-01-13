@@ -110,7 +110,6 @@ class _FollowingTabScreenState extends State<FollowingTabScreen> {
                               //             });
                               //           }
                             },
-                            title: post?.caption ?? '',
                             descreption: post?.caption ?? '',
                           isFollow: post?.isFollowed ?? '',
                             tag: post?.tags?.map((t) => t.tag ?? "").toList(),
