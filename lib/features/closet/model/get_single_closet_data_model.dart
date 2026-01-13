@@ -23,7 +23,7 @@ class Data {
   String? pattern;
   List<String>? color;
   String? purchasedDate;
-  double? price;
+  dynamic? price;
   String? size;
   String? season;
   String? visibility;

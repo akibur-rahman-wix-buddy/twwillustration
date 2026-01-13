@@ -12,6 +12,7 @@ import 'package:twwillustration/features/closet/data/add_closet/post_add_closet_
 import 'package:twwillustration/features/closet/data/delete_closet/delete_closet_rx.dart';
 import 'package:twwillustration/features/closet/data/get_materials/get_materials_rx.dart';
 import 'package:twwillustration/features/closet/data/get_single_closet/get_single_closet_rx.dart';
+import 'package:twwillustration/features/closet/data/update_closet/update_closet_rx.dart';
 import 'package:twwillustration/features/closet/model/get_materilas_data_model.dart';
 import 'package:twwillustration/features/closet/model/get_single_closet_data_model.dart';
 import 'package:twwillustration/features/community/data/get_list_of_post/get_list_of_post_rx.dart';
@@ -112,5 +113,9 @@ GetSingleClosetRx getSingleClosetRxObj = GetSingleClosetRx(
     dataFetcher: BehaviorSubject<GetSingleClosetDataModel>());
 
 DeleteClosetRx deleteClosetRxObj = DeleteClosetRx(
+    empty: <String, dynamic>{},
+    dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+UpdateClosetRx updateClosetRxObj = UpdateClosetRx(
     empty: <String, dynamic>{},
     dataFetcher: BehaviorSubject<Map<String, dynamic>>());
