@@ -5,4 +5,5 @@ class AppLotties {
   static const String noFaqFfound = '$lottieRoute/no_faq_found.json';
   static const String noBlockUser = '$lottieRoute/no_block_user.json';
   static const String noPostFound = '$lottieRoute/no_post_found.json';
+  static const String delete = '$lottieRoute/delete.json';
 }

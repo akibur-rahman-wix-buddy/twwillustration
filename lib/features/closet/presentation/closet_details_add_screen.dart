@@ -51,7 +51,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
   String? selectedSeason;
   List<String> seasonOption = ['Summer', 'Winter', 'Rainy', 'Spring', 'Autumn'];
 
-  String selectedSize = "M";
+  String selectedSize = "";
   final List<String> sizes = ["M", "L", "XL", "XXL"];
 
   Color _getCategoryColor(int index) {
@@ -201,8 +201,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Title',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -218,35 +217,26 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                       return Container(
                                         height: 300.h,
                                         width: double.infinity,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.w, vertical: 30.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r),
-                                                topRight:
-                                                    Radius.circular(20.r)),
+                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
                                             color: Colors.white),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Add Title',
-                                                  style: TextFontStyle
-                                                      .Inter10W600.copyWith(
+                                                  style: TextFontStyle.Inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
                                                 ),
                                                 IconButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  icon: Icon(
-                                                      Icons.cancel_outlined,
-                                                      size: 25.sp),
+                                                  onPressed: () => Navigator.pop(context),
+                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                 ),
                                               ],
                                             ),
@@ -254,27 +244,20 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             CustomTextField(
                                               controller: _titleController,
                                               inputFormatters: [
-                                                LengthLimitingTextInputFormatter(
-                                                    30),
-                                                FilteringTextInputFormatter
-                                                    .allow(RegExp(r'[a-z A-Z]'))
+                                                LengthLimitingTextInputFormatter(30),
                                               ],
                                               hintText: 'Casual Shirt',
                                             ),
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle:
-                                                    TextFontStyle.Inter10W600
-                                                        .copyWith(
-                                                            color: Colors.black,
-                                                            fontSize: 16),
+                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                    color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
                                                 onCallBack: () {
                                                   setState(() {
-                                                    _titleController =
-                                                        _titleController;
+                                                    _titleController = _titleController;
                                                     Navigator.pop(context);
                                                   });
                                                 },
@@ -286,9 +269,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: _titleController.text.isEmpty
-                                      ? Color(0xFFF0F0F0)
-                                      : AppColor.cD5E7B0,
+                                  color: _titleController.text.isEmpty ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: Padding(
@@ -297,12 +278,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     vertical: 5.0,
                                   ),
                                   child: Text(
-                                    _titleController.text.isEmpty
-                                        ? 'Add'
-                                        : _titleController.text,
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                    _titleController.text.isEmpty ? 'Add' : _titleController.text,
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       fontSize: 16.sp,
                                       color: AppColor.c000000,
                                       fontWeight: FontWeight.w400,
@@ -327,8 +304,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Category',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -346,8 +322,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                         return Container(
                                           width: double.infinity,
                                           height: 625.h,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20.w, vertical: 30.h),
+                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(20.r),
@@ -359,45 +334,33 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             children: [
                                               // Header Row
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
-                                                      setModalState(() =>
-                                                          _selectedCategories
-                                                              .clear());
+                                                      setModalState(() => _selectedCategories.clear());
                                                       setState(() {
-                                                        _selectedCategories
-                                                            .clear();
+                                                        _selectedCategories.clear();
                                                       });
                                                     },
                                                     child: Text(
                                                       'Reset',
-                                                      style: TextFontStyle
-                                                          .inter10W400
-                                                          .copyWith(
+                                                      style: TextFontStyle.inter10W400.copyWith(
                                                         fontSize: 16.sp,
-                                                        color:
-                                                            Color(0xFF2F2F2F),
+                                                        color: Color(0xFF2F2F2F),
                                                       ),
                                                     ),
                                                   ),
                                                   Text(
                                                     'Categories',
-                                                    style: TextFontStyle
-                                                        .Inter10W600.copyWith(
+                                                    style: TextFontStyle.Inter10W600.copyWith(
                                                       fontSize: 20.sp,
                                                       color: Color(0xFF2F2F2F),
                                                     ),
                                                   ),
                                                   IconButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    icon: Icon(
-                                                        Icons.cancel_outlined,
-                                                        size: 25.sp),
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                   ),
                                                 ],
                                               ),
@@ -420,9 +383,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               _selectedCategories.isEmpty
                                                   ? Text(
                                                       "Max 5 categories can be selected",
-                                                      style: TextFontStyle
-                                                          .inter10W400
-                                                          .copyWith(
+                                                      style: TextFontStyle.inter10W400.copyWith(
                                                         fontSize: 14.sp,
                                                         color: Colors.grey,
                                                       ),
@@ -430,32 +391,16 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   : Wrap(
                                                       spacing: 8,
                                                       runSpacing: 8,
-                                                      children:
-                                                          _selectedCategories
-                                                              .asMap()
-                                                              .entries
-                                                              .map((entry) {
+                                                      children: _selectedCategories.asMap().entries.map((entry) {
                                                         final index = entry.key;
-                                                        final item =
-                                                            entry.value;
+                                                        final item = entry.value;
                                                         return Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      12,
-                                                                  vertical: 8),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                _getCategoryColor(
-                                                                    index),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.r),
+                                                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                                          decoration: BoxDecoration(
+                                                            color: _getCategoryColor(index),
+                                                            borderRadius: BorderRadius.circular(20.r),
                                                           ),
-                                                          child: Text(
-                                                              item['title']),
+                                                          child: Text(item['title']),
                                                         );
                                                       }).toList(),
                                                     ),
@@ -466,75 +411,43 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
 
                                               // Category List
                                               _liatOfCategories.isEmpty
-                                                  ? Center(
-                                                      child: Text(
-                                                          'No category found'))
+                                                  ? Center(child: Text('No category found'))
                                                   : SizedBox(
                                                       height: 250.h,
                                                       child: ListView.builder(
-                                                        itemCount:
-                                                            _liatOfCategories
-                                                                    .first
-                                                                    .data
-                                                                    ?.length ??
-                                                                0,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          final category =
-                                                              _liatOfCategories
-                                                                  .first
-                                                                  .data?[index];
+                                                        itemCount: _liatOfCategories.first.data?.length ?? 0,
+                                                        itemBuilder: (context, index) {
+                                                          final category = _liatOfCategories.first.data?[index];
                                                           return GestureDetector(
                                                             onTap: () {
                                                               setModalState(() {
-                                                                if (category !=
-                                                                    null) {
-                                                                  final alreadyExists =
-                                                                      _selectedCategories
-                                                                          .any(
-                                                                    (item) =>
-                                                                        item[
-                                                                            'id'] ==
-                                                                        category
-                                                                            .id,
+                                                                if (category != null) {
+                                                                  final alreadyExists = _selectedCategories.any(
+                                                                    (item) => item['id'] == category.id,
                                                                   );
                                                                   if (!alreadyExists &&
-                                                                      _selectedCategories
-                                                                              .length <
-                                                                          5) {
-                                                                    _selectedCategories
-                                                                        .add({
-                                                                      "id": category
-                                                                          .id,
-                                                                      "title":
-                                                                          category
-                                                                              .title,
+                                                                      _selectedCategories.length < 5) {
+                                                                    _selectedCategories.add({
+                                                                      "id": category.id,
+                                                                      "title": category.title,
                                                                     });
                                                                   }
                                                                 }
                                                               });
                                                             },
                                                             child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
                                                                 Text(
-                                                                  category?.title ??
-                                                                      '',
-                                                                  style: TextFontStyle
-                                                                      .inter10W400
-                                                                      .copyWith(
-                                                                    color: Color(
-                                                                        0xFF757575),
-                                                                    fontSize:
-                                                                        16.sp,
+                                                                  category?.title ?? '',
+                                                                  style: TextFontStyle.inter10W400.copyWith(
+                                                                    color: Color(0xFF757575),
+                                                                    fontSize: 16.sp,
                                                                   ),
                                                                 ),
                                                                 Divider(
                                                                   thickness: 1,
-                                                                  color: Color(
-                                                                      0xFF757575),
+                                                                  color: Color(0xFF757575),
                                                                 ),
                                                               ],
                                                             ),
@@ -547,11 +460,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   name: "Save",
                                                   color: AppColor.cD5E7B0,
                                                   borderRadius: 100.r,
-                                                  textStyle: TextFontStyle
-                                                          .Inter10W600
-                                                      .copyWith(
-                                                          color: Colors.black,
-                                                          fontSize: 16.sp),
+                                                  textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                      color: Colors.black, fontSize: 16.sp),
                                                   onCallBack: () {
                                                     setState(() {});
                                                     Navigator.pop(context);
@@ -566,16 +476,13 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                 );
                               },
                               child: Container(
-                                width:
-                                    _selectedCategories.isEmpty ? 200.h : 250.h,
+                                width: _selectedCategories.isEmpty ? 200.h : 250.h,
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 12.w,
                                   vertical: 8.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: _selectedCategories.isNotEmpty
-                                      ? AppColor.cD5E7B0
-                                      : Color(0xFFF0F0F0),
+                                  color: _selectedCategories.isNotEmpty ? AppColor.cD5E7B0 : Color(0xFFF0F0F0),
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: _selectedCategories.isNotEmpty
@@ -584,12 +491,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                           SizedBox(
                                             width: 175.w,
                                             child: Text(
-                                              _selectedCategories
-                                                  .map((item) => item['title'])
-                                                  .join(", "),
-                                              style: TextFontStyle
-                                                  .textStyle12w400NunitoSans
-                                                  .copyWith(
+                                              _selectedCategories.map((item) => item['title']).join(", "),
+                                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                 fontSize: 16.sp,
                                                 color: AppColor.c000000,
                                                 fontWeight: FontWeight.w400,
@@ -601,14 +504,11 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                         ],
                                       )
                                     : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             'Select Categories',
-                                            style: TextFontStyle
-                                                .textStyle12w400NunitoSans
-                                                .copyWith(
+                                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                               fontSize: 16.sp,
                                               color: AppColor.c000000,
                                               fontWeight: FontWeight.w400,
@@ -634,8 +534,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Occasion',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -651,58 +550,44 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                       return Container(
                                         height: 300.h,
                                         width: double.infinity,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.w, vertical: 30.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r),
-                                                topRight:
-                                                    Radius.circular(20.r)),
+                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
                                             color: Colors.white),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Add Occation',
-                                                  style: TextFontStyle
-                                                      .Inter10W600.copyWith(
+                                                  style: TextFontStyle.Inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
                                                 ),
                                                 IconButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  icon: Icon(
-                                                      Icons.cancel_outlined,
-                                                      size: 25.sp),
+                                                  onPressed: () => Navigator.pop(context),
+                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                 ),
                                               ],
                                             ),
                                             UIHelper.verticalSpaceMedium,
                                             CustomTextField(
                                               controller: _occationContriller,
-                                              hintText:
-                                                  'Weading/ Birthday/ party',
+                                              hintText: 'Weading/ Birthday/ party',
                                             ),
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle:
-                                                    TextFontStyle.Inter10W600
-                                                        .copyWith(
-                                                            color: Colors.black,
-                                                            fontSize: 16),
+                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                    color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
                                                 onCallBack: () {
                                                   setState(() {
-                                                    _occationContriller =
-                                                        _occationContriller;
+                                                    _occationContriller = _occationContriller;
                                                     Navigator.pop(context);
                                                   });
                                                 },
@@ -714,9 +599,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: _occationContriller.text.isEmpty
-                                      ? Color(0xFFF0F0F0)
-                                      : AppColor.cD5E7B0,
+                                  color: _occationContriller.text.isEmpty ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: Padding(
@@ -725,12 +608,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     vertical: 5.0,
                                   ),
                                   child: Text(
-                                    _occationContriller.text.isEmpty
-                                        ? 'Add'
-                                        : _occationContriller.text,
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                    _occationContriller.text.isEmpty ? 'Add' : _occationContriller.text,
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       fontSize: 16.sp,
                                       color: AppColor.c000000,
                                       fontWeight: FontWeight.w400,
@@ -754,8 +633,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Brand',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -771,35 +649,26 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                       return Container(
                                         width: double.infinity,
                                         height: 300.h,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.w, vertical: 30.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r),
-                                                topRight:
-                                                    Radius.circular(20.r)),
+                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
                                             color: Colors.white),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Add Brand',
-                                                  style: TextFontStyle
-                                                      .Inter10W600.copyWith(
+                                                  style: TextFontStyle.Inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
                                                 ),
                                                 IconButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  icon: Icon(
-                                                      Icons.cancel_outlined,
-                                                      size: 25.sp),
+                                                  onPressed: () => Navigator.pop(context),
+                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                 ),
                                               ],
                                             ),
@@ -811,17 +680,13 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle:
-                                                    TextFontStyle.Inter10W600
-                                                        .copyWith(
-                                                            color: Colors.black,
-                                                            fontSize: 16),
+                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                    color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
                                                 onCallBack: () {
                                                   setState(() {
-                                                    _brandController =
-                                                        _brandController;
+                                                    _brandController = _brandController;
                                                     Navigator.pop(context);
                                                   });
                                                 },
@@ -833,9 +698,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: _brandController.text.isEmpty
-                                      ? Color(0xFFF0F0F0)
-                                      : AppColor.cD5E7B0,
+                                  color: _brandController.text.isEmpty ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: Padding(
@@ -844,12 +707,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     vertical: 5.0,
                                   ),
                                   child: Text(
-                                    _brandController.text.isEmpty
-                                        ? 'Add'
-                                        : _brandController.text,
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                    _brandController.text.isEmpty ? 'Add' : _brandController.text,
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       fontSize: 16.sp,
                                       color: AppColor.c000000,
                                       fontWeight: FontWeight.w400,
@@ -873,8 +732,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Color',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -892,8 +750,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                         return Container(
                                           width: double.infinity,
                                           height: 525.h,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20.w, vertical: 30.h),
+                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(20.r),
@@ -905,41 +762,31 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             children: [
                                               // Header Row
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
-                                                      setModalState(() =>
-                                                          _colorList.clear());
+                                                      setModalState(() => _colorList.clear());
                                                       _colorController.clear();
                                                     },
                                                     child: Text(
                                                       'Reset',
-                                                      style: TextFontStyle
-                                                          .inter10W400
-                                                          .copyWith(
+                                                      style: TextFontStyle.inter10W400.copyWith(
                                                         fontSize: 16.sp,
-                                                        color:
-                                                            Color(0xFF2F2F2F),
+                                                        color: Color(0xFF2F2F2F),
                                                       ),
                                                     ),
                                                   ),
                                                   Text(
                                                     'Add Colors',
-                                                    style: TextFontStyle
-                                                        .Inter10W600.copyWith(
+                                                    style: TextFontStyle.Inter10W600.copyWith(
                                                       fontSize: 20.sp,
                                                       color: Color(0xFF2F2F2F),
                                                     ),
                                                   ),
                                                   IconButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    icon: Icon(
-                                                        Icons.cancel_outlined,
-                                                        size: 25.sp),
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                   ),
                                                 ],
                                               ),
@@ -951,77 +798,43 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                 children: [
                                                   Expanded(
                                                     child: CustomTextField(
-                                                      controller:
-                                                          _colorController,
-                                                      fieldColor:
-                                                          Colors.transparent,
+                                                      controller: _colorController,
+                                                      fieldColor: Colors.transparent,
                                                       borderColor: Colors.grey,
                                                       height: 50.h,
-                                                      readOnly:
-                                                          _colorList.length == 5
-                                                              ? true
-                                                              : false,
-                                                      hintText:
-                                                          'Red/ Green/ Blue',
+                                                      readOnly: _colorList.length == 5 ? true : false,
+                                                      hintText: 'Red/ Green/ Blue',
                                                     ),
                                                   ),
                                                   UIHelper.horizontalSpaceSmall,
                                                   GestureDetector(
                                                     onTap: () {
                                                       setModalState(() {
-                                                        if (_colorController
-                                                                .text
-                                                                .isNotEmpty &&
-                                                            _colorController
-                                                                    .text
-                                                                    .length >
-                                                                2) {
-                                                          final alreadyExists =
-                                                              _colorList.any((item) =>
-                                                                  item ==
-                                                                  _colorController
-                                                                      .text
-                                                                      .trim());
+                                                        if (_colorController.text.isNotEmpty &&
+                                                            _colorController.text.length > 2) {
+                                                          final alreadyExists = _colorList
+                                                              .any((item) => item == _colorController.text.trim());
 
-                                                          if (!alreadyExists &&
-                                                              _colorList
-                                                                      .length <
-                                                                  5) {
+                                                          if (!alreadyExists && _colorList.length < 5) {
                                                             setState(() {
-                                                              _colorList.add(
-                                                                  _colorController
-                                                                      .text
-                                                                      .trim());
+                                                              _colorList.add(_colorController.text.trim());
                                                             });
                                                           }
                                                           setState(() {
-                                                            _colorController
-                                                                .clear();
+                                                            _colorController.clear();
                                                           });
                                                         }
                                                       });
                                                     },
                                                     child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 12.w,
-                                                              vertical: 8.h),
+                                                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                                                       decoration: BoxDecoration(
-                                                          color:
-                                                              AppColor.cD5E7B0,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      30.r)),
+                                                          color: AppColor.cD5E7B0,
+                                                          borderRadius: BorderRadius.circular(30.r)),
                                                       child: Text(
                                                         'Add',
-                                                        style: TextFontStyle
-                                                                .Inter10W600
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize:
-                                                                    16.sp),
+                                                        style: TextFontStyle.Inter10W600.copyWith(
+                                                            color: Colors.black, fontSize: 16.sp),
                                                       ),
                                                     ),
                                                   )
@@ -1034,9 +847,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               _colorList.isEmpty
                                                   ? Text(
                                                       "Max 5 Colors can be Added",
-                                                      style: TextFontStyle
-                                                          .inter10W400
-                                                          .copyWith(
+                                                      style: TextFontStyle.inter10W400.copyWith(
                                                         fontSize: 14.sp,
                                                         color: Colors.grey,
                                                       ),
@@ -1044,28 +855,14 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   : Wrap(
                                                       spacing: 8,
                                                       runSpacing: 8,
-                                                      children: _colorList
-                                                          .asMap()
-                                                          .entries
-                                                          .map((entry) {
+                                                      children: _colorList.asMap().entries.map((entry) {
                                                         final index = entry.key;
-                                                        final item =
-                                                            entry.value;
+                                                        final item = entry.value;
                                                         return Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      12,
-                                                                  vertical: 8),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                _getCategoryColor(
-                                                                    index),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20.r),
+                                                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                                          decoration: BoxDecoration(
+                                                            color: _getCategoryColor(index),
+                                                            borderRadius: BorderRadius.circular(20.r),
                                                           ),
                                                           child: Text(item),
                                                         );
@@ -1080,11 +877,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   },
                                                   color: AppColor.cD5E7B0,
                                                   borderRadius: 100,
-                                                  textStyle: TextFontStyle
-                                                          .Inter10W600
-                                                      .copyWith(
-                                                          color: Colors.black,
-                                                          fontSize: 16.sp),
+                                                  textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                      color: Colors.black, fontSize: 16.sp),
                                                   context: context)
                                             ],
                                           ),
@@ -1101,19 +895,15 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                   vertical: 5.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: _colorList.isNotEmpty
-                                      ? AppColor.cD5E7B0
-                                      : Color(0xFFF0F0F0),
+                                  color: _colorList.isNotEmpty ? AppColor.cD5E7B0 : Color(0xFFF0F0F0),
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: _colorList.isNotEmpty
                                     ? Container(
-                                        padding:
-                                            EdgeInsets.symmetric(vertical: 3),
+                                        padding: EdgeInsets.symmetric(vertical: 3),
                                         decoration: BoxDecoration(
                                           color: AppColor.cD5E7B0,
-                                          borderRadius:
-                                              BorderRadius.circular(20.r),
+                                          borderRadius: BorderRadius.circular(20.r),
                                         ),
                                         child: Row(
                                           children: [
@@ -1121,9 +911,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               width: 168.w,
                                               child: Text(
                                                 _colorList.take(5).join(", "),
-                                                style: TextFontStyle
-                                                    .textStyle12w400NunitoSans
-                                                    .copyWith(
+                                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                   fontSize: 16.sp,
                                                   color: AppColor.c000000,
                                                   fontWeight: FontWeight.w400,
@@ -1136,14 +924,11 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                         ),
                                       )
                                     : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
                                             'Add Colors',
-                                            style: TextFontStyle
-                                                .textStyle12w400NunitoSans
-                                                .copyWith(
+                                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                               fontSize: 16.sp,
                                               color: AppColor.c000000,
                                               fontWeight: FontWeight.w400,
@@ -1170,8 +955,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Material',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -1180,12 +964,9 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                             UIHelper.horizontalSpaceSmall,
                             GestureDetector(
                               child: Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  padding: EdgeInsets.symmetric(horizontal: 12.w),
                                   decoration: BoxDecoration(
-                                    color: selectedMaterials == null
-                                        ? Color(0xFFF0F0F0)
-                                        : AppColor.cD5E7B0,
+                                    color: selectedMaterials == null ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                     borderRadius: BorderRadius.circular(30.r),
                                   ),
                                   child: DropdownButtonHideUnderline(
@@ -1195,39 +976,24 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                           hint: Text(
                                             'Select Material',
                                             style: TextFontStyle.inter10W400
-                                                .copyWith(
-                                                    color: Colors.black,
-                                                    fontSize: 16.sp),
+                                                .copyWith(color: Colors.black, fontSize: 16.sp),
                                           ),
                                           icon: Icon(Icons.arrow_drop_down),
-                                          style: TextFontStyle
-                                              .textStyle12w400NunitoSans
-                                              .copyWith(
+                                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                             fontSize: 16.sp,
                                             color: AppColor.c000000,
                                             fontWeight: FontWeight.w400,
                                           ),
                                           dropdownColor: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(12.r),
-                                          items: (_materialList.isNotEmpty &&
-                                                  _materialList
-                                                      .first.data!.isNotEmpty)
-                                              ? _materialList.first.data!.map<
-                                                      DropdownMenuItem<String>>(
-                                                  (item) {
-                                                  return DropdownMenuItem<
-                                                          String>(
+                                          borderRadius: BorderRadius.circular(12.r),
+                                          items: (_materialList.isNotEmpty && _materialList.first.data!.isNotEmpty)
+                                              ? _materialList.first.data!.map<DropdownMenuItem<String>>((item) {
+                                                  return DropdownMenuItem<String>(
                                                       value: item.id.toString(),
                                                       child: Text(
                                                         item.name ?? '',
-                                                        style: TextFontStyle
-                                                            .inter10W400
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize:
-                                                                    16.sp),
+                                                        style: TextFontStyle.inter10W400
+                                                            .copyWith(color: Colors.black, fontSize: 16.sp),
                                                       ));
                                                 }).toList()
                                               : [],
@@ -1252,8 +1018,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Pattern',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -1269,58 +1034,44 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                       return Container(
                                         width: double.infinity,
                                         height: 300.h,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.w, vertical: 30.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r),
-                                                topRight:
-                                                    Radius.circular(20.r)),
+                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
                                             color: Colors.white),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Add Pattern',
-                                                  style: TextFontStyle
-                                                      .Inter10W600.copyWith(
+                                                  style: TextFontStyle.Inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
                                                 ),
                                                 IconButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  icon: Icon(
-                                                      Icons.cancel_outlined,
-                                                      size: 25.sp),
+                                                  onPressed: () => Navigator.pop(context),
+                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                 ),
                                               ],
                                             ),
                                             UIHelper.verticalSpaceMedium,
                                             CustomTextField(
                                               controller: _patternController,
-                                              hintText:
-                                                  'Striped/ Checked/ Plain',
+                                              hintText: 'Striped/ Checked/ Plain',
                                             ),
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle:
-                                                    TextFontStyle.Inter10W600
-                                                        .copyWith(
-                                                            color: Colors.black,
-                                                            fontSize: 16),
+                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                    color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
                                                 onCallBack: () {
                                                   setState(() {
-                                                    _patternController =
-                                                        _patternController;
+                                                    _patternController = _patternController;
                                                     Navigator.pop(context);
                                                   });
                                                 },
@@ -1336,17 +1087,12 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                   vertical: 5.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: _patternController.text.isEmpty
-                                      ? Color(0xFFF0F0F0)
-                                      : AppColor.cD5E7B0,
+                                  color: _patternController.text.isEmpty ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: Text(
-                                  _patternController.text.isEmpty
-                                      ? 'Add'
-                                      : _patternController.text,
-                                  style: TextFontStyle.textStyle12w400NunitoSans
-                                      .copyWith(
+                                  _patternController.text.isEmpty ? 'Add' : _patternController.text,
+                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                     fontSize: 16.sp,
                                     color: AppColor.c000000,
                                     fontWeight: FontWeight.w400,
@@ -1369,8 +1115,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Visibility',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -1389,8 +1134,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                 child: DropdownButton<String>(
                                   value: selectedVisibility,
                                   icon: Icon(Icons.arrow_drop_down),
-                                  style: TextFontStyle.textStyle12w400NunitoSans
-                                      .copyWith(
+                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                     fontSize: 16.sp,
                                     color: AppColor.c000000,
                                     fontWeight: FontWeight.w400,
@@ -1426,8 +1170,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Purchased Date',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -1436,9 +1179,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                             UIHelper.horizontalSpaceSmall,
                             Container(
                               decoration: BoxDecoration(
-                                color: purchasedDate == null
-                                    ? Color(0xFFF0F0F0)
-                                    : AppColor.cD5E7B0,
+                                color: purchasedDate == null ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                 borderRadius: BorderRadius.circular(30.r),
                               ),
                               child: Padding(
@@ -1463,11 +1204,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                   child: Text(
                                     purchasedDate == null
                                         ? 'Select date'
-                                        : DateFormat('dd MMM yyyy')
-                                            .format(purchasedDate!),
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                        : DateFormat('dd MMM yyyy').format(purchasedDate!),
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       fontSize: 16.sp,
                                       color: AppColor.c000000,
                                       fontWeight: FontWeight.w400,
@@ -1491,8 +1229,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Size',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -1510,24 +1247,17 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(left: 8),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 3),
+                                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                                     decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? AppColor.cD5E7B0
-                                          : Color(0xFFF0F0F0),
+                                      color: isSelected ? AppColor.cD5E7B0 : Color(0xFFF0F0F0),
                                       borderRadius: BorderRadius.circular(20.r),
                                       border: Border.all(
-                                        color: isSelected
-                                            ? Colors.black
-                                            : Colors.grey.shade400,
+                                        color: isSelected ? Colors.black : Colors.grey.shade400,
                                       ),
                                     ),
                                     child: Text(
                                       size,
-                                      style: TextFontStyle
-                                          .textStyle12w400NunitoSans
-                                          .copyWith(
+                                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                         fontSize: 16.sp,
                                         color: AppColor.c000000,
                                         fontWeight: FontWeight.w400,
@@ -1551,8 +1281,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Price',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -1568,35 +1297,26 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                       return Container(
                                         width: double.infinity,
                                         height: 300.h,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 20.w, vertical: 30.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r),
-                                                topRight:
-                                                    Radius.circular(20.r)),
+                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
                                             color: Colors.white),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
                                                   'Add Price',
-                                                  style: TextFontStyle
-                                                      .Inter10W600.copyWith(
+                                                  style: TextFontStyle.Inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
                                                 ),
                                                 IconButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  icon: Icon(
-                                                      Icons.cancel_outlined,
-                                                      size: 25.sp),
+                                                  onPressed: () => Navigator.pop(context),
+                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                 ),
                                               ],
                                             ),
@@ -1604,27 +1324,21 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             CustomTextField(
                                                 controller: _priceController,
                                                 inputFormatters: [
-                                                  FilteringTextInputFormatter
-                                                      .allow(RegExp(r'[0-9.]')),
-                                                  LengthLimitingTextInputFormatter(
-                                                      15)
+                                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                                                  LengthLimitingTextInputFormatter(15)
                                                 ],
                                                 hintText: '120.58',
                                                 leftIcon: AppIcons.dollar),
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle:
-                                                    TextFontStyle.Inter10W600
-                                                        .copyWith(
-                                                            color: Colors.black,
-                                                            fontSize: 16),
+                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                    color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
                                                 onCallBack: () {
                                                   setState(() {
-                                                    _priceController =
-                                                        _priceController;
+                                                    _priceController = _priceController;
                                                     Navigator.pop(context);
                                                   });
                                                 },
@@ -1640,17 +1354,12 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                   vertical: 5.h,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: _priceController.text.isEmpty
-                                      ? Color(0xFFF0F0F0)
-                                      : AppColor.cD5E7B0,
+                                  color: _priceController.text.isEmpty ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: Text(
-                                  _priceController.text.isEmpty
-                                      ? 'Add'
-                                      : '\$${_priceController.text}',
-                                  style: TextFontStyle.textStyle12w400NunitoSans
-                                      .copyWith(
+                                  _priceController.text.isEmpty ? 'Add' : '\$${_priceController.text}',
+                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                     fontSize: 16.sp,
                                     color: AppColor.c000000,
                                     fontWeight: FontWeight.w400,
@@ -1673,8 +1382,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                           children: [
                             Text(
                               'Season',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 16.sp,
                                 color: AppColor.c000000,
                                 fontWeight: FontWeight.w800,
@@ -1686,9 +1394,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                   horizontal: 16.w,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: selectedSeason == null
-                                      ? Color(0xFFF0F0F0)
-                                      : AppColor.cD5E7B0,
+                                  color: selectedSeason == null ? Color(0xFFF0F0F0) : AppColor.cD5E7B0,
                                   borderRadius: BorderRadius.circular(30.r),
                                 ),
                                 child: DropdownButtonHideUnderline(
@@ -1696,26 +1402,19 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                         value: selectedSeason,
                                         hint: Text(
                                           'Select Season',
-                                          style: TextFontStyle.inter10W400
-                                              .copyWith(
-                                                  color: Colors.black,
-                                                  fontSize: 16.sp),
+                                          style:
+                                              TextFontStyle.inter10W400.copyWith(color: Colors.black, fontSize: 16.sp),
                                         ),
                                         icon: Icon(Icons.arrow_drop_down),
-                                        style: TextFontStyle
-                                            .textStyle12w400NunitoSans
-                                            .copyWith(
+                                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                           fontSize: 16.sp,
                                           color: AppColor.c000000,
                                           fontWeight: FontWeight.w400,
                                         ),
                                         dropdownColor: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(12.r),
+                                        borderRadius: BorderRadius.circular(12.r),
                                         items: seasonOption.map((season) {
-                                          return DropdownMenuItem(
-                                              value: season,
-                                              child: Text(season));
+                                          return DropdownMenuItem(value: season, child: Text(season));
                                         }).toList(),
                                         onChanged: (newValue) {
                                           setState(() {
@@ -1731,23 +1430,21 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                 ),
                 UIHelper.verticalSpaceMedium,
                 CustomButton(
-                    name: 'Add Closet',
+                    name: isLoading ? 'Processing....' : 'Add Closet',
                     onCallBack: () async {
                       (_titleController.text.isEmpty ||
                               _selectedCategories.isEmpty ||
                               _colorList.isEmpty ||
                               selectedMaterials == null ||
                               _priceController.text.isEmpty)
-                          ? showSnackBarMessage(
-                              'Title, Categoruy, Color, Material & Pattern is Required')
+                          ? showSnackBarMessage('Title, Categoruy, Color, Material & Pattern is Required')
                           : postAddCloset(PostAddClosetModel(
                               title: _titleController.text.trim(),
                               categories: _selectedCategories,
                               occation: _occationContriller.text.trim(),
                               brand: _brandController.text.trim(),
                               colors: _colorList,
-                              materialId:
-                                  int.tryParse(selectedMaterials ?? "") ?? 0,
+                              materialId: int.tryParse(selectedMaterials ?? "") ?? 0,
                               pattern: _patternController.text.trim(),
                               visibility: selectedVisibility,
                               purchasedDate: purchasedDate,
@@ -1757,8 +1454,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                               image: widget.imageBytes));
                     },
                     color: AppColor.cD5E7B0,
-                    textStyle: TextFontStyle.Inter10W600.copyWith(
-                        color: Colors.black, fontSize: 16.sp),
+                    textStyle: TextFontStyle.Inter10W600.copyWith(color: Colors.black, fontSize: 16.sp),
                     borderRadius: 100.r,
                     context: context),
                 UIHelper.verticalSpaceMedium,

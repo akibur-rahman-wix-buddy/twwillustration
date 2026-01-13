@@ -23,19 +23,19 @@ class SettingsWidgets extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Row(
-        children: [
-          icons,
-          UIHelper.horizontalSpace(12.w),
-          Text(
-            title,
-            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-              color: AppColor.c5A5C5F,
+          children: [
+            icons,
+            UIHelper.horizontalSpace(12.w),
+            Text(
+              title,
+              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColor.c5A5C5F,
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
     );
   }
 }

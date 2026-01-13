@@ -30,16 +30,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   GetProfileDataModel? profileData;
 
-  Future<void> fetchProfile() async{
+  Future<void> fetchProfile() async {
     setState(() {
       profileIsLoading = true;
     });
-    try{
+    try {
       bool sucess = await getProfileRxObj.getProfileRx();
       print('Sucess >>>>>>>>>>>>>>>>>>>>>>> $sucess');
 
-      if(sucess){
-        getProfileRxObj.getProfileData.listen((profile){
+      if (sucess) {
+        getProfileRxObj.getProfileData.listen((profile) {
           setState(() {
             profileData = profile;
           });
@@ -47,12 +47,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         setState(() {
           profileIsLoading = false;
         });
-      } else{
+      } else {
         throw Exception();
       }
-    } catch(error){
+    } catch (error) {
       print('$error');
-    } finally{
+    } finally {
       setState(() {
         profileIsLoading = false;
       });
@@ -200,11 +200,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               title: 'My Favourites',
                               onTap: () {},
                             ),
-                            UIHelper.verticalSpace(24.h),ProfileWidgets(
+                            UIHelper.verticalSpace(24.h),
+                            ProfileWidgets(
                               icon: SvgPicture.asset(AppIcons.blockUserIcon),
                               title: 'Block User',
                               onTap: () {
-                                NavigationService.navigateTo(Routes.blockUserScreen);
+                                NavigationService.navigateTo(
+                                    Routes.blockUserScreen);
                               },
                             ),
                             UIHelper.verticalSpace(24.h),
@@ -212,17 +214,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               icon: SvgPicture.asset(AppIcons.notificationIcon),
                               title: 'Notifications',
                               notificationSwitch: Switch(
-                                value: notifactoionEnable,
-                                activeColor: Colors.white,
-                                inactiveThumbColor: Colors.white,
-                                inactiveTrackColor: Colors.grey[300],
-                                activeTrackColor: Color(0xFFD5E7B0),
-                                 onChanged: (value){
-                                  setState(() {
-                                    notifactoionEnable = value;
-                                  });
-                                 }
-                                ),
+                                  value: notifactoionEnable,
+                                  activeColor: Colors.white,
+                                  inactiveThumbColor: Colors.white,
+                                  inactiveTrackColor: Colors.grey[300],
+                                  activeTrackColor: Color(0xFFD5E7B0),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      notifactoionEnable = value;
+                                    });
+                                  }),
                               onTap: () {},
                             ),
                             UIHelper.verticalSpace(24.h),
@@ -308,7 +309,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         SettingsWidgets(
                           icons: SvgPicture.asset(AppIcons.logout),
                           title: 'Logout',
-                          onTap: _handleLogout,
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Confirmation"),
+                                  content:
+                                      Text("Are you sure you want to log out?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("Cancel"),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        _handleLogout();
+                                      },
+                                      child: Text(
+                                        "Log out",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
                         ),
                         UIHelper.verticalSpace(24.h),
                         SettingsWidgets(
