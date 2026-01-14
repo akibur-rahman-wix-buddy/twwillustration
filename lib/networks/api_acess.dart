@@ -18,6 +18,8 @@ import 'package:twwillustration/features/closet/model/get_single_closet_data_mod
 import 'package:twwillustration/features/community/data/add_post/post_add_post_rx.dart';
 import 'package:twwillustration/features/community/data/get_list_of_post/get_list_of_post_rx.dart';
 import 'package:twwillustration/features/community/data/get_post_details/get_post_details_rx.dart';
+import 'package:twwillustration/features/community/data/post_comment/post_comment_rx.dart';
+import 'package:twwillustration/features/community/data/post_comment_like/post_comment_like_rx.dart';
 import 'package:twwillustration/features/community/data/toggle_like_unlike/toggle_like_unlike_rx.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
 import 'package:twwillustration/features/community/model/get_post_details_data_model.dart';
@@ -107,3 +109,9 @@ PostAddPostRx postAddPostRxObj =
 
 GetPostDetailsRx getPostDetailsRxObj =
     GetPostDetailsRx(empty: GetPostDetailsDataModel(), dataFetcher: BehaviorSubject<GetPostDetailsDataModel>());
+
+PostCommentRx postCommentRxObj =
+    PostCommentRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+PostCommentLikeRx postCommentLikeRxObj =
+    PostCommentLikeRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());

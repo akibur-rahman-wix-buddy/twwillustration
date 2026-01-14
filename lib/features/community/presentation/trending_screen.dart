@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:twwillustration/assets_helper/app_lottie.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
 import 'package:twwillustration/features/community/widget/post_card.dart';
+import 'package:twwillustration/features/community/widget/post_comments_part.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 import 'package:twwillustration/shimmer_widget/post_card_shimmer.dart';
@@ -126,7 +127,7 @@ class _TrendingTabScreenState extends State<TrendingTabScreen> {
                       });
                       await toggleLikeUnlike(post.id ?? 0);
                     },
-                    onComment: () {},
+                    onComment: () {CommentSheet.show(context, postId: post.id ?? 0);},
                     onShare: () {},
                     likeCount: post.likesCount ?? 0,
                     commentCount: post.commentsCount ?? 0,
