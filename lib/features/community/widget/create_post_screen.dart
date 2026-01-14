@@ -46,24 +46,60 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   bool isPosting = false;
 
-  Future<void> postAddPost(PostAddPostDataModel post) async{
-    setState(() {
-      isPosting = true;
-    });
-    try{
-      bool success = await postAddPostRxObj.postAddPostRx(post);
-      if(success){
-        showSnackBarMessage(context, 'Posted Sucessfully');
+  // Future<void> postAddPost(PostAddPostDataModel post) async{
+  //   setState(() {
+  //     isPosting = true;
+  //   });
+  //   try{
+  //     bool success = await postAddPostRxObj.postAddPostRx(post);
+  //     if(success){
+  //       showSnackBarMessage(context, 'Posted Sucessfully');
+  //       setState(() {
+  //         isPosting = false;
+  //       });
+  //     } else{
+  //       throw Exception();
+  //     }
+  //   } catch(error){
+  //     print(error);
+  //   }
+  // }
+
+  Future<void> postAddPost(PostAddPostDataModel post) async {
+  if (!mounted) return;
+  setState(() {
+    isPosting = true;
+  });
+
+  try {
+    bool success = await postAddPostRxObj.postAddPostRx(post);
+
+    if (success) {
+      if (mounted) {
+        showSnackBarMessage(context, 'Posted Successfully');
         setState(() {
           isPosting = false;
         });
-      } else{
-        throw Exception();
       }
-    } catch(error){
-      print(error);
+      await getListOfPostRxObj.getListOfPostRx(null, null);
+    } else {
+      if (mounted) {
+        setState(() {
+          isPosting = false;
+        });
+      }
+    }
+  } catch (error) {
+    debugPrint(error.toString());
+    if (mounted) {
+      setState(() {
+        isPosting = false;
+      });
     }
   }
+}
+
+
 
   // ===================== Media Picker (main card) =====================
   void _showSourceSheet() {

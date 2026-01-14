@@ -79,4 +79,6 @@ class Endpoints {
   static String deleteClosetURL(int closetId) => '/v1/closet/delete/$closetId';
   static String postAddPostURL() => '/v1/community/post';
   static String getPostDetailsURL(int postId) => '/v1/community/post/$postId';
+  static String postCommentURL(int postId) => '/v1/community/post/$postId/comment';
+  static String postCommentLikeURL(int commentId) => '/v1/community/comment/$commentId/like-toggle';
 }
