@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:twwillustration/networks/dio/dio.dart';
 import 'package:twwillustration/networks/endpoints.dart';
 import 'package:twwillustration/networks/exception_handler/data_source.dart';
@@ -20,7 +21,7 @@ final class PostCommentLikeApi {
         throw DataSource.DEFAULT.getFailure();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
       rethrow;
     }
   }

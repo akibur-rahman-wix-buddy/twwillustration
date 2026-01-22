@@ -1,7 +1,6 @@
 // ignore_for_file: unused_element
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -9,7 +8,6 @@ import 'package:twwillustration/assets_helper/app_lottie.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
 import 'package:twwillustration/features/community/widget/post_card.dart';
 import 'package:twwillustration/features/community/widget/post_comments_part.dart';
-import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 import 'package:twwillustration/shimmer_widget/post_card_shimmer.dart';
 
@@ -30,8 +28,7 @@ class _TrendingTabScreenState extends State<TrendingTabScreen> {
     setState(() => isLoading = true);
 
     try {
-      final success =
-          await getListOfPostRxObj.getListOfPostRx(search, filter);
+      final success = await getListOfPostRxObj.getListOfPostRx(search, filter);
 
       if (!success) throw Exception();
 
@@ -71,20 +68,12 @@ class _TrendingTabScreenState extends State<TrendingTabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final posts =
-        _listOfPost.isNotEmpty ? _listOfPost.first.data : null;
+    final posts = _listOfPost.isNotEmpty ? _listOfPost.first.data : null;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            UIHelper.verticalSpace(10.h),
-
-            if (isLoading)
-              const PostCardShimmer()
-            else if (posts == null || posts.isEmpty)
-              SizedBox(
+    return isLoading
+        ? const PostCardShimmer()
+        : posts == null || posts.isEmpty
+            ? SizedBox(
                 height: 400.h,
                 width: double.infinity,
                 child: Lottie.asset(
@@ -92,53 +81,43 @@ class _TrendingTabScreenState extends State<TrendingTabScreen> {
                   fit: BoxFit.contain,
                 ),
               )
-            else
-              ListView.builder(
-                shrinkWrap: true,
+            : ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   final post = posts[index];
 
-                  final imagePath =
-                      post.medias?.isNotEmpty == true
-                          ? post.medias!.first.path ?? ''
-                          : '';
+                  final imagePath = post.medias?.isNotEmpty == true ? post.medias!.first.path ?? '' : '';
 
                   return PostCard(
-                    name:
-                        '${post.user?.firstName ?? ''} ${post.user?.lastName ?? ''}',
+                    name: '${post.user?.firstName ?? ''} ${post.user?.lastName ?? ''}',
                     time: post.publishedAt ?? '',
                     toggleFollow: () {},
                     descreption: post.caption ?? '',
+                    tag: post.tags?.map((t) => t.tag ?? '').toList(),
                     isFollow: post.isFollowed ?? '',
-                    tag: post.tags?.map((e) => e.tag ?? '').toList(),
                     onLove: () async {
                       setState(() {
                         if (post.isLiked == true) {
                           post.isLiked = false;
-                          post.likesCount =
-                              (post.likesCount ?? 1) - 1;
+                          post.likesCount = (post.likesCount ?? 1) - 1;
                         } else {
                           post.isLiked = true;
-                          post.likesCount =
-                              (post.likesCount ?? 0) + 1;
+                          post.likesCount = (post.likesCount ?? 0) + 1;
                         }
                       });
                       await toggleLikeUnlike(post.id ?? 0);
                     },
-                    onComment: () {CommentSheet.show(context, postId: post.id ?? 0);},
+                    onComment: () {
+                      CommentSheet.show(context, postId: post.id ?? 0);
+                    },
                     onShare: () {},
                     likeCount: post.likesCount ?? 0,
                     commentCount: post.commentsCount ?? 0,
                     imagePath: imagePath,
-                    isLike: post.isLiked ?? false,
+                    isLike: post.isLiked ?? false, userId: 1,
                   );
                 },
-              ),
-          ],
-        ),
-      ),
-    );
+              );
   }
 }

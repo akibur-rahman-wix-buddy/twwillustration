@@ -11,6 +11,8 @@ import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_shimmer_image.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
 /// demo content pages (replace with your real widgets)
@@ -29,6 +31,7 @@ class PostCard extends StatefulWidget {
   final int commentCount;
   final bool isLike;
   final String isFollow;
+  final int userId;
 
   const PostCard(
       {super.key,
@@ -45,7 +48,7 @@ class PostCard extends StatefulWidget {
       required this.commentCount,
       required this.imagePath,
       required this.isLike,
-      required this.isFollow});
+      required this.isFollow, required this.userId});
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -68,35 +71,38 @@ class _PostCardState extends State<PostCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    ShimmerClipOvalWidget(
-                      height: 32.h,
-                      weight: 32.h,
-                      networkImageLink: '',
-                    ),
-                    UIHelper.horizontalSpace(10.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.name,
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            color: AppColor.blackColor,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w700,
+                GestureDetector(
+                  onTap: (){NavigationService.navigateTo(Routes.communityProfileScreen);},
+                  child: Row(
+                    children: [
+                      ShimmerClipOvalWidget(
+                        height: 32.h,
+                        weight: 32.h,
+                        networkImageLink: '',
+                      ),
+                      UIHelper.horizontalSpace(10.w),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.name,
+                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                              color: AppColor.blackColor,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                        Text(
-                          DateFormat("MMM dd, yyyy h:mm a")
-                              .format(DateFormat("MMM dd, yyyy HH:mm:ss").parse(widget.time)),
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            color: AppColor.blackColor,
+                          Text(
+                            DateFormat("MMM dd, yyyy h:mm a")
+                                .format(DateFormat("MMM dd, yyyy HH:mm:ss").parse(widget.time)),
+                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                              color: AppColor.blackColor,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 UIHelper.horizontalSpace(10.w),
                 Row(

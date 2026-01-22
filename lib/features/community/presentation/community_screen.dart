@@ -45,7 +45,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
             profileData = profile;
             userId = profileData!.data!.id ?? 0;
           });
-          print('user id >>>>>>>>>>>>>>>>>>>>>>> $userId');
         });
         setState(() {
           isLoading = false;
@@ -54,7 +53,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
         throw Exception();
       }
     } catch (error) {
-      print('$error');
+      debugPrint('$error');
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -87,12 +86,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
     return Scaffold(
       backgroundColor: AppColor.bgColor,
       body: SafeArea(
-        child: Column(
-          children: [
-            UIHelper.verticalSpace(60.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Row(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
+            children: [
+              UIHelper.verticalSpace(60.h),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // GestureDetector(
@@ -123,33 +122,31 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       ),
                     ],
                   ),
-            ),
-            UIHelper.verticalSpace(16.h),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SegmentedFilterBar(
+              UIHelper.verticalSpace(16.h),
+              SegmentedFilterBar(
                 items: const ['All', 'Trending', 'Following'],
                 selectedIndex: selected,
                 onChanged: _goTo, // tap korle page e jabe
                 onSearchTap: () {},
               ),
-            ),
-
-            // content area with page swiping
-            isLoading ? const Center(child: CircularProgressIndicator()) :
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                physics: const BouncingScrollPhysics(),
-                onPageChanged: (i) => setState(() => selected = i),
-                children: [
-                  AllTabScreen(),
-                  TrendingTabScreen(),
-                  FollowingTabScreen(userId: userId),
-                ],
+              UIHelper.verticalSpaceMedium,
+          
+              // content area with page swiping
+              isLoading ? const Center(child: CircularProgressIndicator()) :
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  physics: const BouncingScrollPhysics(),
+                  onPageChanged: (i) => setState(() => selected = i),
+                  children: [
+                    AllTabScreen(),
+                    TrendingTabScreen(),
+                    FollowingTabScreen(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -181,7 +178,7 @@ class SegmentedFilterBar extends StatelessWidget {
     final textColor = Colors.black.withOpacity(0.8);
 
     return Container(
-      height: height,
+      // height: height,
       decoration: BoxDecoration(
         color: outerBg,
         borderRadius: BorderRadius.circular(height),
@@ -192,7 +189,7 @@ class SegmentedFilterBar extends StatelessWidget {
           // Segments
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 8.sp, vertical: 6.5.h),
               child: Row(
                 children: [
                   for (int i = 0; i < items.length; i++) ...[
@@ -205,25 +202,23 @@ class SegmentedFilterBar extends StatelessWidget {
                         textColor: textColor,
                       ),
                     ),
-                    if (i != items.length - 1) const SizedBox(width: 6),
                   ]
                 ],
               ),
             ),
           ),
           // Divider before search
-          Container(width: 1, height: height, color: dividerColor),
+          Container(width: 1,height: 40.h, color: dividerColor),
           // Search icon
           SizedBox(
-            width: height,
-            height: height,
+            width: 56.w,
             child: InkWell(
               borderRadius: BorderRadius.horizontal(
                 right: Radius.circular(height),
               ),
               onTap: onSearchTap,
-              child: const Center(
-                child: Icon(Icons.search, size: 22, color: Colors.black87),
+              child: Center(
+                child: Icon(Icons.search, size: 25.sp, color: Colors.black87),
               ),
             ),
           ),
@@ -256,7 +251,7 @@ class _Segment extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOut,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 9.h),
         decoration: BoxDecoration(
           color: selected ? selectedBg : Colors.transparent,
           borderRadius: BorderRadius.circular(999),
@@ -265,7 +260,7 @@ class _Segment extends StatelessWidget {
         child: Text(
           label,
           style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-            fontSize: 13.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
             color: selected ? Colors.black : textColor,
           ),
