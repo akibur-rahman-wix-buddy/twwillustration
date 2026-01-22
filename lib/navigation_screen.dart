@@ -71,11 +71,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ),
               Positioned(
                 bottom: 10.h,
-                left: 30.w,
-                right: 30.w,
+                left: 16.w,
+                right: 16.w,
                 child: Container(
-                  height: 60.h,
-                  width: 310.w,
+                  height: 72.h,
                   decoration: BoxDecoration(
                     color: AppColor.c1C1C1C,
                     borderRadius: BorderRadius.circular(67.r),
@@ -99,7 +98,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     );
   }
 
-  Widget _buildNavItem(String icon, String label, int index) {
+  Widget  _buildNavItem(String icon, String label, int index) {
     return GestureDetector(
       onTap: () {
         setState(() {

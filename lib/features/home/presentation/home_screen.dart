@@ -84,44 +84,43 @@ class _HomeScreenState extends State<HomeScreen> {
                           UIHelper.verticalSpace(60.h),
                           // * App Bar Part
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GestureDetector(
-                                  onTap: () {
-                                    NavigationService.navigateTo(
-                                        Routes.settingScreen);
+                                onTap: () {
+                                    NavigationService.navigateTo(Routes.settingScreen);
                                   },
-                                  child: ShimmerClipOvalWidget(
-                                    height: 40.h,
-                                    weight: 40.h,
-                                    networkImageLink:
-                                        profileData?.data?.avatar ?? '',
-                                  )),
-                              UIHelper.horizontalSpace(10.w),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Hi, ${profileData?.data?.firstName ?? ''}!',
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w800,
-                                      color: AppColor.c000000,
+                                child: Row(
+                                  children: [
+                                    ShimmerClipOvalWidget(
+                                      height: 40.h,
+                                      weight: 40.h,
+                                      networkImageLink: profileData?.data?.avatar ?? '',
                                     ),
-                                  ),
-                                  Text(
-                                    'Dress what feels right today',
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
-                                      fontSize: 12.sp,
-                                      color: AppColor.c000000,
+                                    UIHelper.horizontalSpace(10.w),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Hi, ${profileData?.data?.firstName ?? ''}!',
+                                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w800,
+                                            color: AppColor.c000000,
+                                          ),
+                                        ),
+                                        Text(
+                                          'Dress what feels right today',
+                                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                            fontSize: 12.sp,
+                                            color: AppColor.c000000,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                              Spacer(),
                               SvgPicture.asset(AppIcons.notification),
                             ],
                           ),
@@ -135,10 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               gradient: LinearGradient(
                                 begin: Alignment(0.00, 0.04),
                                 end: Alignment(1.00, 1.00),
-                                colors: [
-                                  const Color(0x4C81CA17),
-                                  const Color(0x60E6F0EA)
-                                ],
+                                colors: [const Color(0x4C81CA17), const Color(0x60E6F0EA)],
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16.r),
@@ -201,8 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Text(
                                 'OutFit Ideas for Today',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   color: AppColor.c000000,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w800,
@@ -213,17 +208,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   color: AppColor.cFFFFFF.withValues(alpha: .1),
                                   border: Border.all(
-                                    color:
-                                        AppColor.c000000.withValues(alpha: .1),
+                                    color: AppColor.c000000.withValues(alpha: .1),
                                   ),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(8.sp),
                                   child: Text(
                                     'Generate',
-                                    style: TextFontStyle
-                                        .textStyle12w400NunitoSans
-                                        .copyWith(
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                       color: AppColor.c000000,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w600,
@@ -251,8 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.r),
                             ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16.w, vertical: 12.h),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                           ),
                           UIHelper.horizontalSpaceSmall,
 
@@ -312,26 +303,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(12),
                                     color: AppColor.cFFFFFF,
                                     border: Border.all(
-                                      color: AppColor.c000000
-                                          .withValues(alpha: .1),
+                                      color: AppColor.c000000.withValues(alpha: .1),
                                     ),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(8.sp),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
-                                            SvgPicture.asset(
-                                                AppIcons.styleIcon),
+                                            SvgPicture.asset(AppIcons.styleIcon),
                                             UIHelper.horizontalSpace(8.w),
                                             Text(
                                               'Style My Own',
-                                              style: TextFontStyle
-                                                  .textStyle12w400NunitoSans
-                                                  .copyWith(
+                                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                 color: AppColor.c000000,
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w600,
@@ -341,7 +327,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         UIHelper.verticalSpaceMedium,
                                         Text(
-                                            'Create your own outfit combinations with AI assistance'),
+                                          'Create your own outfit combinations with AI assistance',
+                                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                            color: AppColor.c000000,
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
                                         const Spacer(),
                                         CustomButton(
                                           name: 'Create Outfit',
@@ -349,9 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context: context,
                                           borderRadius: 48.r,
                                           color: AppColor.cE4EDC9,
-                                          textStyle: TextFontStyle
-                                              .textStyle12w400NunitoSans
-                                              .copyWith(
+                                          textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                             color: AppColor.c000000,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
@@ -371,26 +361,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(12.r),
                                     color: AppColor.cFFFFFF,
                                     border: Border.all(
-                                      color: AppColor.c000000
-                                          .withValues(alpha: .1),
+                                      color: AppColor.c000000.withValues(alpha: .1),
                                     ),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.all(8.sp),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
-                                            SvgPicture.asset(
-                                                AppIcons.statsIcon),
+                                            SvgPicture.asset(AppIcons.statsIcon),
                                             UIHelper.horizontalSpace(8.w),
                                             Text(
                                               'Quick Stats',
-                                              style: TextFontStyle
-                                                  .textStyle12w400NunitoSans
-                                                  .copyWith(
+                                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                 color: AppColor.c000000,
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w600,
@@ -400,16 +385,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         UIHelper.verticalSpaceMedium,
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Column(
                                               children: [
                                                 Text(
                                                   '42',
-                                                  style: TextFontStyle
-                                                      .textStyle12w400NunitoSans
-                                                      .copyWith(
+                                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                     color: AppColor.c000000,
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w600,
@@ -418,9 +400,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 UIHelper.verticalSpaceSmall,
                                                 Text(
                                                   'Items',
-                                                  style: TextFontStyle
-                                                      .textStyle12w400NunitoSans
-                                                      .copyWith(
+                                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                     color: AppColor.c000000,
                                                     fontSize: 12.sp,
                                                     fontWeight: FontWeight.w400,
@@ -432,9 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               children: [
                                                 Text(
                                                   '68%',
-                                                  style: TextFontStyle
-                                                      .textStyle12w400NunitoSans
-                                                      .copyWith(
+                                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                     color: AppColor.c000000,
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w600,
@@ -443,9 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 UIHelper.verticalSpaceSmall,
                                                 Text(
                                                   'Usage',
-                                                  style: TextFontStyle
-                                                      .textStyle12w400NunitoSans
-                                                      .copyWith(
+                                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                     color: AppColor.c000000,
                                                     fontSize: 12.sp,
                                                     fontWeight: FontWeight.w400,
@@ -466,11 +442,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           context: context,
                                           borderRadius: 48.r,
                                           borderColor: AppColor.c000000,
-                                          color: AppColor.cFFFFFF
-                                              .withValues(alpha: .1),
-                                          textStyle: TextFontStyle
-                                              .textStyle12w400NunitoSans
-                                              .copyWith(
+                                          color: AppColor.cFFFFFF.withValues(alpha: .1),
+                                          textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                             color: AppColor.c000000,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
@@ -490,8 +463,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Text(
                                 'Outfit Diary',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   color: AppColor.c000000,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w800,
@@ -503,8 +475,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 child: Text(
                                   'View all',
-                                  style: TextFontStyle.textStyle12w400NunitoSans
-                                      .copyWith(
+                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                     color: AppColor.c000000,
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.w400,
@@ -517,22 +488,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              OutfitDairyCard(
-                                  imagePath: null,
-                                  day: 'Yesterday',
-                                  onAdd: () {}),
-                              OutfitDairyCard(
-                                  imagePath: null, day: 'Today', onAdd: () {}),
-                              OutfitDairyCard(
-                                  imagePath: null,
-                                  day: 'Tomorrow',
-                                  onAdd: () {}),
+                              OutfitDairyCard(imagePath: null, day: 'Yesterday', onAdd: () {}),
+                              OutfitDairyCard(imagePath: null, day: 'Today', onAdd: () {}),
+                              OutfitDairyCard(imagePath: null, day: 'Tomorrow', onAdd: () {}),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    UIHelper.verticalSpaceMedium
+                    UIHelper.verticalSpaceExtraLarge
                   ],
                 ),
         ),

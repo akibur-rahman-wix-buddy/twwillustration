@@ -18,7 +18,6 @@ import 'package:twwillustration/features/closet/model/get_single_closet_data_mod
 import 'package:twwillustration/features/closet/model/post_add_closet_model.dart';
 import 'package:twwillustration/features/closet/model/update_closet_data_model.dart';
 import 'package:twwillustration/features/profile/model/get_categories_data_model.dart';
-import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
@@ -100,7 +99,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     } finally {
       setState(() {
         isLoading = false;
@@ -122,7 +121,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     }
   }
 
@@ -140,7 +139,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     }
   }
 
@@ -159,7 +158,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     } finally {
       setState(() {
         isLoading = false;
@@ -184,7 +183,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     } finally {
       setState(() {
         isUpdating = false;
@@ -210,7 +209,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     } finally {
       setState(() {
         isDeleting = false;

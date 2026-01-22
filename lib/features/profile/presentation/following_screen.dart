@@ -6,13 +6,14 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/constants/app_constants.dart';
+import 'package:twwillustration/helpers/di.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 
 class FollowingScreen extends StatefulWidget {
-  final int userId;
-  const FollowingScreen({super.key, required this.userId});
+  const FollowingScreen({super.key});
 
   @override
   State<FollowingScreen> createState() => _FollowingScreenState();
@@ -27,7 +28,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
       setState(() {
         isLoading = true;
       });
-      int userId = widget.userId;
+      int userId = appData.read(kKeyUserID);
 
       bool sucess = await postFollowingRxObj.postFollowingRx(userId);
 

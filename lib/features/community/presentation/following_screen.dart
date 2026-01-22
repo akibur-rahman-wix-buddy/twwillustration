@@ -7,19 +7,13 @@ import 'package:twwillustration/assets_helper/app_lottie.dart';
 import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
 import 'package:twwillustration/features/community/widget/post_card.dart';
+import 'package:twwillustration/features/community/widget/post_comments_part.dart';
 import 'package:twwillustration/helpers/di.dart';
-import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 import 'package:twwillustration/shimmer_widget/post_card_shimmer.dart';
 
-/// demo content pages (replace with your real widgets)
 class FollowingTabScreen extends StatefulWidget {
-  final int userId;
-  // final String title;
-  const FollowingTabScreen({
-    super.key,
-    required this.userId,
-  });
+  const FollowingTabScreen({super.key,});
 
   @override
   State<FollowingTabScreen> createState() => _FollowingTabScreenState();
@@ -49,7 +43,7 @@ class _FollowingTabScreenState extends State<FollowingTabScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -59,7 +53,7 @@ class _FollowingTabScreenState extends State<FollowingTabScreen> {
     try {
       await toggleLikeUnlikeRxObj.toggleLikeUnlikeRx(postId);
     } catch (error) {
-      print(error);
+      debugPrint('$error');
     }
   }
 
@@ -71,72 +65,56 @@ class _FollowingTabScreenState extends State<FollowingTabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            UIHelper.verticalSpace(10.h),
-            isLoading
-                ? PostCardShimmer()
-                : _listOfPost.isEmpty ||
-                        _listOfPost.first.data == null ||
-                        _listOfPost.first.data!.isEmpty
-                    ? SizedBox(
-                        height: 400.h,
-                        width: double.infinity,
-                        child: Lottie.asset(AppLotties.noPostFound,
-                            fit: BoxFit.contain))
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _listOfPost.first.data?.length,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final post = _listOfPost.first.data?[index];
-                          return PostCard(
-                            name:
-                                '${post?.user?.firstName ?? ''} ${post?.user?.lastName ?? ''}',
-                            time: post?.publishedAt ?? '',
-                            toggleFollow: () async{
-                              // bool wasFollowing = post?.isFollowed == 'yes';
-                              //           setState(() {
-                              //             wasFollowing = !wasFollowing;
-                              //           });
-                              //           bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(follower['id']);
-                              //           await getProfileRxObj.getProfileRx();
-                              //           if(!success){
-                              //             setState(() {
-                              //               follower['is_following'] = wasFollowing;
-                              //             });
-                              //           }
-                            },
-                            descreption: post?.caption ?? '',
-                          isFollow: post?.isFollowed ?? '',
-                            tag: post?.tags?.map((t) => t.tag ?? "").toList(),
-                            onLove: () async {
-                              setState(() {
-                                if (post?.isLiked == true) {
-                                  post?.isLiked = false;
-                                  post?.likesCount = (post.likesCount ?? 1) - 1;
-                                } else {
-                                  post?.isLiked = true;
-                                  post?.likesCount = (post.likesCount ?? 0) + 1;
-                                }
-                              });
-                              await toggleLikeUnlike(post?.id ?? 0);
-                            },
-                            onComment: () {},
-                            onShare: () {},
-                            likeCount: post?.likesCount ?? 0,
-                            commentCount: post?.commentsCount ?? 0,
-                            imagePath: post?.medias?.first.path ?? '',
-                            isLike: post?.isLiked ?? false,
-                          );
-                        },
-                      ),
-          ],
-        ),
-      ),
-    );
+    final posts = _listOfPost.isNotEmpty ? _listOfPost.first.data : null;
+
+    return isLoading
+        ? const PostCardShimmer()
+        : posts == null || posts.isEmpty
+            ? SizedBox(
+                height: 400.h,
+                width: double.infinity,
+                child: Lottie.asset(
+                  AppLotties.noPostFound,
+                  fit: BoxFit.contain,
+                ),
+              )
+            : ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  final post = posts[index];
+
+                  final imagePath = post.medias?.isNotEmpty == true ? post.medias!.first.path ?? '' : '';
+
+                  return PostCard(
+                    name: '${post.user?.firstName ?? ''} ${post.user?.lastName ?? ''}',
+                    time: post.publishedAt ?? '',
+                    toggleFollow: () {},
+                    descreption: post.caption ?? '',
+                    tag: post.tags?.map((t) => t.tag ?? '').toList(),
+                    isFollow: post.isFollowed ?? '',
+                    onLove: () async {
+                      setState(() {
+                        if (post.isLiked == true) {
+                          post.isLiked = false;
+                          post.likesCount = (post.likesCount ?? 1) - 1;
+                        } else {
+                          post.isLiked = true;
+                          post.likesCount = (post.likesCount ?? 0) + 1;
+                        }
+                      });
+                      await toggleLikeUnlike(post.id ?? 0);
+                    },
+                    onComment: () {
+                      CommentSheet.show(context, postId: post.id ?? 0);
+                    },
+                    onShare: () {},
+                    likeCount: post.likesCount ?? 0,
+                    commentCount: post.commentsCount ?? 0,
+                    imagePath: imagePath,
+                    isLike: post.isLiked ?? false, userId: 1,
+                  );
+                },
+              );
   }
 }

@@ -87,14 +87,6 @@ class _CommentSheetState extends State<CommentSheet> {
     }
   }
 
-  Future<void> toggleCommentLikeUnlike(int commentId) async {
-    try {
-      postCommentLikeRxObj.postCommentLikeRx(commentId);
-    } catch (error) {
-      debugPrint('$error');
-    }
-  }
-
   String formatTimeAgo(String? dateTimeString) {
     if (dateTimeString == null) return "";
     final dateTime = DateTime.tryParse(dateTimeString);
@@ -152,7 +144,7 @@ class _CommentSheetState extends State<CommentSheet> {
                             setState(() {
                               reply.isLiked = !wasLike!;
                             });
-                            bool success = await toggleFollowUnfollowRxObj.toggleFollowUnfollowRx(reply.id ?? 0);
+                            bool success = await postCommentLikeRxObj.postCommentLikeRx(reply.id ?? 0);
                             await getProfileRxObj.getProfileRx();
                             if (!success) {
                               setState(() {
@@ -311,8 +303,8 @@ class _CommentSheetState extends State<CommentSheet> {
                                                   setState(() {
                                                     comment.isLiked = !wasLike!;
                                                   });
-                                                  bool success = await toggleFollowUnfollowRxObj
-                                                      .toggleFollowUnfollowRx(comment.id ?? 0);
+                                                  bool success =
+                                                      await postCommentLikeRxObj.postCommentLikeRx(comment.id ?? 0);
                                                   await getProfileRxObj.getProfileRx();
                                                   if (!success) {
                                                     setState(() {
@@ -359,52 +351,112 @@ class _CommentSheetState extends State<CommentSheet> {
                       },
                     ),
             ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: CustomTextField(
-                        hintText: "Add a comment...",
-                        controller: _controller,
+            // SafeArea(
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            //     child: Row(
+            //       children: [
+            //         Expanded(
+            //           child: CustomTextField(
+            //             hintText: "Add a comment...",
+            //             controller: _controller,
+            //           ),
+            //         ),
+            //         const SizedBox(width: 8),
+            //         InkWell(
+            //           onTap: () async {
+            //             if (_controller.text.trim().isNotEmpty) {
+            //               String rawText = _controller.text.trim();
+            //               String commentText = rawText;
+            //               if (rawText.startsWith("@")) {
+            //                 int firstSpace = rawText.indexOf(" ");
+            //                 if (firstSpace != -1) {
+            //                   commentText = rawText.substring(firstSpace + 1).trim();
+            //                 } else {
+            //                   commentText = "";
+            //                 }
+            //               }
+            //               if (commentText.isNotEmpty) {
+            //                 await postComment(widget.postId, parentId, commentText);
+            //                 setState(() {
+            //                   parentId = null;
+            //                 });
+            //                 _controller.clear();
+            //               }
+            //             }
+            //           },
+            //           child: Container(
+            //             decoration: BoxDecoration(
+            //               color: AppColor.cD5E7B0,
+            //               borderRadius: BorderRadius.circular(30.r),
+            //             ),
+            //             child: Padding(
+            //               padding: const EdgeInsets.all(16.0),
+            //               child: SvgPicture.asset(AppIcons.sendsIcon),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+
+            AnimatedPadding(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOut,
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextField(
+                          hintText: "Add a comment...",
+                          controller: _controller,
+                          maxline: 2,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    InkWell(
-                      onTap: () async {
-                        if (_controller.text.trim().isNotEmpty) {
-                          String rawText = _controller.text.trim();
-                          String commentText = rawText;
-                          if (rawText.startsWith("@")) {
-                            int firstSpace = rawText.indexOf(" ");
-                            if (firstSpace != -1) {
-                              commentText = rawText.substring(firstSpace + 1).trim();
-                            } else {
-                              commentText = "";
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () async {
+                          if (_controller.text.trim().isNotEmpty) {
+                            String rawText = _controller.text.trim();
+                            String commentText = rawText;
+
+                            if (rawText.startsWith("@")) {
+                              int firstSpace = rawText.indexOf(" ");
+                              if (firstSpace != -1) {
+                                commentText = rawText.substring(firstSpace + 1).trim();
+                              } else {
+                                commentText = "";
+                              }
+                            }
+
+                            if (commentText.isNotEmpty) {
+                              await postComment(widget.postId, parentId, commentText);
+                              setState(() {
+                                parentId = null;
+                              });
+                              _controller.clear();
                             }
                           }
-                          if (commentText.isNotEmpty) {
-                            await postComment(widget.postId, parentId, commentText);
-                            setState(() {
-                              parentId = null;
-                            });
-                            _controller.clear();
-                          }
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColor.cD5E7B0,
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: SvgPicture.asset(AppIcons.sendsIcon),
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColor.cD5E7B0,
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: SvgPicture.asset(AppIcons.sendsIcon),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

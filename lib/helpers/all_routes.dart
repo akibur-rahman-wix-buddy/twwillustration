@@ -12,6 +12,7 @@ import 'package:twwillustration/features/closet/presentation/add_closet_screen.d
 import 'package:twwillustration/features/block_user/presentation/block_user_screen.dart';
 import 'package:twwillustration/features/closet/presentation/closet_details_add_screen.dart';
 import 'package:twwillustration/features/closet/presentation/closet_details_screen.dart';
+import 'package:twwillustration/features/community/presentation/community_profile_screen.dart';
 import 'package:twwillustration/features/community/widget/create_post_screen.dart';
 import 'package:twwillustration/features/fashion_board/add_fashion_board.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
@@ -72,6 +73,7 @@ final class Routes {
   // * Community Routes
   static const String communityScreen = '/communityScreen';
   static const String createPostScreen = '/createPostScreen';
+  static const String communityProfileScreen = '/communityProfileScreen';
 
   // * Fashion Board Routes
   static const String addInspireBookScreen = '/addInspireBookScreen';
@@ -173,11 +175,10 @@ final class RouteGenerator {
             : CupertinoPageRoute(builder: (context) => FollowersScreen(userId : args['userId']));
 
       case Routes.followingScreen:
-      final args = settings.arguments as Map;
         return Platform.isAndroid
             ? _FadedTransitionRoute(
-                widget: FollowingScreen(userId : args['userId']), settings: settings)
-            : CupertinoPageRoute(builder: (context) => FollowingScreen(userId : args['userId']));
+                widget: FollowingScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => FollowingScreen());
 
       case Routes.closetDetailsScreen:
       final  args = settings.arguments as Map;
@@ -197,6 +198,12 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: WaterDropLogScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => WaterDropLogScreen());
+
+      case Routes.communityProfileScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: CommunityProfileScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => CommunityProfileScreen());
 
       case Routes.earnDropScreen:
         return Platform.isAndroid
