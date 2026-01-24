@@ -527,7 +527,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
 
             // Content Area
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height - 450,
               child: _buildTabContent(),
             ),

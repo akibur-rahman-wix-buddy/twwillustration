@@ -83,8 +83,8 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                 Text(
                   title,
                   style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
                     color: AppColor.c000000,
                   ),
                 ),

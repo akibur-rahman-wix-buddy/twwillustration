@@ -27,6 +27,7 @@ class CustomTextField extends StatefulWidget {
   final bool? readOnly;
   final TextStyle? hintTextSyle;
   final ValueChanged<String>? onChanged;
+  final TextInputType? keybordType;
 
   const CustomTextField({
     super.key,
@@ -50,7 +51,7 @@ class CustomTextField extends StatefulWidget {
     this.readOnly, 
     this.hintTextSyle, 
     this.inputFormatters, 
-    this.onChanged,
+    this.onChanged, this.keybordType,
   });
 
   @override
@@ -101,7 +102,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   inputFormatters: widget.inputFormatters,
                   readOnly: widget.readOnly ?? false,
                   onChanged: widget.onChanged,
-
+                  keyboardType: widget.keybordType,
                   style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                     color: Colors.black,
                     fontSize: widget.textSize ?? 14.sp,

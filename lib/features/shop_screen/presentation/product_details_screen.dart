@@ -7,7 +7,7 @@ import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
-import 'package:twwillustration/features/shop_screen/presentation/shop_dashboard_screen.dart';
+import 'package:twwillustration/features/shop_screen/widget/product_card.dart';
 import 'package:twwillustration/features/shop_screen/widget/product_slider_card.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
@@ -483,7 +483,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         name: products[index]['name'],
                         condition: products[index]['condition'],
                         price: products[index]['price'],
-                        status: products[index]['status'],
+                        status: products[index]['status'], onTap: () {},
                       );
                     },
                   ),

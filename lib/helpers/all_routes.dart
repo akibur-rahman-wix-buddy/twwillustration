@@ -13,6 +13,7 @@ import 'package:twwillustration/features/block_user/presentation/block_user_scre
 import 'package:twwillustration/features/closet/presentation/closet_details_add_screen.dart';
 import 'package:twwillustration/features/closet/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/community/presentation/community_profile_screen.dart';
+import 'package:twwillustration/features/community/presentation/report_screen.dart';
 import 'package:twwillustration/features/community/widget/create_post_screen.dart';
 import 'package:twwillustration/features/fashion_board/add_fashion_board.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
@@ -74,6 +75,7 @@ final class Routes {
   static const String communityScreen = '/communityScreen';
   static const String createPostScreen = '/createPostScreen';
   static const String communityProfileScreen = '/communityProfileScreen';
+  static const String reportUserScreen = '/reportUserScreen';
 
   // * Fashion Board Routes
   static const String addInspireBookScreen = '/addInspireBookScreen';
@@ -204,6 +206,12 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: CommunityProfileScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => CommunityProfileScreen());
+
+      case Routes.reportUserScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: ReportScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ReportScreen());
 
       case Routes.earnDropScreen:
         return Platform.isAndroid

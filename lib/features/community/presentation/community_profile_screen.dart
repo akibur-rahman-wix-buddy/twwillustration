@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
@@ -26,7 +27,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
   final double value = 0.5;
 
   final List<String> _categories = ['Shirt', 'Bottom', 'Shoes', 'Others'];
-  final List<String> outfitcategories = ['All', 'Casual', 'Work', 'Formal', 'Sport'];
+  final List<String> _outfitcategories = ['Casual', 'Work', 'Formal', 'Sport'];
 
   final Map<String, List<ClothesItem>> clothesData = {
     'All': [
@@ -103,7 +104,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
       count: null,
     ),
     TabItem(
-      icon: SvgPicture.asset(AppIcons.treeSvg),
+      icon: SvgPicture.asset(AppIcons.boardIcon, height: 16.w,),
       label: 'Board',
       count: null,
     ),
@@ -150,7 +151,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
                       );
                     }
                     if (value == 'report') {
-                      NavigationService.navigateTo(Routes.blockUserScreen);
+                      NavigationService.navigateTo(Routes.reportUserScreen);
                     }
                   },
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -320,15 +321,19 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
                                     fontSize: 14.sp,
                                   ),
                                 ),
-                                if(isSelected && selectedIndex != 2) ...[
-                                UIHelper.horizontalSpace(4.w),
+                                if (isSelected && selectedIndex != 2) ...[
+                                  UIHelper.horizontalSpace(4.w),
                                   Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColor.cD5E7B0
-                                  ),
-                                  padding: EdgeInsets.all(3.sp),child: Center(child: 
-                                Text('12', style: TextFontStyle.Inter10W500.copyWith(fontSize: 12.sp, color: Color(0xFF2F2F2F)),),),)
+                                    decoration: BoxDecoration(shape: BoxShape.circle, color: AppColor.cD5E7B0),
+                                    padding: EdgeInsets.all(3.sp),
+                                    child: Center(
+                                      child: Text(
+                                        '12',
+                                        style: TextFontStyle.Inter10W500.copyWith(
+                                            fontSize: 12.sp, color: Color(0xFF2F2F2F)),
+                                      ),
+                                    ),
+                                  )
                                 ]
                               ],
                             ),
@@ -341,7 +346,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
                 UIHelper.verticalSpace(24.h),
 
                 // Content Area
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height - 450,
                   child: _buildTabContent(),
                 ),
@@ -374,60 +379,32 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
     return Column(
       children: [
         _categories.isEmpty
-                ? SizedBox.shrink()
-                : SizedBox(
-                    height: 40.h,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: _categories.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedCategoryIndex = index;
-                                });
-                              },
-                              child: Container(
-                                width: 50.w,
-                                margin: EdgeInsets.only(right: 8.w),
-                                height: double.infinity,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30.r),
-                                    color:
-                                        selectedCategoryIndex == index ? _getCategoryColor(index) : Colors.grey[200]),
-                                child: Center(
-                                  child: Text(
-                                    'All',
-                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                                      color: (selectedCategoryIndex == index) ? Colors.black87 : Colors.grey[600],
-                                      fontWeight: (selectedCategoryIndex == index) ? FontWeight.w600 : FontWeight.w500,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          final button = _categories[index - 1];
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedCategoryIndex = index;
-                              });
-                            },
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 200),
-                              margin: EdgeInsets.only(right: 12),
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                              decoration: BoxDecoration(
-                                color: selectedCategoryIndex == index ? _getCategoryColor(index) : Colors.grey[200],
-                                borderRadius: BorderRadius.circular(25),
-                              ),
+            ? SizedBox.shrink()
+            : SizedBox(
+                height: 40.h,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: _categories.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedCategoryIndex = index;
+                            });
+                          },
+                          child: Container(
+                            width: 50.w,
+                            margin: EdgeInsets.only(right: 8.w),
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.r),
+                                color: selectedCategoryIndex == index ? _getCategoryColor(index) : Colors.grey[200]),
+                            child: Center(
                               child: Text(
-                                button,
+                                'All',
                                 style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   color: (selectedCategoryIndex == index) ? Colors.black87 : Colors.grey[600],
                                   fontWeight: (selectedCategoryIndex == index) ? FontWeight.w600 : FontWeight.w500,
@@ -435,30 +412,60 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
                                 ),
                               ),
                             ),
-                          );
-                        }),
-                  ),
+                          ),
+                        );
+                      }
+                      final button = _categories[index - 1];
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedCategoryIndex = index;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          margin: EdgeInsets.only(right: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: selectedCategoryIndex == index ? _getCategoryColor(index) : Colors.grey[200],
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Text(
+                            button,
+                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                              color: (selectedCategoryIndex == index) ? Colors.black87 : Colors.grey[600],
+                              fontWeight: (selectedCategoryIndex == index) ? FontWeight.w600 : FontWeight.w500,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
         UIHelper.verticalSpace(24.h),
-    
+
         // * Clothes Grid
         Expanded(
-          child: GridView.builder(
-            shrinkWrap: true,
-            primary: false,
-            padding: EdgeInsets.all(0),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: clothesData[_categories[selectedCategoryIndex]]?.length ?? 0,
-            itemBuilder: (context, index) {
-              final item = clothesData[_categories[selectedCategoryIndex]]![index];
-              return _buildClothesCard(item);
-            },
+            child: GridView.builder(
+          padding: EdgeInsets.all(0),
+          shrinkWrap: true,
+          primary: false,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 0.8,
           ),
-        ),
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return _buildClothesCard(
+              ClothesItem(
+                image: 'image',
+                category: '',
+              ),
+            );
+          },
+        )),
       ],
     );
   }
@@ -481,7 +488,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: .05),
             blurRadius: 5,
             offset: Offset(0, 2),
           ),
@@ -491,7 +498,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
         children: [
           Expanded(
             child: Container(
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.all(8.sp),
               decoration: BoxDecoration(
                 color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(8),
@@ -527,243 +534,103 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
   // * ####################### -- outfit -- ###########################
   // * ################################################################
   Widget _buildOutfitsContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: outfitcategories.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String category = entry.value;
-                  bool isSelected = selectedOutfitCategoryIndex == index;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedOutfitCategoryIndex = index;
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      margin: EdgeInsets.only(right: 12),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: isSelected ? _getOutfitCategoryColor(index) : Colors.grey[200],
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Text(
-                        category,
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          color: isSelected ? Colors.black87 : Colors.grey[600],
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                          fontSize: 14,
+    return Column(
+      children: [
+        _outfitcategories.isEmpty
+            ? SizedBox.shrink()
+            : SizedBox(
+                height: 40.h,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: _outfitcategories.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedOutfitCategoryIndex = index;
+                            });
+                          },
+                          child: Container(
+                            width: 50.w,
+                            margin: EdgeInsets.only(right: 8.w),
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.r),
+                                color: selectedOutfitCategoryIndex == index ? _getCategoryColor(index) : Colors.grey[200]),
+                            child: Center(
+                              child: Text(
+                                'All',
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                  color: (selectedOutfitCategoryIndex == index) ? Colors.black87 : Colors.grey[600],
+                                  fontWeight: (selectedOutfitCategoryIndex == index) ? FontWeight.w600 : FontWeight.w500,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      final button = _outfitcategories[index - 1];
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedOutfitCategoryIndex = index;
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          margin: EdgeInsets.only(right: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: selectedOutfitCategoryIndex == index ? _getCategoryColor(index) : Colors.grey[200],
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Text(
+                            button,
+                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                              color: (selectedOutfitCategoryIndex == index) ? Colors.black87 : Colors.grey[600],
+                              fontWeight: (selectedOutfitCategoryIndex == index) ? FontWeight.w600 : FontWeight.w500,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }).toList(),
+                      );
+                    }),
               ),
-            ),
-          ),
+        UIHelper.verticalSpace(24.h),
 
-          // * Out Fit Clothes Grid
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-              ),
-              child: GridView.builder(
-                padding: EdgeInsets.all(0),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.8,
-                ),
-                itemCount: outfitData[outfitcategories[selectedOutfitCategoryIndex]]?.length ?? 0,
-                itemBuilder: (context, index) {
-                  final item = outfitData[outfitcategories[selectedOutfitCategoryIndex]]![index];
-                  return _buildOutfitCard(item);
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
+       GridView.builder(
+         padding: EdgeInsets.zero,
+         shrinkWrap: true,
+         primary: false,
+         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+           crossAxisCount: 3,
+           crossAxisSpacing: 10,
+           mainAxisSpacing: 10,
+           childAspectRatio: 0.8,
+         ),
+         itemCount: 5,
+         itemBuilder: (context, index) {
+           return _buildClothesCard(
+             ClothesItem(
+               image: 'item?.image', category: '',
+             ),
+           );
+         },
+       )
+      ],
     );
   }
 
-  Color _getOutfitCategoryColor(int index) {
-    final colors = [
-      Color(0xFFB8E6B8), // All - Light Green
-      Color(0xFFF5E6A3), // Casual - Light Yellow
-      Color(0xFFFFB3B3), // Work - Light Orange
-      Color(0xFFFFB3D9), // Formal - Light Pink
-      Color(0xFFB3D9FF), // Sport - Light Blue
-    ];
-    return colors[index % colors.length];
-  }
-
-  Widget _buildOutfitCard(OutfitItem item) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 5,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppImages.fullDress,
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.contain,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   // * ################################################################
-  // * ################### -- My Tree -- ##############################
+  // * ################### -- Board -- ##############################
   // * ################################################################
   Widget _buildMyTreeContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                AppIcons.treeSvg,
-                height: 24,
-              ),
-              UIHelper.horizontalSpaceSmall,
-              Text(
-                'My Tree Progress',
-                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-          UIHelper.verticalSpace(10.h),
-          Container(
-            width: double.infinity,
-            height: 320,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    AppImages.treeImage,
-                    height: 80.h,
-                    width: 80.w,
-                  ),
-                  UIHelper.verticalSpace(20.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppIcons.waterDropsSvg),
-                        Text(
-                          "Water Drops:",
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 16.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          "120/300",
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 16.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  UIHelper.verticalSpace(10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: LinearProgressIndicator(
-                        value: value,
-                        minHeight: 16,
-                        backgroundColor: Colors.grey.shade200,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          AppColor.cC4CABA,
-                        ),
-                      ),
-                    ),
-                  ),
-                  UIHelper.verticalSpace(20.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: CustomButton(
-                      name: 'Water the Tree',
-                      onCallBack: () {},
-                      context: context,
-                      minWidth: double.infinity,
-                      color: AppColor.cD5E7B0,
-                      borderColor: AppColor.cD5E7B0,
-                      textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return Container();
   }
 }
 

@@ -81,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderColor: const Color(0xffe8e8e8),
                     hintText: "Enter your email",
                     controller: emailController,
+                    keybordType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please enter an email";
