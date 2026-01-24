@@ -34,6 +34,8 @@ import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/features/profile/model/get_single_category_data_model.dart';
 import 'package:twwillustration/features/profile/model/get_single_outfit_data_model.dart';
 import 'package:twwillustration/features/settings/data/logout_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/market_place_get_data/market_place_get_data_rx.dart';
+import 'package:twwillustration/features/shop_screen/model/market_place_get_data_model.dart';
 import '../features/profile/data/clothes/get_categories/get_categories_rx.dart';
 import '../features/profile/data/clothes/get_single_category/get_single_category_rx..dart';
 
@@ -115,3 +117,6 @@ PostCommentRx postCommentRxObj =
 
 PostCommentLikeRx postCommentLikeRxObj =
     PostCommentLikeRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+MarketPlaceGetDataRx marketPlaceGetDataRxObj =
+    MarketPlaceGetDataRx(empty: MarketPlaceGetDataModel(), dataFetcher: BehaviorSubject<MarketPlaceGetDataModel>());

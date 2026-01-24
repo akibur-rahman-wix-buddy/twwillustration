@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Condition;
 import 'package:image_picker/image_picker.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
@@ -14,8 +14,10 @@ import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
+import 'package:twwillustration/features/shop_screen/model/market_place_get_data_model.dart';
 import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class AddToShopScreen extends StatefulWidget {
   const AddToShopScreen({super.key});
@@ -25,10 +27,17 @@ class AddToShopScreen extends StatefulWidget {
 }
 
 class _AddToShopScreenState extends State<AddToShopScreen> {
+  final _nameController = TextEditingController();
+  final _desController = TextEditingController();
+  final _brandController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _conditionController = TextEditingController();
+
   final ImagePicker _picker = ImagePicker();
   XFile? _mainImage;
   List<XFile?> _additionalImages = List.filled(5, null);
   List<String> _imagePaths = [];
+  bool _isCategoryLoading = false;
 
   // Function to pick image and update the state
   Future<void> _pickImage(int index) async {
@@ -44,11 +53,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
           // Update image paths list
           _imagePaths = [
             if (_mainImage != null) _mainImage!.path,
-            ..._additionalImages
-                .asMap()
-                .entries
-                .where((entry) => entry.value != null)
-                .map((entry) => entry.value!.path)
+            ..._additionalImages.asMap().entries.where((entry) => entry.value != null).map((entry) => entry.value!.path)
           ];
           // Print the image paths
           log('Image Paths: $_imagePaths');
@@ -59,8 +64,55 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
     }
   }
 
-  int _selectedCategory = 0;
-  final List<String> _categories = ['Tops', 'Bottoms', 'Outerwear'];
+  String? _selectedSize;
+  final List<String> _sizes = ['M', 'L', 'X', 'XL', 'XLL'];
+
+  List<Category> _categories = [];
+  List<Condition> _conditions = [];
+
+  String? _selectedCategoryId;
+  String? _selectedCondition;
+
+  String? _selectedShippingOption;
+  final List<String> _shippingOption = ['buyer_pays', 'free_shipping'];
+
+  Future<void> fetchCategories() async {
+    setState(() => _isCategoryLoading = true);
+    print('>>>>>>>>>>>>>>>>>>>>>_isCategoryLoading : $_isCategoryLoading <<<<<<<<<<<<<<<<<<<<<<<<<<');
+
+    try {
+      print('>>>>>>>>>>>>>>>>>>>>>calling api <<<<<<<<<<<<<<<<<<<<<<<<<<');
+      final success = await getCategoriesRxObj.getCategoriesRx();
+      print('>>>>>>>>>>>>>>>>>>>>>success : $success <<<<<<<<<<<<<<<<<<<<<<<<<<');
+
+      if (success) {
+        marketPlaceGetDataRxObj.getMarketPlaceData.listen((response) {
+          setState(() {
+            _categories = response.data?.categories ?? [];
+            _conditions = response.data?.conditions ?? [];
+            _isCategoryLoading = false;
+          });
+          print('>>>>>>>>>>>>>>>>>>>>>_isCategoryLoading : $_isCategoryLoading <<<<<<<<<<<<<<<<<<<<<<<<<<');
+          print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print(_categories.first.toString());
+          print(_conditions.first.toString());
+          print('<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>');
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (e) {
+      debugPrint('$e');
+    } finally {
+      setState(() => _isCategoryLoading = false);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +127,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
                   onTap: () => _pickImage(-1),
@@ -98,16 +151,14 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                               UIHelper.verticalSpace(10.h),
                               Text(
                                 'Add Photo (${_imagePaths.length}/8)',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
                                 'PDF,JPG,PNG (max 10 MB)',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -160,181 +211,266 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                   }),
                 ),
                 UIHelper.verticalSpace(30.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Item Name',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
+
+                //********************** Product Name *******************************/
+                Text(
+                  'Item Name',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-                UIHelper.verticalSpace(10.h),
-                CustomDropDown(
-                  hintText: "e.g. Vintage 90s Denim Jacket",
-                  controller: TextEditingController(),
-                  dropdownItems: ['Warm', 'Cold', 'Natural', 'Dark', 'Bright'],
-                  onChanged: (value) {
-                    print("User selected: $value"); // এখানে print হবে
-                  },
-                ),
-                UIHelper.verticalSpace(10.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Caption',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                UIHelper.verticalSpace(5.h),
+                UIHelper.verticalSpace(6.h),
                 CustomTextField(
-                  hintText:
-                      "Describe your Item, Including condition,size, fit, etc.",
-                  controller: TextEditingController(),
+                  height: 56.h,
+                  controller: _nameController,
+                  hintText: 'e.g. Vintage 90s Denim Jacket',
+                ),
+                UIHelper.verticalSpace(10.h),
+
+                //********************** Product Descreption *******************************/
+                Text(
+                  'Descreption',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                UIHelper.verticalSpace(6.h),
+                CustomTextField(
+                  hintText: "Describe your Item, Including condition,size, fit, etc.",
+                  controller: _desController,
                   borderColor: AppColor.cE8E8E8,
                   maxline: 5,
+                  height: 140.h,
                 ),
                 UIHelper.verticalSpace(10.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Price',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
+
+                //********************** Product Category *******************************/
+                Text(
+                  'Select Category',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                UIHelper.verticalSpace(6.h),
+                GestureDetector(
+                  child: Container(
+                    height: 56.h,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    decoration: BoxDecoration(
+                      color: AppColor.cFFFFFF,
+                      borderRadius: BorderRadius.circular(28.r),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: _isCategoryLoading
+                          ? Center(
+                              child: SizedBox(
+                                height: 20.h,
+                                width: 20.w,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                            )
+                          : DropdownButton<String>(
+                              isExpanded: true,
+                              value: _selectedCategoryId,
+                              hint: const Text('Select Category'),
+                              items: _categories.map((Category item) {
+                                return DropdownMenuItem<String>(
+                                  value: item.id.toString(),
+                                  child: Text(item.title ?? ''),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCategoryId = value;
+                                });
+                              },
+                            ),
                     ),
                   ),
                 ),
-                UIHelper.verticalSpace(5.h),
+                UIHelper.verticalSpaceSmall,
+
+                //********************** Product Size *******************************/
+                Text(
+                  'Select Size',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                UIHelper.verticalSpace(6.h),
+                Container(
+                  height: 56.h,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  decoration: BoxDecoration(
+                    color: AppColor.cFFFFFF,
+                    borderRadius: BorderRadius.circular(28.r),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: _selectedSize,
+                      hint: Text(
+                        'Select Size',
+                        style: TextFontStyle.inter10W400.copyWith(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      items: _sizes.map((size) {
+                        return DropdownMenuItem<String>(
+                          value: size,
+                          child: Text(
+                            size,
+                            style: TextFontStyle.inter10W400.copyWith(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedSize = value;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                UIHelper.verticalSpaceSmall,
+
+                //********************** Product Brand *******************************/
+                Text(
+                  'Brand',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                UIHelper.verticalSpace(6.h),
                 CustomTextField(
-                  hintText: "\$0.00",
-                  controller: TextEditingController(),
-                  borderColor: AppColor.cE8E8E8,
-                  maxline: 1,
+                  height: 56.h,
+                  controller: _brandController,
+                  hintText: 'Brand Name',
                 ),
                 UIHelper.verticalSpace(10.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Category',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
+
+                //********************** Product Condation *******************************/
+                Text(
+                  'Condation',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-                UIHelper.verticalSpace(10.h),
-                CustomDropDown(
-                  hintText: "Top",
-                  controller: TextEditingController(),
-                  dropdownItems: [
-                    'Top',
-                    'Bottom',
-                    'Left',
-                    'Right',
-                  ],
-                  onChanged: (value) {
-                    print("User selected: $value"); // এখানে print হবে
-                  },
+                UIHelper.verticalSpace(6.h),
+                Container(
+                  height: 56.h,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  decoration: BoxDecoration(
+                    color: AppColor.cFFFFFF,
+                    borderRadius: BorderRadius.circular(28.r),
+                  ),
+                  child: _isCategoryLoading
+                      ? Center(
+                          child: SizedBox(
+                            height: 20.h,
+                            width: 20.w,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        )
+                      : DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: _selectedCondition,
+                            hint: const Text('Select Condition'),
+                            items: _conditions.map((Condition item) {
+                              return DropdownMenuItem<String>(
+                                value: item.value,
+                                child: Text(item.name ?? ''),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedCondition = value;
+                              });
+                            },
+                          ),
+                        ),
                 ),
-                UIHelper.verticalSpace(10.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Condition',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
+                UIHelper.verticalSpaceSmall,
+
+                //********************** Product Price *******************************/
+                Text(
+                  'Price',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-                UIHelper.verticalSpace(10.h),
-                CustomDropDown(
-                  hintText: "Excellent",
-                  controller: TextEditingController(),
-                  dropdownItems: [
-                    'Excellent',
-                    'Good',
-                    'Fair',
-                    'Poor',
-                  ],
-                  onChanged: (value) {
-                    print("User selected: $value"); // এখানে print হবে
-                  },
-                ),
-                UIHelper.verticalSpace(10.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Brand',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                UIHelper.verticalSpace(10.h),
+                UIHelper.verticalSpace(6.h),
                 CustomTextField(
-                  hintText: "Denim",
-                  controller: TextEditingController(),
-                  borderColor: AppColor.cE8E8E8,
-                  maxline: 1,
+                  height: 56.h,
+                  controller: _priceController,
+                  hintText: 'Product Price',
                 ),
                 UIHelper.verticalSpace(10.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Size',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
+
+                //********************** Product Shipping Option *******************************/
+                Text(
+                  'Shipping Option',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                UIHelper.verticalSpace(6.h),
+                Container(
+                  height: 56.h,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  decoration: BoxDecoration(
+                    color: AppColor.cFFFFFF,
+                    borderRadius: BorderRadius.circular(28.r),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: _selectedShippingOption,
+                      hint: Text(
+                        'Shipping Option',
+                        style: TextFontStyle.inter10W400.copyWith(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      items: _shippingOption.map((size) {
+                        return DropdownMenuItem<String>(
+                          value: size,
+                          child: Text(
+                            size,
+                            style: TextFontStyle.inter10W400.copyWith(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedShippingOption = value;
+                        });
+                      },
                     ),
                   ),
                 ),
-                UIHelper.verticalSpace(10.h),
-                CustomDropDown(
-                  hintText: "Excellent",
-                  controller: TextEditingController(),
-                  dropdownItems: [
-                    'Excellent',
-                    'Good',
-                    'Fair',
-                    'Poor',
-                  ],
-                  onChanged: (value) {
-                    print("User selected: $value"); // এখানে print হবে
-                  },
-                ),
-                UIHelper.verticalSpace(10.h),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Material',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                UIHelper.verticalSpace(10.h),
-                CustomDropDown(
-                  hintText: "Cotton",
-                  controller: TextEditingController(),
-                  dropdownItems: [
-                    'Excellent',
-                    'Good',
-                    'Fair',
-                    'Poor',
-                  ],
-                  onChanged: (value) {
-                    print("User selected: $value"); // এখানে print হবে
-                  },
-                ),
-                UIHelper.verticalSpace(10.h),
+                UIHelper.verticalSpaceSmall,
+
+                //********************** Select from wardrobe *******************************/
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -351,48 +487,73 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                           children: [
                             Text(
                               'Select from wardrobe',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.Inter10W700.copyWith(
                                 fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
                                 color: AppColor.blackColor,
                               ),
                             ),
-                            Text(
-                              'View All',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.blackColor,
+                            GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                'View All',
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.blackColor,
+                                ),
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 8.h),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: _categories.map((category) {
+                        //     final index = _categories.indexOf(category);
+                        //     return GestureDetector(
+                        //       onTap: () =>
+                        //           setState(() => _selectedCategoryId = index),
+                        //       child: Text(
+                        //         category,
+                        //         style: TextFontStyle.textStyle12w400NunitoSans
+                        //             .copyWith(
+                        //           fontSize: 14.sp,
+                        //           color: _selectedCategory == index
+                        //               ? Colors.black
+                        //               : Colors.grey,
+                        //           fontWeight: _selectedCategory == index
+                        //               ? FontWeight.bold
+                        //               : FontWeight.normal,
+                        //         ),
+                        //       ),
+                        //     );
+                        //   }).toList(),
+                        // ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: _categories.map((category) {
                             final index = _categories.indexOf(category);
                             return GestureDetector(
-                              onTap: () =>
-                                  setState(() => _selectedCategory = index),
-                              child: Text(
-                                category,
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  fontSize: 14.sp,
-                                  color: _selectedCategory == index
-                                      ? Colors.black
-                                      : Colors.grey,
-                                  fontWeight: _selectedCategory == index
-                                      ? FontWeight.bold
-                                      : FontWeight.normal,
-                                ),
+                              onTap: () => setState(() => _selectedCategoryId = category.id.toString()),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    category.title ?? '',
+                                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                      fontSize: 14.sp,
+                                      color: _selectedCategoryId == category.id.toString() ? Colors.black : Colors.grey,
+                                      fontWeight: _selectedCategoryId == category.id.toString()
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           }).toList(),
                         ),
+
                         Divider(
                           color: Colors.grey,
                           thickness: 0.5,
@@ -402,7 +563,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             _buildClothingItem('H&M', 'Worn: 3'),
-                            if (_selectedCategory == 0)
+                            if (_selectedCategoryId == (_categories.isNotEmpty ? _categories[0].id.toString() : ''))
                               _buildClothingItem('Zara', 'Worn: 3'),
                           ],
                         ),
@@ -416,8 +577,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                           children: [
                             Text(
                               'You have similar tops in your wardrobe',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 14.sp,
                                 color: AppColor.c000000,
                               ),
@@ -481,237 +641,6 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
             color: Colors.black,
           ),
         ),
-      ],
-    );
-  }
-}
-
-class CustomDropDown extends StatefulWidget {
-  final String? hintText;
-  final TextEditingController? controller;
-  final String? leftIcon;
-  final bool isPassword;
-  final bool obscureText;
-  final VoidCallback? toggleVisibility;
-  final String? Function(String?)? validator;
-  final Color? borderColor;
-  final Color? fieldColor;
-  final double? textSize;
-  final TextAlign? textAlign;
-  final double? height;
-  final GestureTapCallback? onTap;
-
-  final List<String>? dropdownItems;
-  final ValueChanged<String>? onChanged;
-
-  const CustomDropDown({
-    Key? key,
-    this.hintText,
-    this.controller,
-    this.leftIcon,
-    this.isPassword = false,
-    this.obscureText = false,
-    this.toggleVisibility,
-    this.validator,
-    this.borderColor,
-    this.fieldColor,
-    this.textSize,
-    this.textAlign = TextAlign.start,
-    this.height = 55.0,
-    this.onTap,
-    this.dropdownItems,
-    this.onChanged,
-  }) : super(key: key);
-
-  @override
-  _CustomDropDownState createState() => _CustomDropDownState();
-}
-
-class _CustomDropDownState extends State<CustomDropDown> {
-  String? _errorText;
-  String? _selectedValue;
-  OverlayEntry? _overlayEntry;
-  final LayerLink _layerLink = LayerLink();
-  bool _isDropdownOpen = false;
-
-  void _toggleDropdown() {
-    if (_isDropdownOpen) {
-      _removeDropdown();
-    } else {
-      _showDropdown();
-    }
-  }
-
-  void _showDropdown() {
-    final overlay = Overlay.of(context);
-    _overlayEntry = _createOverlayEntry();
-    overlay.insert(_overlayEntry!);
-    setState(() {
-      _isDropdownOpen = true;
-    });
-  }
-
-  void _removeDropdown() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-    setState(() {
-      _isDropdownOpen = false;
-    });
-  }
-
-  OverlayEntry _createOverlayEntry() {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    Size size = renderBox.size;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
-
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        left: offset.dx,
-        top: offset.dy + size.height + 5, // dropdown নিচে show হবে
-        width: size.width,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(color: Colors.grey.shade300),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: widget.dropdownItems!.map((item) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      _selectedValue = item;
-                      widget.controller?.text = item;
-                    });
-                    if (widget.onChanged != null) {
-                      widget.onChanged!(item);
-                    }
-                    _removeDropdown();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        item,
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          fontSize: 14.sp,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _removeDropdown();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CompositedTransformTarget(
-          link: _layerLink,
-          child: Container(
-            height: widget.height?.h ?? 50.h,
-            decoration: BoxDecoration(
-              color: widget.fieldColor ?? AppColor.cFFFFFF,
-              borderRadius: BorderRadius.circular(28.r),
-              border: Border.all(
-                color: widget.borderColor ??
-                    (_errorText != null ? Colors.red : const Color(0xffe8e8e8)),
-                width: 1.w,
-              ),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
-            child: Row(
-              children: [
-                if (widget.leftIcon != null) ...[
-                  SvgPicture.asset(widget.leftIcon!, height: 20.h, width: 20.w),
-                  SizedBox(width: 10.w),
-                ],
-                Expanded(
-                  child: TextFormField(
-                    controller: widget.controller,
-                    readOnly: widget.dropdownItems != null,
-                    validator: (value) {
-                      final error = widget.validator?.call(value);
-                      setState(() {
-                        _errorText = error;
-                      });
-                      return null;
-                    },
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      color: Colors.black,
-                      fontSize: widget.textSize ?? 14.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    cursorColor: AppColor.blackColor,
-                    textAlign: widget.textAlign ?? TextAlign.start,
-                    onTap: widget.dropdownItems != null
-                        ? _toggleDropdown
-                        : widget.onTap,
-                    decoration: InputDecoration(
-                      hintText: widget.hintText,
-                      hintStyle:
-                          TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        color: AppColor.cC7C7C7,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      border: InputBorder.none,
-                      errorText: null,
-                      contentPadding: EdgeInsets.symmetric(vertical: 8.h),
-                    ),
-                  ),
-                ),
-                if (widget.dropdownItems != null) ...[
-                  SizedBox(width: 8.w),
-                  GestureDetector(
-                    onTap: _toggleDropdown,
-                    child: Icon(
-                      _isDropdownOpen
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
-                      color: AppColor.c979797,
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        if (_errorText != null)
-          Padding(
-            padding: EdgeInsets.only(top: 4.h, left: 8.w),
-            child: Text(
-              _errorText!,
-              style: TextFontStyle.textStyle12w400NunitoSans
-                  .copyWith(color: Colors.red, fontSize: 12.sp),
-            ),
-          ),
       ],
     );
   }

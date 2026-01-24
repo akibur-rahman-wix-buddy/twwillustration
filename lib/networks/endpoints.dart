@@ -81,4 +81,5 @@ class Endpoints {
   static String getPostDetailsURL(int postId) => '/v1/community/post/$postId';
   static String postCommentURL(int postId) => '/v1/community/post/$postId/comment';
   static String postCommentLikeURL(int commentId) => '/v1/community/comment/$commentId/like-toggle';
+  static String marketPlaceGetDataURL() => '/v1/marketplace/get-data';
 }

@@ -7,6 +7,7 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
+import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
 class ReportScreen extends StatefulWidget {
@@ -17,74 +18,92 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-
-  final _reportSourchController = TextEditingController();
   final _reportDesController = TextEditingController();
 
+  String? _selectedReportReason;
+  final List<String> _reportReason = [
+    'Misleading or Incorrect Information',
+    'Facke User',
+    '...............',
+    '*******************************',
+    '#########################'
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F7F9),
-      appBar: const CustomAppbar(title: 'Devid Calington'),
+      appBar: CustomAppbar(title: 'Report'),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(
-              20,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
               children: [
+                UIHelper.verticalSpace(24.h),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Why are your reporting this post?',
-                    style: TextFontStyle.Inter10W600.copyWith(
-                      fontSize: 12.h,
-                      color: AppColor.c000000.withOpacity(0.4),
-                      fontWeight: FontWeight.w700,
+                  child: Text('Misleading or Incorrect Information',
+                      style: TextFontStyle.textStyle14w400c333333.copyWith(color: AppColor.c757575)),
+                ),
+                UIHelper.verticalSpace(8.h),
+                Container(
+                  width: double.infinity,
+                  height: 56.h,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  decoration: BoxDecoration(color: AppColor.cFFFFFF, borderRadius: BorderRadius.circular(28.r), border: Border.all(width: 1, color: AppColor.cE8E8E8)),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: _selectedReportReason,
+                      hint: Text('Misleading or Incorrect Information',
+                          style: TextFontStyle.textStyle14w400c333333.copyWith(color: AppColor.c757575)),
+                      icon: Icon(Icons.expand_more),
+                      style: TextFontStyle.textStyle14w400c333333.copyWith(color: AppColor.c000000),
+                      dropdownColor: Colors.white,
+                      borderRadius: BorderRadius.circular(28.r),
+                      items: _reportReason.map((season) {
+                        return DropdownMenuItem(value: season, child: Text(season));
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedReportReason = newValue;
+                        });
+                      },
                     ),
                   ),
                 ),
-                UIHelper.verticalSpaceMedium,
-                CustomTextField(
-                  controller: _reportSourchController,
-                  hintText: 'Misleading or Incorrect Information',
-                ),
-                UIHelper.verticalSpaceMedium,
+                UIHelper.verticalSpace(16.h),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Write us more',
-                    style: TextFontStyle.Inter10W600.copyWith(
-                      fontSize: 12.h,
-                      color: AppColor.c000000.withOpacity(0.4),
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextFontStyle.textStyle14w400c333333.copyWith(color: AppColor.c757575)
                   ),
                 ),
-                UIHelper.verticalSpaceMedium,
+                UIHelper.verticalSpace(8.h),
                 CustomTextField(
                   controller: _reportDesController,
-                  hintText: 'Misleading or Incorrect Information',
-                  maxline: 4,
+                  hintText: 'Shares claims or content that are inaccurate, exaggerated, or deceptive.',
+                  height: 173.h,
+                  maxline: 7,
                 ),
-                UIHelper.verticalSpaceMedium,
+                UIHelper.verticalSpace(32.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomButton(
                       name: 'Cancel',
-                      onCallBack: () {},
+                      onCallBack: () {NavigationService.goBack;},
                       context: context,
                       minWidth: 155.w,
-                      borderRadius: 40.r,
-                      height: 40.h,
+                      borderRadius: 46.r,
+                      height: 47.h,
                       borderColor: AppColor.cFFFFFF,
                       color: AppColor.cFFFFFF,
                       textStyle: TextFontStyle.inter10W400.copyWith(
                         color: AppColor.c000000,
-                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.sp,
                       ),
                     ),
                     CustomButton(
@@ -92,13 +111,14 @@ class _ReportScreenState extends State<ReportScreen> {
                       onCallBack: () {},
                       context: context,
                       minWidth: 155.w,
-                      borderRadius: 40.r,
-                      height: 40.h,
+                      borderRadius: 46.r,
+                      height: 47.h,
                       borderColor: AppColor.primaryColors,
                       color: AppColor.primaryColors,
                       textStyle: TextFontStyle.inter10W400.copyWith(
                         color: AppColor.c000000,
-                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ],

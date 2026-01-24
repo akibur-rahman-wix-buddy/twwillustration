@@ -95,4 +95,5 @@ class AppIcons {
   static const String checkMark = "$iconsRoute/check_mark.svg";
   static const String add = '$iconsRoute/add.svg';
   static const String dollar = '$iconsRoute/dollar.svg';
+  static const String boardIcon = '$iconsRoute/board_icon.svg';
 }
