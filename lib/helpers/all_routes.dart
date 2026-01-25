@@ -26,6 +26,7 @@ import 'package:twwillustration/features/profile/presentation/profile_screen.dar
 import 'package:twwillustration/features/quick_stats_screen/quick_stats_screen.dart';
 import 'package:twwillustration/features/settings/presentation/settings_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/search_screen.dart';
 import 'package:twwillustration/navigation_screen.dart';
@@ -88,6 +89,7 @@ final class Routes {
   static const String outfitScreen = '/outfitScreen';
   static const String addClosetScreen = '/addClosetScreen';
   static const String subscriptionScreen = '/subscriptionScreen';
+  static const String listSuccessfullScreen = '/listSuccessfullScreen';
 }
 
 final class RouteGenerator {
@@ -241,6 +243,13 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: CreatePostScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => CreatePostScreen());
+
+      case Routes.listSuccessfullScreen:
+      final args = settings.arguments as Map;
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: ListSuccessfulScreen(productId: args['productId'],), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ListSuccessfulScreen(productId: args['productId'],));
 
       case Routes.addInspireBookScreen:
         return Platform.isAndroid

@@ -170,9 +170,7 @@ class MyCartScreen extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  onPressed: () {
-                    Get.to(() => ListSuccessfulScreen());
-                  },
+                  onPressed: () {},
                   child: Text(
                     "Checkout",
                     style: TextFontStyle.textStyle12w400NunitoSans.copyWith(

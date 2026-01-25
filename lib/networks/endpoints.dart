@@ -82,4 +82,6 @@ class Endpoints {
   static String postCommentURL(int postId) => '/v1/community/post/$postId/comment';
   static String postCommentLikeURL(int commentId) => '/v1/community/comment/$commentId/like-toggle';
   static String marketPlaceGetDataURL() => '/v1/marketplace/get-data';
+  static String postAddMarketplaceURL() => '/v1/marketplace/add-item';
+  static String getMarketplaceProductDetailsURL(int productId) => '/v1/marketplace/details/$productId';
 }
