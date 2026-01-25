@@ -8,6 +8,7 @@ class ShimmerImage extends StatelessWidget {
   final double height;
   final double width;
   final double borderRadius;
+  final BoxFit? boxFit;
 
   const ShimmerImage({
     super.key,
@@ -15,7 +16,7 @@ class ShimmerImage extends StatelessWidget {
     required this.placeholder,
     required this.height,
     required this.width,
-    this.borderRadius = 8,
+    this.borderRadius = 8, this.boxFit,
   });
 
   @override
@@ -26,7 +27,7 @@ class ShimmerImage extends StatelessWidget {
         imageUrl: imageUrl,
         height: height,
         width: width,
-        fit: BoxFit.cover,
+        fit: boxFit ?? BoxFit.cover,
         placeholder: (context, url) => Shimmer.fromColors(
           baseColor: Colors.grey.shade400,
           highlightColor: Colors.grey.shade100,

@@ -16,7 +16,7 @@ final class MarketPlaceGetDataRx extends RxResponseInt<MarketPlaceGetDataModel>{
 
   ValueStream get getMarketPlaceData => dataFetcher.stream;
 
-  Future<bool> marketPlaceGetDataRx(String? search, String? filter) async{
+  Future<bool> marketPlaceGetDataRx() async{
 
     try{
       MarketPlaceGetDataModel data = await api.marketPlaceGetDataApi();
