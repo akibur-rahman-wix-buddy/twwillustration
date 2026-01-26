@@ -84,4 +84,5 @@ class Endpoints {
   static String marketPlaceGetDataURL() => '/v1/marketplace/get-data';
   static String postAddMarketplaceURL() => '/v1/marketplace/add-item';
   static String getMarketplaceProductDetailsURL(int productId) => '/v1/marketplace/details/$productId';
+  static String getYourMarketplaceProductURL() => '/v1/marketplace/my-products?search&page&per_page=1000';
 }

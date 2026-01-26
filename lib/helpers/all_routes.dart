@@ -29,6 +29,7 @@ import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_sc
 import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/search_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/your_marketplace_product_screen.dart';
 import 'package:twwillustration/navigation_screen.dart';
 import '../features/auth/presentation/forgot_pass_screen.dart';
 import '../features/auth/presentation/login_screen.dart';
@@ -90,6 +91,8 @@ final class Routes {
   static const String addClosetScreen = '/addClosetScreen';
   static const String subscriptionScreen = '/subscriptionScreen';
   static const String listSuccessfullScreen = '/listSuccessfullScreen';
+  static const String yourMarketplaceProductScreen = '/yourMarketplaceProductScreen';
+
 }
 
 final class RouteGenerator {
@@ -279,6 +282,11 @@ final class RouteGenerator {
         return Platform.isAndroid
           ? _FadedTransitionRoute(widget: BlockUserScreen(), settings: settings)
           : CupertinoPageRoute(builder: (context) => BlockUserScreen());
+
+      case Routes.yourMarketplaceProductScreen:
+        return Platform.isAndroid
+          ? _FadedTransitionRoute(widget: YourMarketplaceProductScreen(), settings: settings)
+          : CupertinoPageRoute(builder: (context) => YourMarketplaceProductScreen());
 
       case Routes.faqScreen:
         return Platform.isAndroid

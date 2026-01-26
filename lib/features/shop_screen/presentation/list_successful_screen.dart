@@ -10,6 +10,7 @@ import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_shimmer_image.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_details_model.dart';
 import 'package:twwillustration/features/shop_screen/widget/list_successfull_page_shimmer_widget.dart';
+import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
@@ -32,12 +33,9 @@ class _ListSuccessfulScreenState extends State<ListSuccessfulScreen> {
     try {
       setState(() => isLoading = true);
 
-      print('>>>>>>>>>>>>> isLoading : $isLoading <<<<<<<<<<<<<<<<<<<<<<');
-
       bool success = await getMarketplaceProductDetailsRxObj.getMarketplaceProductDetailsRx(productId);
 
       if (success) {
-        print('>>>>>>>>>>>>> success : $success <<<<<<<<<<<<<<<<<<<<<<');
         getMarketplaceProductDetailsRxObj.getMarketplaceProductDetailsData.listen((product) {
           setState(() {
             productDetails = [product];
@@ -175,7 +173,7 @@ class _ListSuccessfulScreenState extends State<ListSuccessfulScreen> {
                       UIHelper.verticalSpace(20.h),
                       CustomButton(
                         name: 'View Your Product',
-                        onCallBack: () {},
+                        onCallBack: () {NavigationService.navigateTo(Routes.yourMarketplaceProductScreen);},
                         borderRadius: 25.r,
                         context: context,
                         color: AppColor.cD5E7B0,
