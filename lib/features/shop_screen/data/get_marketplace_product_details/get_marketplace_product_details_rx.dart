@@ -6,7 +6,7 @@ import 'package:twwillustration/features/shop_screen/model/get_marketplace_produ
 import 'package:twwillustration/helpers/toast.dart';
 import 'package:twwillustration/networks/rx_base.dart';
 
-final class GetMarketplaceProductDetailsRx extends RxResponseInt{
+final class GetMarketplaceProductDetailsRx extends RxResponseInt<GetMarketplaceProductDetailsModel>{
   final api = GetMarketplaceProductDetailsApi.instance;
 
   GetMarketplaceProductDetailsRx({required super.empty, required super.dataFetcher});
@@ -25,7 +25,7 @@ final class GetMarketplaceProductDetailsRx extends RxResponseInt{
   }
 
   @override
-  handleSuccessWithReturn(dynamic data) {
+  handleSuccessWithReturn(GetMarketplaceProductDetailsModel data) {
     dataFetcher.sink.add(data);
     return data;
   }

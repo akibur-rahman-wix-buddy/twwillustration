@@ -36,8 +36,10 @@ import 'package:twwillustration/features/profile/model/get_single_outfit_data_mo
 import 'package:twwillustration/features/settings/data/logout_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/add_marketplace/post_add_marketplace_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_marketplace_product_details/get_marketplace_product_details_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/get_your_marketplace_product/get_your_marketplace_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/market_place_get_data/market_place_get_data_rx.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_details_model.dart';
+import 'package:twwillustration/features/shop_screen/model/get_your_marketplace_product.dart';
 import 'package:twwillustration/features/shop_screen/model/market_place_get_data_model.dart';
 import '../features/profile/data/clothes/get_categories/get_categories_rx.dart';
 import '../features/profile/data/clothes/get_single_category/get_single_category_rx..dart';
@@ -129,3 +131,6 @@ PostAddMarketplaceRx postAddMarketplaceRxObj =
 
 GetMarketplaceProductDetailsRx getMarketplaceProductDetailsRxObj = GetMarketplaceProductDetailsRx(
     empty: GetMarketplaceProductDetailsModel(), dataFetcher: BehaviorSubject<GetMarketplaceProductDetailsModel>());
+
+GetYourMarketplaceProductRx getYourMarketplaceProductRxObj = GetYourMarketplaceProductRx(
+  empty: GetYourMarketplaceProductModel(), dataFetcher: BehaviorSubject<GetYourMarketplaceProductModel>());

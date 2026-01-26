@@ -28,6 +28,7 @@ class _ProfileWidgetsState extends State<ProfileWidgets> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
+      behavior: HitTestBehavior.translucent,
       child: Row(
         children: [
           widget.icon,
