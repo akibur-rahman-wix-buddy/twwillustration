@@ -77,7 +77,6 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                     Spacer(),
                     GestureDetector(
                       onTap: () {
-                        // Navigate to SearchScreen
                         NavigationService.navigateTo(Routes.searchScreen);
                       },
                       child: SvgPicture.asset(
@@ -89,7 +88,7 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                     GestureDetector(
                       onTap: () {
                         // Navigate to AddToShopScreen
-                        NavigationService.navigateTo(Routes.addToShop);
+                        NavigationService.navigateTo(Routes.wishlistScreen);
                       },
                       child: SvgPicture.asset(
                         AppIcons.addIcon,
