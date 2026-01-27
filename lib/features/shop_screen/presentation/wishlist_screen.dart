@@ -18,7 +18,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       title: 'Summer Fashion',
       subtitle: 'Worn 12x',
       price: 78.99,
-      image: AppImages.dressImage, // তোমার অ্যাসেট ইমেজ দিন
+      image: AppImages.dressImage,
       condition: 'Excellent',
       liked: false,
     ),
@@ -26,10 +26,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ফলোব্যাক কালার (যদি AppColor না থাকে তাহলে এইগুলো ইউজ করতে পারো)
-    // final bg = const Color(0xFFF3F5F7);
-    // final cardBg = Colors.white;
-
     return Scaffold(
       backgroundColor: AppColor.cF3F5F7, // bg
       appBar: CustomAppbar(
@@ -42,7 +38,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
           itemCount: _items.length + 1,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
-            // Section header
             if (index == 0) {
               return Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 8),
@@ -90,7 +85,6 @@ class _WishlistCard extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       child: Row(
         children: [
-          // Image area (slightly inset rounded container like mock)
           Container(
             width: 86,
             height: 86,
@@ -115,7 +109,6 @@ class _WishlistCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title + like
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

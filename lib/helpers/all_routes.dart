@@ -26,9 +26,11 @@ import 'package:twwillustration/features/profile/presentation/profile_screen.dar
 import 'package:twwillustration/features/quick_stats_screen/quick_stats_screen.dart';
 import 'package:twwillustration/features/settings/presentation/settings_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/chat_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/search_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/wishlist_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/your_marketplace_product_screen.dart';
 import 'package:twwillustration/navigation_screen.dart';
 import '../features/auth/presentation/forgot_pass_screen.dart';
@@ -92,6 +94,8 @@ final class Routes {
   static const String subscriptionScreen = '/subscriptionScreen';
   static const String listSuccessfullScreen = '/listSuccessfullScreen';
   static const String yourMarketplaceProductScreen = '/yourMarketplaceProductScreen';
+  static const String wishlistScreen = '/wishlistScreen';
+  static const String chatScreen = '/chatScreen';
 
 }
 
@@ -283,10 +287,20 @@ final class RouteGenerator {
           ? _FadedTransitionRoute(widget: BlockUserScreen(), settings: settings)
           : CupertinoPageRoute(builder: (context) => BlockUserScreen());
 
+      case Routes.wishlistScreen:
+        return Platform.isAndroid
+          ? _FadedTransitionRoute(widget: WishlistScreen(), settings: settings)
+          : CupertinoPageRoute(builder: (context) => WishlistScreen());
+
       case Routes.yourMarketplaceProductScreen:
         return Platform.isAndroid
           ? _FadedTransitionRoute(widget: YourMarketplaceProductScreen(), settings: settings)
           : CupertinoPageRoute(builder: (context) => YourMarketplaceProductScreen());
+
+      case Routes.chatScreen:
+        return Platform.isAndroid
+          ? _FadedTransitionRoute(widget: ChatScreen(), settings: settings)
+          : CupertinoPageRoute(builder: (context) => ChatScreen());
 
       case Routes.faqScreen:
         return Platform.isAndroid
