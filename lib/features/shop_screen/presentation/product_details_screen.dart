@@ -21,7 +21,6 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-
   final _questionController = TextEditingController();
 
   final List<Map<String, dynamic>> products = [
@@ -104,8 +103,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 'Crew-Neck Sweater',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColor.c000000,
@@ -116,8 +114,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 '\$39.99',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w800,
                                   color: AppColor.c000000,
@@ -137,8 +134,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                             child: Text(
                               'Excelent',
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
                                 color: AppColor.c000000,
@@ -179,8 +175,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
                         'Lorem Ipsum has been the industry\'s standard dummy text',
                         trimLines: 2,
-                        colorClickableText:
-                            const Color.fromARGB(255, 126, 188, 0),
+                        colorClickableText: const Color.fromARGB(255, 126, 188, 0),
                         trimMode: TrimMode.Line,
                         trimCollapsedText: '  Read More',
                         trimExpandedText: '   Show Less',
@@ -217,8 +212,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           child: Text(
                             'M',
-                            style: TextFontStyle.textStyle12w400NunitoSans
-                                .copyWith(
+                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                               color: AppColor.c000000,
@@ -233,14 +227,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       children: [
                         CustomButton(
                           name: 'Chat',
-                          onCallBack: () {NavigationService.navigateTo(Routes.chatScreen);},
+                          onCallBack: () {
+                            NavigationService.navigateTo(Routes.chatScreen);
+                          },
                           context: context,
                           minWidth: 150.w,
                           color: AppColor.cFFFFFF,
                           borderColor: AppColor.primaryColors,
                           borderRadius: 80,
-                          textStyle:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                             color: AppColor.c000000,
@@ -254,8 +249,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           color: AppColor.primaryColors,
                           borderColor: AppColor.primaryColors,
                           borderRadius: 80,
-                          textStyle:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
                             color: AppColor.c000000,
@@ -295,7 +289,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(width: 190.w,
+                          SizedBox(
+                            width: 190.w,
                             child: CustomTextField(
                               controller: _questionController,
                               hintText: 'Have a question? Ask here',
@@ -310,8 +305,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             height: 50.h,
                             color: AppColor.primaryColors,
                             borderRadius: 80,
-                            textStyle: TextFontStyle.textStyle12w400NunitoSans
-                                .copyWith(
+                            textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColor.c000000,
@@ -338,16 +332,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             color: AppColor.primaryColors,
-                                            borderRadius:
-                                                BorderRadius.circular(80.r),
+                                            borderRadius: BorderRadius.circular(80.r),
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.all(10),
                                             child: Text(
                                               'Q',
-                                              style: TextFontStyle
-                                                  .textStyle12w400NunitoSans
-                                                  .copyWith(
+                                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                 fontSize: 10.sp,
                                                 fontWeight: FontWeight.bold,
                                                 color: AppColor.c000000,
@@ -359,9 +350,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       UIHelper.horizontalSpace(8.w),
                                       Text(
                                         'Is this sweater machine washable?',
-                                        style: TextFontStyle
-                                            .textStyle12w400NunitoSans
-                                            .copyWith(
+                                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.bold,
                                           color: AppColor.c000000,
@@ -377,16 +366,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             color: AppColor.primaryColors,
-                                            borderRadius:
-                                                BorderRadius.circular(80.r),
+                                            borderRadius: BorderRadius.circular(80.r),
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.all(10),
                                             child: Text(
                                               'A',
-                                              style: TextFontStyle
-                                                  .textStyle12w400NunitoSans
-                                                  .copyWith(
+                                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                                 fontSize: 10.sp,
                                                 fontWeight: FontWeight.bold,
                                                 color: AppColor.c000000,
@@ -398,9 +384,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       UIHelper.horizontalSpace(8.w),
                                       Text(
                                         'Yes, it\'s safe for machine wash in cold water.',
-                                        style: TextFontStyle
-                                            .textStyle12w400NunitoSans
-                                            .copyWith(
+                                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.bold,
                                           color: AppColor.c757575,
@@ -423,8 +407,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'View more questions',
-                          style:
-                              TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
                             color: const Color.fromARGB(255, 118, 176, 0),
@@ -457,40 +440,40 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: (MediaQuery.of(context).size.height -
-                          kToolbarHeight -
-                          150.h -
-                          24.h -
-                          56.h -
-                          24.h -
-                          24.h)
-                      .clamp(200.h,
-                          double.infinity), // Adjusted height calculation
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8.0,
-                      mainAxisSpacing: 8.0,
-                      childAspectRatio: 0.75,
-                    ),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      return ProductCard(
-                        imageUrl: products[index]['image'],
-                        name: products[index]['name'],
-                        condition: products[index]['condition'],
-                        price: products[index]['price'],
-                        status: products[index]['status'], onTap: () {},
-                      );
-                    },
-                  ),
-                ),
-              ),
+              // Container(
+              //   padding: EdgeInsets.all(8.0),
+              //   child: SizedBox(
+              //     height: (MediaQuery.of(context).size.height -
+              //             kToolbarHeight -
+              //             150.h -
+              //             24.h -
+              //             56.h -
+              //             24.h -
+              //             24.h)
+              //         .clamp(200.h,
+              //             double.infinity), // Adjusted height calculation
+              //     child: GridView.builder(
+              //       shrinkWrap: true,
+              //       physics: NeverScrollableScrollPhysics(),
+              //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //         crossAxisCount: 2,
+              //         crossAxisSpacing: 8.0,
+              //         mainAxisSpacing: 8.0,
+              //         childAspectRatio: 0.75,
+              //       ),
+              //       itemCount: products.length,
+              //       itemBuilder: (context, index) {
+              //         return ProductCard(
+              //           imageUrl: products[index]['image'],
+              //           name: products[index]['name'],
+              //           condition: products[index]['condition'],
+              //           price: products[index]['price'],
+              //           status: products[index]['status'], onTap: () {},
+              //         );
+              //       },
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
