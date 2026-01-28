@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
+import 'package:twwillustration/assets_helper/app_image.dart';
+import 'package:twwillustration/common_widgets/custom_shimmer_image.dart';
 
 class ProductCard extends StatelessWidget {
   final String imageUrl;
   final String name;
   final String condition;
   final String price;
-  final String status;
   final VoidCallback onTap;
+  final VoidCallback toggleFavorite;
+  final IconData favoriteIcon;
 
   const ProductCard({
     super.key,
@@ -16,7 +20,9 @@ class ProductCard extends StatelessWidget {
     required this.name,
     required this.condition,
     required this.price,
-    required this.status, required this.onTap,
+    required this.onTap,
+    required this.toggleFavorite,
+    required this.favoriteIcon,
   });
 
   @override
@@ -37,21 +43,12 @@ class ProductCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                    child: Image.asset(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        child: Icon(
-                          Icons.error,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
+                ShimmerImage(
+                  imageUrl: imageUrl,
+                  placeholder: AppImages.placeholderImage,
+                  height: 140.h,
+                  width: double.infinity,
+                  boxFit: BoxFit.contain,
                 ),
                 Padding(
                   padding: EdgeInsets.all(8.0),
@@ -61,12 +58,11 @@ class ProductCard extends StatelessWidget {
                       Text(
                         name,
                         style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(height: 4.h),
                       Text(
                         condition,
                         style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
@@ -74,40 +70,13 @@ class ProductCard extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(height: 4.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            price,
-                            style:
-                                TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 4.h),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1.w,
-                              ),
-                            ),
-                            child: Text(
-                              status,
-                              style: TextFontStyle.textStyle12w400NunitoSans
-                                  .copyWith(
-                                fontSize: 12.sp,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '\$$price',
+                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
                       ),
                     ],
                   ),
@@ -117,8 +86,13 @@ class ProductCard extends StatelessWidget {
             Positioned(
               top: 8.h,
               right: 8.w,
-              child: Icon(Icons.favorite_border,
-                  color: Colors.grey[600], size: 20.sp),
+              child: GestureDetector(
+                  onTap: toggleFavorite,
+                  child: Icon(
+                    favoriteIcon,
+                    color: Colors.blueGrey,
+                    size: 25.sp,
+                  )),
             ),
           ],
         ),

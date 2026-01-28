@@ -156,40 +156,40 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    height: (MediaQuery.of(context).size.height -
-                            kToolbarHeight -
-                            150.h -
-                            24.h -
-                            56.h -
-                            24.h -
-                            24.h)
-                        .clamp(200.h,
-                            double.infinity), // Adjusted height calculation
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8.0,
-                        mainAxisSpacing: 8.0,
-                        childAspectRatio: 0.75,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                          imageUrl: products[index]['image'],
-                          name: products[index]['name'],
-                          condition: products[index]['condition'],
-                          price: products[index]['price'],
-                          status: products[index]['status'], onTap: () {},
-                        );
-                      },
-                    ),
-                  ),
-                ),
+                // Container(
+                //   padding: EdgeInsets.all(8.0),
+                //   child: SizedBox(
+                //     height: (MediaQuery.of(context).size.height -
+                //             kToolbarHeight -
+                //             150.h -
+                //             24.h -
+                //             56.h -
+                //             24.h -
+                //             24.h)
+                //         .clamp(200.h,
+                //             double.infinity), // Adjusted height calculation
+                //     child: GridView.builder(
+                //       shrinkWrap: true,
+                //       physics: NeverScrollableScrollPhysics(),
+                //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //         crossAxisCount: 2,
+                //         crossAxisSpacing: 8.0,
+                //         mainAxisSpacing: 8.0,
+                //         childAspectRatio: 0.75,
+                //       ),
+                //       itemCount: products.length,
+                //       itemBuilder: (context, index) {
+                //         return ProductCard(
+                //           imageUrl: products[index]['image'],
+                //           name: products[index]['name'],
+                //           condition: products[index]['condition'],
+                //           price: products[index]['price'],
+                //           status: products[index]['status'], onTap: () {},
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

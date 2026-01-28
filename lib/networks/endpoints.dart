@@ -83,6 +83,8 @@ class Endpoints {
   static String postCommentLikeURL(int commentId) => '/v1/community/comment/$commentId/like-toggle';
   static String marketPlaceGetDataURL() => '/v1/marketplace/get-data';
   static String postAddMarketplaceURL() => '/v1/marketplace/add-item';
+  static String toggleProductFavoriteUnfovartieURL() => '/v1/marketplace/favorites/toggle';
   static String getMarketplaceProductDetailsURL(int productId) => '/v1/marketplace/details/$productId';
   static String getYourMarketplaceProductURL() => '/v1/marketplace/my-products?search&page&per_page=1000';
+  static String getMarketplaceProductURL(String? category, String? search) => '/v1/marketplace?category=$category&search=$search&page=1&per_page=1000';
 }
