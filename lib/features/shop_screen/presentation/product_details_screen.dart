@@ -7,59 +7,97 @@ import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
+import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_details_model.dart';
+import 'package:twwillustration/features/shop_screen/model/get_qa_data_model.dart';
 import 'package:twwillustration/features/shop_screen/widget/product_card.dart';
+import 'package:twwillustration/features/shop_screen/widget/product_details_shimmer.dart';
 import 'package:twwillustration/features/shop_screen/widget/product_slider_card.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  final int productId;
+
+  const ProductDetailsScreen({super.key, required this.productId});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  bool isLoading = true;
+
   final _questionController = TextEditingController();
 
-  final List<Map<String, dynamic>> products = [
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Good',
-    },
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Excellent',
-    },
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Good',
-    },
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Good',
-    },
+  List<GetMarketplaceProductDetailsModel> _productDetails = [];
+  List<GetQADataModel>? _qaList;
+
+  final placeholderImage = [
+    const AssetImage(AppImages.placeholderImage),
   ];
 
-  // ডেমো ইমেজগুলো (assets থেকে)
-  final demoImages = [
-    const AssetImage(AppImages.imageOne),
-    const AssetImage(AppImages.imageTwo),
-    const AssetImage(AppImages.imageThree),
-  ];
+  Future<void> fetchMatketplaceProductDetails(int productId) async {
+    setState(() => isLoading = true);
+    try {
+      bool success = await getMarketplaceProductDetailsRxObj.getMarketplaceProductDetailsRx(productId);
+
+      if (success) {
+        getMarketplaceProductDetailsRxObj.getMarketplaceProductDetailsData.listen((product) {
+          setState(() {
+            _productDetails = [product];
+            isLoading = false;
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      debugPrint('>>>>error during : $error<<<<<<<');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> fetchQaData(int productId) async {
+    try {
+      bool success = await getQaDataRxObj.getQaDataRx(productId);
+      if (success) {
+        getQaDataRxObj.getGetQaData.listen((qa) {
+          setState(() {
+            _qaList = [qa];
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      debugPrint('>>>>>error during get QA : $error <<<<<<<<<<<<');
+    }
+  }
+
+  Future<void> postAskQuestion(int productId, String question) async {
+    try {
+      bool success = await postAskQuestionRxObj.postAskQuestionRx(productId, question);
+
+      if (success) {
+        await fetchQaData(productId);
+        setState(() => _questionController.clear());
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      debugPrint('>>>>>error during ask question : $error <<<<<<<<<<<<<<<');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchMatketplaceProductDetails(widget.productId);
+    fetchQaData(widget.productId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,410 +110,411 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // শুধু একটা প্রোডাক্ট কার্ড
-              ProductSliderCard(
-                width: double.infinity,
-                height: 300,
-                images: demoImages,
-                isFavorite: false,
-                onTap: () {},
-              ),
-              UIHelper.verticalSpace(20.h),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
+          child: isLoading || _productDetails.isEmpty
+              ? ProductDetailsShimmer()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Crew-Neck Sweater',
-                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    ProductSliderCard(
+                      width: double.infinity,
+                      height: 300,
+                      images: _productDetails.first.data?.product?.images ?? placeholderImage,
+                      isFavorite: _productDetails.first.data?.product?.isFav ?? false,
+                      onTap: () async {
+                        final wasFollowing = _productDetails.first.data?.product?.isFav ?? false;
+                        setState(() {
+                          _productDetails.first.data?.product?.isFav = !wasFollowing;
+                        });
+                        bool success = await toggleFavoriteUnfovariteRxObj
+                            .toggleFavoriteUnfovariteRx(_productDetails.first.data?.product?.id ?? 0);
+                        if (!success) {
+                          setState(() {
+                            _productDetails.first.data?.product?.isFav = wasFollowing;
+                          });
+                          await getMarketplaceProductRxObj.getMarketplaceProductRx('', '');
+                        }
+                      },
+                    ),
+                    UIHelper.verticalSpace(20.h),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _productDetails.first.data?.product?.title ?? '',
+                                    style: TextFontStyle.Inter10W800.copyWith(
+                                      fontSize: 20.sp,
+                                      color: AppColor.c000000,
+                                    ),
+                                  ),
+                                  UIHelper.verticalSpace(8.h),
+                                  Text(
+                                    '\$${_productDetails.first.data?.product?.price}',
+                                    style: TextFontStyle.Inter10W800.copyWith(
+                                      fontSize: 20.sp,
+                                      color: AppColor.c000000,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: AppColor.cF3F5F7,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                                  child: Text(
+                                    _productDetails.first.data?.product?.condition ?? '',
+                                    style: TextFontStyle.inter10W400.copyWith(
+                                      fontSize: 12.sp,
+                                      color: AppColor.c757575,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          UIHelper.verticalSpace(12.h),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.local_shipping_outlined,
+                                color: AppColor.c757575,
+                                size: 20.sp,
+                              ),
+                              UIHelper.horizontalSpace(8.w),
+                              Text(
+                                _productDetails.first.data?.product?.shippingOption ?? '',
+                                style: TextFontStyle.inter10W400.copyWith(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColor.c757575,
+                                ),
+                              ),
+                            ],
+                          ),
+                          UIHelper.verticalSpace(16.h),
+                          Text(
+                            'Descriptions',
+                            style: TextFontStyle.Inter10W600.copyWith(
+                              fontSize: 18.sp,
+                              color: AppColor.c000000,
+                            ),
+                          ),
+                          UIHelper.verticalSpace(8.h),
+                          ReadMoreText(
+                            _productDetails.first.data?.product?.description ?? '',
+                            trimLines: 2,
+                            colorClickableText: const Color.fromARGB(255, 126, 188, 0),
+                            trimMode: TrimMode.Line,
+                            trimCollapsedText: '  Read More',
+                            trimExpandedText: '   Show Less',
+                            style: TextFontStyle.inter10W400.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.c757575,
+                            ),
+                          ),
+                          UIHelper.verticalSpace(24.h),
+                          Text(
+                            'Sizes',
+                            style: TextFontStyle.Inter10W600.copyWith(
+                              fontSize: 18.sp,
+                              color: AppColor.c000000,
+                            ),
+                          ),
+                          UIHelper.verticalSpace(8.h),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColor.primaryColors,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                                child: Text(
+                                  _productDetails.first.data?.product?.size ?? '',
+                                  style: TextFontStyle.Inter10W600.copyWith(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF182245),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          UIHelper.verticalSpace(24.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomButton(
+                                name: 'Chat',
+                                onCallBack: () {
+                                  NavigationService.navigateTo(Routes.chatScreen);
+                                },
+                                context: context,
+                                minWidth: 150.w,
+                                color: AppColor.cFFFFFF,
+                                borderColor: AppColor.primaryColors,
+                                borderRadius: 80,
+                                textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColor.c000000,
                                 ),
                               ),
+                              CustomButton(
+                                name: 'Buy Now',
+                                onCallBack: () {},
+                                context: context,
+                                minWidth: 150.w,
+                                color: AppColor.primaryColors,
+                                borderColor: AppColor.primaryColors,
+                                borderRadius: 80,
+                                textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColor.c000000,
+                                ),
+                              ),
+                            ],
+                          ),
+                          UIHelper.verticalSpace(20.h),
+                        ],
+                      ),
+                    ),
+                    UIHelper.verticalSpace(20.h),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColor.cFFFFFF,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(
+                          5,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Q&A about this item',
+                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.c000000,
+                              ),
                             ),
+                            UIHelper.verticalSpace(
+                              17.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CustomTextField(
+                                    controller: _questionController,
+                                    height: 41.h,
+                                    hintText: 'Have a question? Ask here',
+                                  ),
+                                ),
+                                UIHelper.horizontalSpace(12.w),
+                                CustomButton(
+                                  name: 'Ask',
+                                  onCallBack: () async {
+                                    if (_questionController.text.trim().isNotEmpty) {
+                                      await postAskQuestion(widget.productId, _questionController.text.trim());
+                                    }
+                                  },
+                                  context: context,
+                                  minWidth: 73.w,
+                                  height: 41.h,
+                                  color: AppColor.primaryColors,
+                                  borderRadius: 80,
+                                  textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColor.c000000,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            UIHelper.verticalSpace(17.h),
+                            ListView.builder(
+                              itemCount: _qaList?.first.data?.length,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index) {
+                                final qusetsion = _qaList?.first.data?[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 16.h),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColor.primaryColors,
+                                              borderRadius: BorderRadius.circular(80.r),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: Text(
+                                                'Q',
+                                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                                  fontSize: 10.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColor.c000000,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          UIHelper.horizontalSpace(8.w),
+                                          Text(
+                                            qusetsion?.question ?? '',
+                                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColor.c000000,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      UIHelper.verticalSpace(8.h),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColor.primaryColors,
+                                              borderRadius: BorderRadius.circular(80.r),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: Text(
+                                                'A',
+                                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                                  fontSize: 10.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: AppColor.c000000,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          UIHelper.horizontalSpace(8.w),
+                                          Text(
+                                            qusetsion?.answer ?? '',
+                                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColor.c757575,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(
+                                        color: AppColor.c637381,
+                                        thickness: 1,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                            UIHelper.verticalSpace(10.h),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                '\$39.99',
+                                'View more questions',
                                 style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColor.c000000,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color.fromARGB(255, 118, 176, 0),
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColor.cF3F5F7,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(
-                              8,
-                            ),
-                            child: Text(
-                              'Excelent',
-                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                                color: AppColor.c000000,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    UIHelper.verticalSpace(12.h),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Free Shipping',
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.c000000,
-                        ),
                       ),
                     ),
-                    UIHelper.verticalSpace(12.h),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Descriptions',
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.c000000,
-                        ),
-                      ),
-                    ),
-                    UIHelper.verticalSpace(12.h),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: ReadMoreText(
-                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
-                        'Lorem Ipsum has been the industry\'s standard dummy text',
-                        trimLines: 2,
-                        colorClickableText: const Color.fromARGB(255, 126, 188, 0),
-                        trimMode: TrimMode.Line,
-                        trimCollapsedText: '  Read More',
-                        trimExpandedText: '   Show Less',
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.c757575,
-                        ),
-                      ),
-                    ),
-                    UIHelper.verticalSpace(12.h),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Sizes',
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.c000000,
-                        ),
-                      ),
-                    ),
-                    UIHelper.verticalSpace(12.h),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColor.primaryColors,
-                          borderRadius: BorderRadius.circular(80),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(
-                            16,
-                          ),
-                          child: Text(
-                            'M',
-                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.c000000,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    UIHelper.verticalSpace(20.h),
+                    UIHelper.verticalSpace(16.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomButton(
-                          name: 'Chat',
-                          onCallBack: () {
-                            NavigationService.navigateTo(Routes.chatScreen);
-                          },
-                          context: context,
-                          minWidth: 150.w,
-                          color: AppColor.cFFFFFF,
-                          borderColor: AppColor.primaryColors,
-                          borderRadius: 80,
-                          textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                        Text(
+                          'Similar items may you like!',
+                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                            color: AppColor.c000000,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppColor.c000000,
                           ),
                         ),
-                        CustomButton(
-                          name: 'Buy Now',
-                          onCallBack: () {},
-                          context: context,
-                          minWidth: 150.w,
-                          color: AppColor.primaryColors,
-                          borderColor: AppColor.primaryColors,
-                          borderRadius: 80,
-                          textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
+                        Text(
+                          'View all',
+                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                             color: AppColor.c000000,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ],
                     ),
                     UIHelper.verticalSpace(20.h),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 8.0,
+                        mainAxisSpacing: 8.0,
+                        childAspectRatio: 0.80,
+                      ),
+                      itemCount: _productDetails.first.data?.relatedProducts?.length,
+                      itemBuilder: (context, index) {
+                        final product = _productDetails.first.data?.relatedProducts?[index];
+                        return ProductCard(
+                            imageUrl: product?.image ?? '',
+                            name: product?.title ?? '',
+                            condition: product?.condition ?? '',
+                            price: product?.price ?? '',
+                            onTap: () {
+                              NavigationService.navigateToWithArgs(
+                                  Routes.productDetailsScreen, {'productId': product?.id ?? 0});
+                            },
+                            toggleFavorite: () async {
+                              final wasFollowing = product?.isFav ?? false;
+                              setState(() {
+                                product?.isFav = !wasFollowing;
+                              });
+                              bool success =
+                                  await toggleFavoriteUnfovariteRxObj.toggleFavoriteUnfovariteRx(product?.id ?? 0);
+                              if (!success) {
+                                setState(() {
+                                  product?.isFav = wasFollowing;
+                                });
+                                await getMarketplaceProductRxObj.getMarketplaceProductRx('', '');
+                              }
+                            },
+                            favoriteIcon: (product?.isFav ?? false) ? Icons.favorite : Icons.favorite_border);
+                      },
+                    ),
+                    UIHelper.verticalSpaceMediumLarge
                   ],
                 ),
-              ),
-              UIHelper.verticalSpace(20.h),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: AppColor.cFFFFFF,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(
-                    5,
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Q&A about this item',
-                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.c000000,
-                        ),
-                      ),
-                      UIHelper.verticalSpace(
-                        12.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 190.w,
-                            child: CustomTextField(
-                              controller: _questionController,
-                              hintText: 'Have a question? Ask here',
-                            ),
-                          ),
-                          UIHelper.horizontalSpace(12.w),
-                          CustomButton(
-                            name: 'Ask',
-                            onCallBack: () {},
-                            context: context,
-                            minWidth: 80.w,
-                            height: 50.h,
-                            color: AppColor.primaryColors,
-                            borderRadius: 80,
-                            textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.c000000,
-                            ),
-                          ),
-                        ],
-                      ),
-                      UIHelper.verticalSpace(12.h),
-                      SizedBox(
-                        height: 200, // প্রয়োজনমতো height দিন
-                        child: ListView.builder(
-                          itemCount: 2, // কয়বার দেখাতে চান
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 16.h),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: AppColor.primaryColors,
-                                            borderRadius: BorderRadius.circular(80.r),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Text(
-                                              'Q',
-                                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                                                fontSize: 10.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColor.c000000,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      UIHelper.horizontalSpace(8.w),
-                                      Text(
-                                        'Is this sweater machine washable?',
-                                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColor.c000000,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  UIHelper.verticalSpace(8.h),
-                                  Row(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: AppColor.primaryColors,
-                                            borderRadius: BorderRadius.circular(80.r),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Text(
-                                              'A',
-                                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                                                fontSize: 10.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColor.c000000,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      UIHelper.horizontalSpace(8.w),
-                                      Text(
-                                        'Yes, it\'s safe for machine wash in cold water.',
-                                        style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColor.c757575,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: AppColor.c637381,
-                                    thickness: 1,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      UIHelper.verticalSpace(10.h),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'View more questions',
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 118, 176, 0),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              UIHelper.verticalSpace(16.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Similar items may you like!',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      color: AppColor.c000000,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    'View all',
-                    style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      color: AppColor.c000000,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-              // Container(
-              //   padding: EdgeInsets.all(8.0),
-              //   child: SizedBox(
-              //     height: (MediaQuery.of(context).size.height -
-              //             kToolbarHeight -
-              //             150.h -
-              //             24.h -
-              //             56.h -
-              //             24.h -
-              //             24.h)
-              //         .clamp(200.h,
-              //             double.infinity), // Adjusted height calculation
-              //     child: GridView.builder(
-              //       shrinkWrap: true,
-              //       physics: NeverScrollableScrollPhysics(),
-              //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //         crossAxisCount: 2,
-              //         crossAxisSpacing: 8.0,
-              //         mainAxisSpacing: 8.0,
-              //         childAspectRatio: 0.75,
-              //       ),
-              //       itemCount: products.length,
-              //       itemBuilder: (context, index) {
-              //         return ProductCard(
-              //           imageUrl: products[index]['image'],
-              //           name: products[index]['name'],
-              //           condition: products[index]['condition'],
-              //           price: products[index]['price'],
-              //           status: products[index]['status'], onTap: () {},
-              //         );
-              //       },
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
         ),
       ),
     );

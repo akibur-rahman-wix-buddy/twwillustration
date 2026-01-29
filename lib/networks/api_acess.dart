@@ -37,11 +37,14 @@ import 'package:twwillustration/features/settings/data/logout_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/add_marketplace/post_add_marketplace_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_marketplace_product/get_marketplace_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_marketplace_product_details/get_marketplace_product_details_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/get_qa_data/get_qa_data_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_your_marketplace_product/get_your_marketplace_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/market_place_get_data/market_place_get_data_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/post_ask_question/post_ask_question_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/toggle_favorite_unfovarite/toggle_favorite_unfovarite_rx.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_details_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_model.dart';
+import 'package:twwillustration/features/shop_screen/model/get_qa_data_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_your_marketplace_product.dart';
 import 'package:twwillustration/features/shop_screen/model/market_place_get_data_model.dart';
 import '../features/profile/data/clothes/get_categories/get_categories_rx.dart';
@@ -141,4 +144,10 @@ GetYourMarketplaceProductRx getYourMarketplaceProductRxObj = GetYourMarketplaceP
 GetMarketplaceProductRx getMarketplaceProductRxObj = GetMarketplaceProductRx(
     empty: GetMarketplaceProductModel(), dataFetcher: BehaviorSubject<GetMarketplaceProductModel>());
 
-ToggleFavoriteUnfovariteRx toggleFavoriteUnfovariteRxObj = ToggleFavoriteUnfovariteRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+ToggleFavoriteUnfovariteRx toggleFavoriteUnfovariteRxObj =
+    ToggleFavoriteUnfovariteRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+GetQaDataRx getQaDataRxObj = GetQaDataRx(empty: GetQADataModel(), dataFetcher: BehaviorSubject<GetQADataModel>());
+
+PostAskQuestionRx postAskQuestionRxObj =
+    PostAskQuestionRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());

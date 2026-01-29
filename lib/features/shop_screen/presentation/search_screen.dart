@@ -7,8 +7,13 @@ import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
+import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_model.dart';
+import 'package:twwillustration/features/shop_screen/widget/marketplace_screen_shimmer.dart';
 import 'package:twwillustration/features/shop_screen/widget/product_card.dart';
+import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
+import 'package:twwillustration/networks/api_acess.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -18,39 +23,43 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  bool isLoading = true;
+
+  List<GetMarketplaceProductModel> _allProducts = [];
+  List<GetMarketplaceProductModel> _popularProducts = [];
+
+  final List<String> _recentSearch = ['t', 'g', 'gh', 'top', 'title', 'test'];
+
+  Future<void> fetchMarketplaceProduct(String? category, String? search) async {
+    setState(() => isLoading = true);
+    try {
+      bool success = await getMarketplaceProductRxObj.getMarketplaceProductRx(category, search);
+
+      if (success) {
+        getMarketplaceProductRxObj.getMarketplaceProductData.listen((product) {
+          setState(() {
+            _allProducts = [product];
+            isLoading = false;
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      debugPrint('error during : $error');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
 
   final _searchController = TextEditingController();
 
-  final List<Map<String, dynamic>> products = [
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Good',
-    },
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Excellent',
-    },
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Good',
-    },
-    {
-      'image': AppImages.dressImage, // Replace with valid URL or asset
-      'name': 'Summer Fashion',
-      'condition': 'Worn 12x',
-      'price': '\$78.99',
-      'status': 'Good',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchMarketplaceProduct('', '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,139 +69,214 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundColor: AppColor.cF3F5F7,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(
-              16,
-            ),
-            child: Column(
-              children: [
-                    CustomTextField(
-                  controller: _searchController,
-                  hintText: 'Search here.....',
-                  onChanged: (value) {},
-                ),
-                UIHelper.verticalSpace(10.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Recent Search',
-                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        color: AppColor.c000000,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'Clear',
-                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                          color: AppColor.c000000,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w800),
-                    ),
-                  ],
-                ),
-                UIHelper.verticalSpace(16.h),
-                SizedBox(
-                  height: 30.h,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(right: 8.w),
-                        child: Container(
-                          height: 30.h,
-                          width: 80.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                AppIcons.refreshIcon,
-                                height: 14.h,
-                                width: 14.w,
-                              ),
-                              UIHelper.horizontalSpace(8.w),
-                              Text(
-                                'Jacket',
-                                style: TextFontStyle.textStyle12w400NunitoSans
-                                    .copyWith(
-                                  color: AppColor.c000000,
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                UIHelper.verticalSpace(16.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Popular Products',
-                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        color: AppColor.c000000,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'See All',
-                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        color: AppColor.c000000,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ],
-                ),
-                // Container(
-                //   padding: EdgeInsets.all(8.0),
-                //   child: SizedBox(
-                //     height: (MediaQuery.of(context).size.height -
-                //             kToolbarHeight -
-                //             150.h -
-                //             24.h -
-                //             56.h -
-                //             24.h -
-                //             24.h)
-                //         .clamp(200.h,
-                //             double.infinity), // Adjusted height calculation
-                //     child: GridView.builder(
-                //       shrinkWrap: true,
-                //       physics: NeverScrollableScrollPhysics(),
-                //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //         crossAxisCount: 2,
-                //         crossAxisSpacing: 8.0,
-                //         mainAxisSpacing: 8.0,
-                //         childAspectRatio: 0.75,
-                //       ),
-                //       itemCount: products.length,
-                //       itemBuilder: (context, index) {
-                //         return ProductCard(
-                //           imageUrl: products[index]['image'],
-                //           name: products[index]['name'],
-                //           condition: products[index]['condition'],
-                //           price: products[index]['price'],
-                //           status: products[index]['status'], onTap: () {},
-                //         );
-                //       },
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16.w,
           ),
+          child: _allProducts.isEmpty
+              ? searchScreenShimmer()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      controller: _searchController,
+                      rightIconButton: GestureDetector(onTap: () {
+                        setState(() => _searchController.text = '');
+                        fetchMarketplaceProduct('', '');
+                      }, child: SvgPicture.asset(AppIcons.cancel)),
+                      hintText: 'Search here.....',
+                      onChanged: (value) {
+                        setState(() {
+                          _searchController.text = value;
+                        });
+                        fetchMarketplaceProduct('', value);
+                      },
+                    ),
+                    UIHelper.verticalSpace(10.h),
+                    _searchController.text.isEmpty
+                        ? SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Recent Search',
+                                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                        color: AppColor.c000000,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Clear',
+                                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                          color: AppColor.c000000, fontSize: 14.sp, fontWeight: FontWeight.w800),
+                                    ),
+                                  ],
+                                ),
+                                UIHelper.verticalSpace(16.h),
+                                SizedBox(
+                                  height: 30.h,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: _recentSearch.length,
+                                    itemBuilder: (context, index) {
+                                      final item = _recentSearch[index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _searchController.text = item;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: 8.w),
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset(
+                                                  AppIcons.refreshIcon,
+                                                  height: 14.h,
+                                                  width: 14.w,
+                                                ),
+                                                UIHelper.horizontalSpace(8.w),
+                                                Text(
+                                                  item,
+                                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                                    color: AppColor.c000000,
+                                                    fontSize: 12.sp,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                UIHelper.verticalSpace(16.h),
+                                Text(
+                                  'Popular Products',
+                                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                    color: AppColor.c000000,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                UIHelper.verticalSpace(16.h),
+                                SizedBox(
+                                  height: 220.h,
+                                  child: isLoading
+                                      ? productListShimmer()
+                                      : _allProducts.first.data!.isEmpty
+                                          ? Center(
+                                              child: Text(
+                                              'No product found',
+                                              style: TextFontStyle.Inter10W800.copyWith(
+                                                fontSize: 24.sp,
+                                                color: AppColor.c000000,
+                                              ),
+                                            ))
+                                          : ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: _allProducts.first.data?.length,
+                                              itemBuilder: (context, index) {
+                                                final product = _allProducts.first.data?[index];
+                                                return Container(
+                                                    width: 163.w,
+                                                    margin: EdgeInsets.only(right: 10.w),
+                                                    child: ProductCard(
+                                                        imageUrl: product?.image ?? '',
+                                                        name: product?.title ?? '',
+                                                        condition: product?.condition ?? '',
+                                                        price: product?.price ?? '',
+                                                        onTap: () {
+                                                          NavigationService.navigateToWithArgs(Routes.productDetailsScreen, {'productId' : product?.id ?? 0});
+                                                        },
+                                                        toggleFavorite: () async {
+                                                          final wasFollowing = product?.isFav ?? false;
+                                                          setState(() {
+                                                            product?.isFav = !wasFollowing;
+                                                          });
+                                                          bool success = await toggleFavoriteUnfovariteRxObj
+                                                              .toggleFavoriteUnfovariteRx(product?.id ?? 0);
+                                                          if (!success) {
+                                                            setState(() {
+                                                              product?.isFav = wasFollowing;
+                                                            });
+                                                            await getMarketplaceProductRxObj.getMarketplaceProductRx(
+                                                                '', '');
+                                                          }
+                                                        },
+                                                        favoriteIcon: (product?.isFav ?? false)
+                                                            ? Icons.favorite
+                                                            : Icons.favorite_border));
+                                              }),
+                                ),
+                              ],
+                            ),
+                          )
+                        : isLoading
+                            ? Expanded(child: SingleChildScrollView(child: productGridShimmer()))
+                            : _allProducts.first.data!.isEmpty
+                                ? Center(
+                                    child: Text('No product found',
+                                        style: TextFontStyle.Inter10W800.copyWith(
+                                          fontSize: 24.sp,
+                                          color: AppColor.c000000,
+                                        )))
+                                : Expanded(
+                                    child: GridView.builder(
+                                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 8.0,
+                                        mainAxisSpacing: 8.0,
+                                        childAspectRatio: 0.80,
+                                      ),
+                                      itemCount: ((_allProducts.first.data?.length ?? 0) > 5)
+                                          ? 4
+                                          : _allProducts.first.data?.length,
+                                      itemBuilder: (context, index) {
+                                        final product = _allProducts.first.data?[index];
+                                        return ProductCard(
+                                            imageUrl: product?.image ?? '',
+                                            name: product?.title ?? '',
+                                            condition: product?.condition ?? '',
+                                            price: product?.price ?? '',
+                                            onTap: () {
+                                              NavigationService.navigateToWithArgs(Routes.productDetailsScreen, {'productId' : product?.id ?? 0});
+                                            },
+                                            toggleFavorite: () async {
+                                              final wasFollowing = product?.isFav ?? false;
+                                              setState(() {
+                                                product?.isFav = !wasFollowing;
+                                              });
+                                              bool success = await toggleFavoriteUnfovariteRxObj
+                                                  .toggleFavoriteUnfovariteRx(product?.id ?? 0);
+                                              if (!success) {
+                                                setState(() {
+                                                  product?.isFav = wasFollowing;
+                                                });
+                                                await getMarketplaceProductRxObj.getMarketplaceProductRx('', '');
+                                              }
+                                            },
+                                            favoriteIcon:
+                                                (product?.isFav ?? false) ? Icons.favorite : Icons.favorite_border);
+                                      },
+                                    ),
+                                  ),
+                    UIHelper.verticalSpaceMediumLarge
+                  ],
+                ),
         ),
       ),
     );

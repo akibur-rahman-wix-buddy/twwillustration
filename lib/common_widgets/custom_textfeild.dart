@@ -28,6 +28,7 @@ class CustomTextField extends StatefulWidget {
   final TextStyle? hintTextSyle;
   final ValueChanged<String>? onChanged;
   final TextInputType? keybordType;
+  final Widget? rightIconButton;
 
   const CustomTextField({
     super.key,
@@ -47,11 +48,13 @@ class CustomTextField extends StatefulWidget {
     this.textAlign = TextAlign.start,
     this.height = 65.0,
     this.width,
-    this.onTap, 
-    this.readOnly, 
-    this.hintTextSyle, 
-    this.inputFormatters, 
-    this.onChanged, this.keybordType,
+    this.onTap,
+    this.readOnly,
+    this.hintTextSyle,
+    this.inputFormatters,
+    this.onChanged,
+    this.keybordType,
+    this.rightIconButton,
   });
 
   @override
@@ -67,10 +70,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.title != null && widget.title!.isNotEmpty) ...[
-            Text(widget.title!, style: TextFontStyle.textStyle14w400c333333.copyWith(color: Color(0xFF000000))
-            ),
-            const SizedBox(height: 8),
-          ],
+          Text(widget.title!, style: TextFontStyle.textStyle14w400c333333.copyWith(color: Color(0xFF000000))),
+          const SizedBox(height: 8),
+        ],
         Container(
           height: widget.height?.h ?? 56.h,
           width: widget.width?.w,
@@ -78,9 +80,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             color: widget.fieldColor ?? AppColor.cFFFFFF,
             borderRadius: BorderRadius.circular(28.r),
             border: Border.all(
-              color: _errorText != null
-                  ? Colors.red
-                  : (widget.borderColor ?? const Color(0xffe8e8e8)),
+              color: _errorText != null ? Colors.red : (widget.borderColor ?? const Color(0xffe8e8e8)),
               width: 1.w,
             ),
           ),
@@ -96,7 +96,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   controller: widget.controller,
                   obscureText: widget.isPassword && widget.obscureText,
                   maxLines: widget.maxline ?? 1,
-                  
+
                   /// ✅ VALIDATOR FIXED
                   validator: widget.validator,
                   inputFormatters: widget.inputFormatters,
@@ -114,30 +114,32 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     hintText: widget.hintText,
                     hintStyle: widget.hintTextSyle ??
                         TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                      color: Color(0xFF757575),
-                      fontSize: 14.sp,
-                    ),
+                          color: Color(0xFF757575),
+                          fontSize: 14.sp,
+                        ),
                     border: InputBorder.none,
 
                     /// ✅ hide default error
                     errorStyle: const TextStyle(height: 0),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 14.h),
+                    contentPadding: EdgeInsets.symmetric(vertical: 14.h),
                   ),
                 ),
               ),
               if (widget.rightIcon != null) ...[
                 SizedBox(width: 12.w),
-                SvgPicture.asset(widget.rightIcon!,
-                    height: 20.h, width: 20.w),
+                SvgPicture.asset(widget.rightIcon!, height: 20.h, width: 20.w),
+              ],
+              if (widget.rightIconButton != null) ...[
+                SizedBox(width: 12.w),
+                SizedBox(
+                  child: widget.rightIconButton,
+                )
               ],
               if (widget.isPassword)
                 GestureDetector(
                   onTap: widget.toggleVisibility,
                   child: Icon(
-                    widget.obscureText
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                    widget.obscureText ? Icons.visibility_off : Icons.visibility,
                     color: AppColor.c979797,
                   ),
                 ),
