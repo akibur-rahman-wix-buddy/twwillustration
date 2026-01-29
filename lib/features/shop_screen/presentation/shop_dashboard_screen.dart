@@ -7,7 +7,6 @@ import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/features/profile/model/get_categories_data_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_model.dart';
-import 'package:twwillustration/features/shop_screen/widget/custom_category_select_widget.dart';
 import 'package:twwillustration/features/shop_screen/widget/marketplace_screen_shimmer.dart';
 import 'package:twwillustration/features/shop_screen/widget/product_card.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
@@ -79,7 +78,6 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
   @override
   void initState() {
     super.initState();
-    print('>>>>>>>>>>>>>>inti state<<<<<<<<<<<<<<<<<<');
     fetchMarketplaceProduct('', '');
     fetchCategories();
   }
@@ -95,7 +93,7 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
               vertical: 60.h,
               horizontal: 20.w,
             ),
-            child: isLoading
+            child: _allProducts.isEmpty || _categories.isEmpty
                 ? ShopDashboardShimmer()
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +122,7 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                           GestureDetector(
                             onTap: () {
                               // Navigate to AddToShopScreen
-                              NavigationService.navigateTo(Routes.wishlistScreen);
+                              NavigationService.navigateTo(Routes.addToShop);
                             },
                             child: SvgPicture.asset(
                               AppIcons.addIcon,
@@ -258,13 +256,11 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                       ),
                       UIHelper.verticalSpace(16.h),
                       SizedBox(
-                        height: 240.h,
-                        child: _allProducts.isEmpty
-                            ? SizedBox(
-                                height: 300,
-                              )
+                        height: 220.h,
+                        child: isLoading
+                            ? productListShimmer()
                             : _allProducts.first.data!.isEmpty
-                                ? Text('No data found')
+                                ? Center(child: Text('No product found', style: TextFontStyle.Inter10W800.copyWith(fontSize: 24.sp, color: AppColor.c000000,),))
                                 : ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: _allProducts.first.data?.length,
@@ -279,21 +275,22 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                                               condition: product?.condition ?? '',
                                               price: product?.price ?? '',
                                               onTap: () {
-                                                NavigationService.navigateTo(Routes.productDetailsScreen);
+                                                NavigationService.navigateToWithArgs(Routes.productDetailsScreen, {'productId' : product?.id ?? 0});
                                               },
-                                              toggleFavorite: () async{
-                                        final wasFollowing = product?.isFav ?? false;
-                                        setState(() {
-                                          product?.isFav = !wasFollowing;
-                                        });
-                                        bool success = await toggleFavoriteUnfovariteRxObj.toggleFavoriteUnfovariteRx(product?.id ?? 0);
-                                        if(!success){
-                                          setState(() {
-                                            product?.isFav = wasFollowing;
-                                          });
-                                          await getMarketplaceProductRxObj.getMarketplaceProductRx('', '');
-                                        }
-                                      },
+                                              toggleFavorite: () async {
+                                                final wasFollowing = product?.isFav ?? false;
+                                                setState(() {
+                                                  product?.isFav = !wasFollowing;
+                                                });
+                                                bool success = await toggleFavoriteUnfovariteRxObj
+                                                    .toggleFavoriteUnfovariteRx(product?.id ?? 0);
+                                                if (!success) {
+                                                  setState(() {
+                                                    product?.isFav = wasFollowing;
+                                                  });
+                                                  await getMarketplaceProductRxObj.getMarketplaceProductRx('', '');
+                                                }
+                                              },
                                               favoriteIcon:
                                                   (product?.isFav ?? false) ? Icons.favorite : Icons.favorite_border));
                                     }),
@@ -311,24 +308,22 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {NavigationService.navigateTo(Routes.marketplaceProductScreen);},
                             child: Text(
                               'View All',
-                              style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                              style: TextFontStyle.Inter10W800.copyWith(
                                 fontSize: 14.sp,
-                                color: Colors.black,
+                                color: Colors.blueAccent,
                               ),
                             ),
                           ),
                         ],
                       ),
                       UIHelper.verticalSpace(16.h),
-                      _allProducts.isEmpty
-                          ? SizedBox(
-                              height: 300,
-                            )
+                      isLoading
+                          ? productGridShimmer()
                           : _allProducts.first.data!.isEmpty
-                              ? Text('No data found')
+                              ? Center(child: Text('No product found', style: TextFontStyle.Inter10W800.copyWith(fontSize: 24.sp, color: AppColor.c000000,)))
                               : GridView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
@@ -336,7 +331,7 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                                     crossAxisCount: 2,
                                     crossAxisSpacing: 8.0,
                                     mainAxisSpacing: 8.0,
-                                    childAspectRatio: 0.75,
+                                    childAspectRatio: 0.80,
                                   ),
                                   itemCount: ((_allProducts.first.data?.length ?? 0) > 5)
                                       ? 4
@@ -349,21 +344,22 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                                         condition: product?.condition ?? '',
                                         price: product?.price ?? '',
                                         onTap: () {
-                                          NavigationService.navigateTo(Routes.productDetailsScreen);
+                                          NavigationService.navigateToWithArgs(Routes.productDetailsScreen, {'productId' : product?.id ?? 0});
                                         },
-                                        toggleFavorite: () async{
-                                        final wasFollowing = product?.isFav ?? false;
-                                        setState(() {
-                                          product?.isFav = !wasFollowing;
-                                        });
-                                        bool success = await toggleFavoriteUnfovariteRxObj.toggleFavoriteUnfovariteRx(product?.id ?? 0);
-                                        if(!success){
+                                        toggleFavorite: () async {
+                                          final wasFollowing = product?.isFav ?? false;
                                           setState(() {
-                                            product?.isFav = wasFollowing;
+                                            product?.isFav = !wasFollowing;
                                           });
-                                          await getMarketplaceProductRxObj.getMarketplaceProductRx('', '');
-                                        }
-                                      },
+                                          bool success = await toggleFavoriteUnfovariteRxObj
+                                              .toggleFavoriteUnfovariteRx(product?.id ?? 0);
+                                          if (!success) {
+                                            setState(() {
+                                              product?.isFav = wasFollowing;
+                                            });
+                                            await getMarketplaceProductRxObj.getMarketplaceProductRx('', '');
+                                          }
+                                        },
                                         favoriteIcon:
                                             (product?.isFav ?? false) ? Icons.favorite : Icons.favorite_border);
                                   },

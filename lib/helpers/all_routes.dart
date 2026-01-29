@@ -28,6 +28,7 @@ import 'package:twwillustration/features/settings/presentation/settings_screen.d
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/chat_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/marketplace_product_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/search_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/wishlist_screen.dart';
@@ -96,6 +97,7 @@ final class Routes {
   static const String yourMarketplaceProductScreen = '/yourMarketplaceProductScreen';
   static const String wishlistScreen = '/wishlistScreen';
   static const String chatScreen = '/chatScreen';
+  static const String marketplaceProductScreen = '/marketplaceProductScreen';
 
 }
 
@@ -240,16 +242,23 @@ final class RouteGenerator {
             : CupertinoPageRoute(builder: (context) => SearchScreen());
 
       case Routes.productDetailsScreen:
+      final args = settings.arguments as Map;
         return Platform.isAndroid
             ? _FadedTransitionRoute(
-                widget: ProductDetailsScreen(), settings: settings)
-            : CupertinoPageRoute(builder: (context) => ProductDetailsScreen());
+                widget: ProductDetailsScreen(productId: args['productId'],), settings: settings)
+            : CupertinoPageRoute(builder: (context) => ProductDetailsScreen(productId: args['productId'],));
 
       case Routes.createPostScreen:
         return Platform.isAndroid
             ? _FadedTransitionRoute(
                 widget: CreatePostScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => CreatePostScreen());
+
+      case Routes.marketplaceProductScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: MarketplaceProductScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => MarketplaceProductScreen());
 
       case Routes.listSuccessfullScreen:
       final args = settings.arguments as Map;
