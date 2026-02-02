@@ -41,7 +41,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
             Text(
               "Verification",
-              style: TextFontStyle.Inter10W700.copyWith(
+              style: TextFontStyle.inter10W700.copyWith(
                   fontSize: 32,
                   color: AppColor.c2F2F2F),
             ),
@@ -104,7 +104,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   UIHelper.horizontalSpace(8.w),
                   Text(
                     "Resend",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                         fontSize: 16, color: const Color(0xff5A5C5F)),
                   ),
                 ],
@@ -140,7 +140,7 @@ class _OtpScreenState extends State<OtpScreen> {
               },
               height: 47.h,
               width: double.infinity,
-              textStyle: TextFontStyle.Inter10W600.copyWith(
+              textStyle: TextFontStyle.inter10W600.copyWith(
                 fontSize: 14,
                 color: AppColor.c181818,
               ),

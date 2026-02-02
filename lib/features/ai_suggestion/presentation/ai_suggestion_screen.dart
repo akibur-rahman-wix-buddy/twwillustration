@@ -56,7 +56,7 @@ class _AiSuggestionScreenState extends State<AiSuggestionScreen> {
                   Text(
                     "You’ve hit your free suggestion limit.\nUpgrade to unlock more!",
                     textAlign: TextAlign.center,
-                    style: TextFontStyle.Inter10W700.copyWith(
+                    style: TextFontStyle.inter10W700.copyWith(
                       color: Colors.black87,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
@@ -78,7 +78,7 @@ class _AiSuggestionScreenState extends State<AiSuggestionScreen> {
                     ),
                     child: Text(
                       "Upgrade Now",
-                      style: TextFontStyle.Inter10W600.copyWith(
+                      style: TextFontStyle.inter10W600.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                         fontSize: 12.sp,
@@ -159,7 +159,7 @@ class _AiSuggestionScreenState extends State<AiSuggestionScreen> {
                               SizedBox(height: 6),
                               Text(
                                 "Upgrade Pro",
-                                style: TextFontStyle.Inter10W700.copyWith(
+                                style: TextFontStyle.inter10W700.copyWith(
                                   color: Colors.black87,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -240,7 +240,7 @@ class _AiSuggestionScreenState extends State<AiSuggestionScreen> {
                 ),
                 child: Text(
                   "Refresh",
-                  style: TextFontStyle.Inter10W700.copyWith(
+                  style: TextFontStyle.inter10W700.copyWith(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                     fontSize: 14.sp,
@@ -260,7 +260,7 @@ class _AiSuggestionScreenState extends State<AiSuggestionScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title,
-            style: TextFontStyle.Inter10W700.copyWith(
+            style: TextFontStyle.inter10W700.copyWith(
               fontWeight: FontWeight.w500,
               color: Colors.black54,
               fontSize: 14.sp,
@@ -269,7 +269,7 @@ class _AiSuggestionScreenState extends State<AiSuggestionScreen> {
           children: [
             Text(
               value,
-              style: TextFontStyle.Inter10W700.copyWith(
+              style: TextFontStyle.inter10W700.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
                 fontSize: 14.sp,

@@ -40,7 +40,7 @@ class _BlockUserScreenState extends State<BlockUserScreen> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Blocked Users (3)',
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 12.h,
                       color: AppColor.c000000.withOpacity(0.4),
                       fontWeight: FontWeight.w700,

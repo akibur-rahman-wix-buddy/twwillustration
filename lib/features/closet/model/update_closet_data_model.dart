@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 class PostUpdateClosetModel {
   String title;
   List categories;

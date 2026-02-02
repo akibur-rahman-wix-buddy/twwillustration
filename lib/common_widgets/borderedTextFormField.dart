@@ -6,8 +6,8 @@ import '../assets_helper/app_colors.dart';
 
 class BorderedTextFormField extends StatefulWidget {
   final String hintText;
-  final String? IconUrl;
-  final String? prefixIconUrl;
+  final String? iconUrl;
+  final String? prefixiconUrl;
   final int maxLine;
   final bool isIcon;
   final bool isPrefixIcon;
@@ -31,7 +31,7 @@ class BorderedTextFormField extends StatefulWidget {
   const BorderedTextFormField({
     super.key,
     required this.hintText,
-    this.IconUrl,
+    this.iconUrl,
     required this.isIcon,
     this.textEditingController,
     this.onCallback,
@@ -41,7 +41,7 @@ class BorderedTextFormField extends StatefulWidget {
     required this.maxLine,
     required this.textStyle,
     required this.isPrefixIcon,
-    this.prefixIconUrl,
+    this.prefixiconUrl,
     this.textInputType,
     this.textInputAction,
     required this.borderColor,
@@ -63,7 +63,7 @@ class _BorderedTextFormFieldState extends State<BorderedTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.width,
       //height: 60.h,
       /*  decoration: BoxDecoration(
@@ -98,7 +98,7 @@ class _BorderedTextFormFieldState extends State<BorderedTextFormField> {
               ? Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 10),
                   child: SvgPicture.asset(
-                    widget.prefixIconUrl!,
+                    widget.prefixiconUrl!,
                     height: 12,
                     width: 12,
                   ),
@@ -109,7 +109,7 @@ class _BorderedTextFormFieldState extends State<BorderedTextFormField> {
               child: widget.isIcon == true
                   ? GestureDetector(
                       onTap: widget.onCallback,
-                      child: SvgPicture.asset(widget.IconUrl!))
+                      child: SvgPicture.asset(widget.iconUrl!))
                   : widget.isPassword == true
                       ? GestureDetector(
                           onTap: () {

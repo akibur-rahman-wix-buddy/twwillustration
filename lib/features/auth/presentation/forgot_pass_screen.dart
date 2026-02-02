@@ -47,7 +47,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                   ),
                 ),
                 Text("Forgot Password",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 14,
                       color: AppColor.c2F2F2F,
                     )),
@@ -62,7 +62,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
         
             Text(
               "Forgot Password",
-              style: TextFontStyle.Inter10W600.copyWith(
+              style: TextFontStyle.inter10W600.copyWith(
                   fontSize: 32,
                   fontWeight: FontWeight.w600,
                   color: AppColor.c2F2F2F),
@@ -78,7 +78,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
             /// Email
             Text(
               "Email",
-              style: TextFontStyle.Inter10W600.copyWith(
+              style: TextFontStyle.inter10W600.copyWith(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: AppColor.c757575,
@@ -118,7 +118,7 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
               },
               height: 47.h,
               width: double.infinity,
-              textStyle: TextFontStyle.Inter10W600.copyWith(
+              textStyle: TextFontStyle.inter10W600.copyWith(
                 fontSize: 14,
                 color: AppColor.c181818,
               ),

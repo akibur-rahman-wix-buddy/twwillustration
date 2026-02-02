@@ -1,4 +1,5 @@
 // ignore_for_file: unused_element, library_private_types_in_public_api
+import 'package:elysian_nav/elysian_nav.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/features/ai_screen/presentation/ai_screen.dart';
@@ -20,8 +21,6 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-
-
   bool showOverlay = true;
   int selectedIndex = 0;
   bool isLoading = false;
@@ -31,7 +30,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
     _checkFirstTime();
     super.initState();
   }
-
 
   Future<void> _checkFirstTime() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -70,75 +68,55 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 ],
               ),
               Positioned(
-                bottom: 10.h,
-                left: 16.w,
-                right: 16.w,
-                child: Container(
-                  height: 72.h,
-                  decoration: BoxDecoration(
-                    color: AppColor.c1C1C1C,
-                    borderRadius: BorderRadius.circular(67.r),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildNavItem(AppIcons.homeIcon, "Home", 0),
-                      _buildNavItem(AppIcons.wardrobeSvg, "Wardrobe", 1),
-                      _buildNavItem(AppIcons.aiSvg, "AI", 2),
-                      _buildNavItem(AppIcons.shopSvg, "Shop", 3),
-                      _buildNavItem(AppIcons.communitySvg, "Community", 4),
-                    ],
-                  ),
-                ),
-              ),
+                  bottom: 10.h,
+                  left: 16.w,
+                  right: 16.w,
+                  child: ElysianNav(
+                      padding: EdgeInsets.zero,
+                      currentIndex: selectedIndex,
+                      onTap: (index) => setState(() {
+                            selectedIndex = index;
+                          }),
+                      selectedLabelStyle: TextFontStyle.inter10W600.copyWith(color: AppColor.cD5E7B0),
+                      unselectedLabelStyle: TextFontStyle.inter10W400.copyWith(color: AppColor.c7B7B7B),
+                      selectedItemColor: AppColor.cD5E7B0,
+                      backgroundColor: AppColor.c1C1C1C,
+                      items: [
+                        ElysianNavItem(
+                            icon: SvgPicture.asset(AppIcons.homeIcon,
+                                colorFilter: ColorFilter.mode(AppColor.c7B7B7B, BlendMode.srcIn)),
+                            activeIcon: SvgPicture.asset(AppIcons.homeIcon,
+                                colorFilter: ColorFilter.mode(AppColor.cD5E7B0, BlendMode.srcIn)),
+                            label: 'Home'),
+                        ElysianNavItem(
+                            icon: SvgPicture.asset(AppIcons.wardrobeSvg,
+                                colorFilter: ColorFilter.mode(AppColor.c7B7B7B, BlendMode.srcIn)),
+                            activeIcon: SvgPicture.asset(AppIcons.wardrobeSvg,
+                                colorFilter: ColorFilter.mode(AppColor.cD5E7B0, BlendMode.srcIn)),
+                            label: 'Wardrobe'),
+                        ElysianNavItem(
+                            icon: SvgPicture.asset(AppIcons.aiSvg,
+                                colorFilter: ColorFilter.mode(AppColor.c7B7B7B, BlendMode.srcIn)),
+                            activeIcon: SvgPicture.asset(AppIcons.aiSvg,
+                                colorFilter: ColorFilter.mode(AppColor.cD5E7B0, BlendMode.srcIn)),
+                            label: 'AI'),
+                        ElysianNavItem(
+                            icon: SvgPicture.asset(AppIcons.shopSvg,
+                                colorFilter: ColorFilter.mode(AppColor.c7B7B7B, BlendMode.srcIn)),
+                            activeIcon: SvgPicture.asset(AppIcons.shopSvg,
+                                colorFilter: ColorFilter.mode(AppColor.cD5E7B0, BlendMode.srcIn)),
+                            label: 'Shop'),
+                        ElysianNavItem(
+                            icon: SvgPicture.asset(AppIcons.communitySvg,
+                                colorFilter: ColorFilter.mode(AppColor.c7B7B7B, BlendMode.srcIn)),
+                            activeIcon: SvgPicture.asset(AppIcons.communitySvg,
+                                colorFilter: ColorFilter.mode(AppColor.cD5E7B0, BlendMode.srcIn)),
+                            label: 'Community'),
+                      ])),
             ],
           ),
         ),
       ],
     );
   }
-
-  Widget  _buildNavItem(String icon, String label, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedIndex = index;
-          // if ((index == 1 || index == 2 || index == 3) &&
-          //     !appData.read(kKeyIsLoggedIn)) {
-          //   ToastUtil.showLongToast('You need to login first');
-          // } else {
-          //   selectedIndex = index;
-          // }
-        });
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            icon,
-            colorFilter: ColorFilter.mode(
-              selectedIndex == index ? AppColor.cD5E7B0 : AppColor.c7B7B7B,
-              BlendMode.srcIn,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-              fontSize: 12,
-              color:
-                  selectedIndex == index ? AppColor.cD5E7B0 : AppColor.c7B7B7B,
-              fontWeight:
-                  selectedIndex == index ? FontWeight.w800 : FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-extension on Color {
-  withValues({required double alpha}) {}
 }

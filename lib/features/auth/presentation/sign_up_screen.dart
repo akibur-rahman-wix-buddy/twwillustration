@@ -41,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   UIHelper.verticalSpace(25.h),
                   Text(
                     "Greendrobe",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 40,
                       fontWeight: FontWeight.w600,
                       color: AppColor.c181818,
@@ -50,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   UIHelper.verticalSpace(32.h),
                   Text(
                     "Sign Up",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: AppColor.c181818,
@@ -69,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   /// =============== First Name Field =============== ///
                   Text(
                     "First Name",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColor.c757575,
@@ -92,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   /// =============== Last Name Field =============== ///
                   Text(
                     "Last Name",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColor.c757575,
@@ -115,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   /// =============== Email Field =============== ///
                   Text(
                     "Email",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColor.c757575,
@@ -142,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   /// =============== Password Field =============== ///
                   Text(
                     "Password",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColor.c757575,
@@ -182,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         UIHelper.horizontalSpace(4.w),
                         Text(
                           "Sign In",
-                          style: TextFontStyle.Inter10W600.copyWith(
+                          style: TextFontStyle.inter10W600.copyWith(
                             fontSize: 14,
                             color: const Color(0xff5A5C5F),
                           ),
@@ -235,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                           height: 47.h,
                           width: double.infinity,
-                          textStyle: TextFontStyle.Inter10W600.copyWith(
+                          textStyle: TextFontStyle.inter10W600.copyWith(
                             fontSize: 14,
                             color: AppColor.c181818,
                           ),

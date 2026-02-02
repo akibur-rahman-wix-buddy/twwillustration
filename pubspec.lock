@@ -353,6 +353,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.7"
+  elysian_nav:
+    dependency: "direct main"
+    description:
+      name: elysian_nav
+      sha256: a1fb3cb0bd3a7408e886059cd4cce65c06904b698cccd61f0f7506fae6488240
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   equatable:
     dependency: transitive
     description:

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
@@ -159,13 +158,13 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
                             value: 'block',
                             child: Text(
                               'Block this user',
-                              style: TextFontStyle.Inter10W500.copyWith(color: Color(0xFF5E5E5E), fontSize: 14.sp),
+                              style: TextFontStyle.inter10W500.copyWith(color: Color(0xFF5E5E5E), fontSize: 14.sp),
                             )),
                         PopupMenuItem<String>(
                             value: 'report',
                             child: Text(
                               'Report this post',
-                              style: TextFontStyle.Inter10W500.copyWith(color: Color(0xFF5E5E5E), fontSize: 14.sp),
+                              style: TextFontStyle.inter10W500.copyWith(color: Color(0xFF5E5E5E), fontSize: 14.sp),
                             ))
                       ])),
         ),
@@ -262,7 +261,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
                           minWidth: 81.w,
                           height: 36.h,
                           borderColor: AppColor.primaryColors,
-                          textStyle: TextFontStyle.Inter10W800.copyWith(
+                          textStyle: TextFontStyle.inter10W800.copyWith(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 16.sp,
@@ -329,7 +328,7 @@ class _CommunityProfileScreenState extends State<CommunityProfileScreen> {
                                     child: Center(
                                       child: Text(
                                         '12',
-                                        style: TextFontStyle.Inter10W500.copyWith(
+                                        style: TextFontStyle.inter10W500.copyWith(
                                             fontSize: 12.sp, color: Color(0xFF2F2F2F)),
                                       ),
                                     ),

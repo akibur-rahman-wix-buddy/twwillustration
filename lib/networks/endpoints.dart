@@ -87,6 +87,11 @@ class Endpoints {
   static String getMarketplaceProductDetailsURL(int productId) => '/v1/marketplace/details/$productId';
   static String getQADataURL(int productId) => '/v1/marketplace/product-questions/$productId';
   static String postAskQuestionURL() => '/v1/marketplace/product-questions';
+  static String postAskQuestionReplayURL() => '/v1/marketplace/product-questions/store/answer';
   static String getYourMarketplaceProductURL() => '/v1/marketplace/my-products?search&page&per_page=1000';
   static String getMarketplaceProductURL(String? category, String? search) => '/v1/marketplace?category=$category&search=$search&page=1&per_page=1000';
+  static String getChatListURL(String? search) => '/v1/marketplace/conversation/list?search=$search&page&per_page=1000';
+  static String getSpecificUserChatURL(int usreId) => '/v1/marketplace/conversation/details/$usreId';
+  static String getWishlistProductURL() => '/v1/marketplace/favorites?page=1&per_page=1000';
+  static String postSendMessageURL() => '/v1/marketplace/conversation/send';
 }

@@ -308,14 +308,14 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                     value: 'delete',
                                                     child: Text(
                                                       'Delete',
-                                                      style: TextFontStyle.Inter10W500.copyWith(
+                                                      style: TextFontStyle.inter10W500.copyWith(
                                                           color: Color(0xFF5E5E5E), fontSize: 14.sp),
                                                     )),
                                                 PopupMenuItem<String>(
                                                     value: 'market',
                                                     child: Text(
                                                       'Move to Market',
-                                                      style: TextFontStyle.Inter10W500.copyWith(
+                                                      style: TextFontStyle.inter10W500.copyWith(
                                                           color: Color(0xFF5E5E5E), fontSize: 14.sp),
                                                     ))
                                               ])),
@@ -383,7 +383,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                           children: [
                                                             Text(
                                                               'Add Title',
-                                                              style: TextFontStyle.Inter10W600.copyWith(
+                                                              style: TextFontStyle.inter10W600.copyWith(
                                                                 fontSize: 20.sp,
                                                                 color: Color(0xFF2F2F2F),
                                                               ),
@@ -405,7 +405,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                         Spacer(),
                                                         CustomButton(
                                                             name: 'Save',
-                                                            textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                            textStyle: TextFontStyle.inter10W600.copyWith(
                                                                 color: Colors.black, fontSize: 16),
                                                             color: AppColor.cD5E7B0,
                                                             borderRadius: 100,
@@ -511,7 +511,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                               ),
                                                               Text(
                                                                 'Categories',
-                                                                style: TextFontStyle.Inter10W600.copyWith(
+                                                                style: TextFontStyle.inter10W600.copyWith(
                                                                   fontSize: 20.sp,
                                                                   color: Color(0xFF2F2F2F),
                                                                 ),
@@ -623,7 +623,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                               name: "Save",
                                                               color: AppColor.cD5E7B0,
                                                               borderRadius: 100.r,
-                                                              textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                              textStyle: TextFontStyle.inter10W600.copyWith(
                                                                   color: Colors.black, fontSize: 16.sp),
                                                               onCallBack: () {
                                                                 setState(() {});
@@ -751,7 +751,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                           children: [
                                                             Text(
                                                               'Add Occation',
-                                                              style: TextFontStyle.Inter10W600.copyWith(
+                                                              style: TextFontStyle.inter10W600.copyWith(
                                                                 fontSize: 20.sp,
                                                                 color: Color(0xFF2F2F2F),
                                                               ),
@@ -770,7 +770,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                         Spacer(),
                                                         CustomButton(
                                                             name: 'Save',
-                                                            textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                            textStyle: TextFontStyle.inter10W600.copyWith(
                                                                 color: Colors.black, fontSize: 16),
                                                             color: AppColor.cD5E7B0,
                                                             borderRadius: 100,
@@ -856,7 +856,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                           children: [
                                                             Text(
                                                               'Add Brand',
-                                                              style: TextFontStyle.Inter10W600.copyWith(
+                                                              style: TextFontStyle.inter10W600.copyWith(
                                                                 fontSize: 20.sp,
                                                                 color: Color(0xFF2F2F2F),
                                                               ),
@@ -875,7 +875,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                         Spacer(),
                                                         CustomButton(
                                                             name: 'Save',
-                                                            textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                            textStyle: TextFontStyle.inter10W600.copyWith(
                                                                 color: Colors.black, fontSize: 16),
                                                             color: AppColor.cD5E7B0,
                                                             borderRadius: 100,
@@ -978,7 +978,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                               ),
                                                               Text(
                                                                 'Add Colors',
-                                                                style: TextFontStyle.Inter10W600.copyWith(
+                                                                style: TextFontStyle.inter10W600.copyWith(
                                                                   fontSize: 20.sp,
                                                                   color: Color(0xFF2F2F2F),
                                                                 ),
@@ -1033,7 +1033,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                                       borderRadius: BorderRadius.circular(30.r)),
                                                                   child: Text(
                                                                     'Add',
-                                                                    style: TextFontStyle.Inter10W600.copyWith(
+                                                                    style: TextFontStyle.inter10W600.copyWith(
                                                                         color: Colors.black, fontSize: 16.sp),
                                                                   ),
                                                                 ),
@@ -1078,7 +1078,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                               },
                                                               color: AppColor.cD5E7B0,
                                                               borderRadius: 100,
-                                                              textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                              textStyle: TextFontStyle.inter10W600.copyWith(
                                                                   color: Colors.black, fontSize: 16.sp),
                                                               context: context)
                                                         ],
@@ -1281,7 +1281,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                           children: [
                                                             Text(
                                                               'Add Pattern',
-                                                              style: TextFontStyle.Inter10W600.copyWith(
+                                                              style: TextFontStyle.inter10W600.copyWith(
                                                                 fontSize: 20.sp,
                                                                 color: Color(0xFF2F2F2F),
                                                               ),
@@ -1300,7 +1300,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                         Spacer(),
                                                         CustomButton(
                                                             name: 'Save',
-                                                            textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                            textStyle: TextFontStyle.inter10W600.copyWith(
                                                                 color: Colors.black, fontSize: 16),
                                                             color: AppColor.cD5E7B0,
                                                             borderRadius: 100,
@@ -1558,7 +1558,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                           children: [
                                                             Text(
                                                               'Add Price',
-                                                              style: TextFontStyle.Inter10W600.copyWith(
+                                                              style: TextFontStyle.inter10W600.copyWith(
                                                                 fontSize: 20.sp,
                                                                 color: Color(0xFF2F2F2F),
                                                               ),
@@ -1581,7 +1581,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                                         Spacer(),
                                                         CustomButton(
                                                             name: 'Save',
-                                                            textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                            textStyle: TextFontStyle.inter10W600.copyWith(
                                                                 color: Colors.black, fontSize: 16),
                                                             color: AppColor.cD5E7B0,
                                                             borderRadius: 100,
@@ -1721,7 +1721,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
                                       widget.closetId);
                                 },
                                 color: AppColor.cD5E7B0,
-                                textStyle: TextFontStyle.Inter10W600.copyWith(color: Colors.black, fontSize: 16.sp),
+                                textStyle: TextFontStyle.inter10W600.copyWith(color: Colors.black, fontSize: 16.sp),
                                 borderRadius: 100.r,
                                 context: context),
                             UIHelper.verticalSpaceMedium,

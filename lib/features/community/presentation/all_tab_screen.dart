@@ -6,7 +6,6 @@ import 'package:twwillustration/assets_helper/app_lottie.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
 import 'package:twwillustration/features/community/widget/post_card.dart';
 import 'package:twwillustration/features/community/widget/post_comments_part.dart';
-import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 import 'package:twwillustration/shimmer_widget/post_card_shimmer.dart';
 

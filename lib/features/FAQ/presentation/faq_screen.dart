@@ -75,7 +75,7 @@ class _FaqScreenState extends State<FaqScreen> {
                   ),
                   Text(
                     'FAQ',
-                    style: TextFontStyle.Inter10W700.copyWith(
+                    style: TextFontStyle.inter10W700.copyWith(
                       fontSize: 20.sp,
                       color: AppColor.c000000,
                     ),
@@ -88,7 +88,7 @@ class _FaqScreenState extends State<FaqScreen> {
               UIHelper.verticalSpace(24.h),
               Text(
                 'Frequently Asked Questions',
-                style: TextFontStyle.Inter10W600.copyWith(
+                style: TextFontStyle.inter10W600.copyWith(
                   fontSize: 20.sp,
                   color: AppColor.c000000,
                 ),

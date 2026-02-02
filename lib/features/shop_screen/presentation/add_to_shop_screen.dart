@@ -762,7 +762,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
               children: [
                 Text(
                   'Select from wardrobe',
-                  style: TextFontStyle.Inter10W700.copyWith(
+                  style: TextFontStyle.inter10W700.copyWith(
                     fontSize: 16.sp,
                     color: AppColor.blackColor,
                   ),

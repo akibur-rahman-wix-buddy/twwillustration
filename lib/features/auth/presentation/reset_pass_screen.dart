@@ -35,7 +35,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                   UIHelper.verticalSpace(25.h),
                   Text(
                     "Greendrobe",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                         fontSize: 40,
                         fontWeight: FontWeight.w600,
                         color: AppColor.c181818),
@@ -43,7 +43,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                   UIHelper.verticalSpace(32.h),
                   Text(
                     "Reset Your Password",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColor.c181818),
@@ -59,7 +59,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                   /// Email
                   Text(
                     "New Password",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColor.c757575,
@@ -85,7 +85,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                   /// Password
                   Text(
                     "Confirm Password",
-                    style: TextFontStyle.Inter10W600.copyWith(
+                    style: TextFontStyle.inter10W600.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: AppColor.c757575,
@@ -127,7 +127,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                     },
                     height: 47.h,
                     width: double.infinity,
-                    textStyle: TextFontStyle.Inter10W600.copyWith(
+                    textStyle: TextFontStyle.inter10W600.copyWith(
                         fontSize: 14, color: AppColor.c181818),
                   ),
 

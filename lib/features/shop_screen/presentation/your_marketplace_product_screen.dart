@@ -115,7 +115,7 @@ class _YourMarketplaceProductScreenState
       child: Text(
         'No Product Found in Your Marketplace',
         textAlign: TextAlign.center,
-        style: TextFontStyle.Inter10W800.copyWith(
+        style: TextFontStyle.inter10W800.copyWith(
           fontSize: 18,
           color: AppColor.c141414,
         ),

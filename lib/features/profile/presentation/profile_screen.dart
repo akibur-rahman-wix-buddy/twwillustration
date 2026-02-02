@@ -90,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         throw Exception();
       }
     } catch (error) {
-      print('$error');
+      debugPrint('error during fetch profile : $error');
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
       }
     } catch (error) {
-      print(error);
+      debugPrint('error during fetch follower : $error');
     }
   }
 
@@ -134,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
       }
     } catch (error) {
-      print(error);
+      debugPrint('error during fetch following : $error');
     }
   }
 
@@ -152,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('error during fetch categories : $error');
     }
   }
 
@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('error during fetch single category : $error');
     } finally {
       setState(() {
         isClothesLoading = false;
@@ -198,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         throw Exception();
       }
     } catch (error) {
-      print(error);
+      debugPrint('error during fetch single outfit : $error');
     } finally {
       setState(() {
         isClothesLoading = false;

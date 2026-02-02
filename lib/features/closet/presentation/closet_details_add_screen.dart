@@ -229,7 +229,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               children: [
                                                 Text(
                                                   'Add Title',
-                                                  style: TextFontStyle.Inter10W600.copyWith(
+                                                  style: TextFontStyle.inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
@@ -251,7 +251,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                textStyle: TextFontStyle.inter10W600.copyWith(
                                                     color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
@@ -353,7 +353,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   ),
                                                   Text(
                                                     'Categories',
-                                                    style: TextFontStyle.Inter10W600.copyWith(
+                                                    style: TextFontStyle.inter10W600.copyWith(
                                                       fontSize: 20.sp,
                                                       color: Color(0xFF2F2F2F),
                                                     ),
@@ -460,7 +460,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   name: "Save",
                                                   color: AppColor.cD5E7B0,
                                                   borderRadius: 100.r,
-                                                  textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                  textStyle: TextFontStyle.inter10W600.copyWith(
                                                       color: Colors.black, fontSize: 16.sp),
                                                   onCallBack: () {
                                                     setState(() {});
@@ -562,7 +562,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               children: [
                                                 Text(
                                                   'Add Occation',
-                                                  style: TextFontStyle.Inter10W600.copyWith(
+                                                  style: TextFontStyle.inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
@@ -581,7 +581,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                textStyle: TextFontStyle.inter10W600.copyWith(
                                                     color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
@@ -661,7 +661,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               children: [
                                                 Text(
                                                   'Add Brand',
-                                                  style: TextFontStyle.Inter10W600.copyWith(
+                                                  style: TextFontStyle.inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
@@ -680,7 +680,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                textStyle: TextFontStyle.inter10W600.copyWith(
                                                     color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
@@ -779,7 +779,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   ),
                                                   Text(
                                                     'Add Colors',
-                                                    style: TextFontStyle.Inter10W600.copyWith(
+                                                    style: TextFontStyle.inter10W600.copyWith(
                                                       fontSize: 20.sp,
                                                       color: Color(0xFF2F2F2F),
                                                     ),
@@ -833,7 +833,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                           borderRadius: BorderRadius.circular(30.r)),
                                                       child: Text(
                                                         'Add',
-                                                        style: TextFontStyle.Inter10W600.copyWith(
+                                                        style: TextFontStyle.inter10W600.copyWith(
                                                             color: Colors.black, fontSize: 16.sp),
                                                       ),
                                                     ),
@@ -877,7 +877,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   },
                                                   color: AppColor.cD5E7B0,
                                                   borderRadius: 100,
-                                                  textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                  textStyle: TextFontStyle.inter10W600.copyWith(
                                                       color: Colors.black, fontSize: 16.sp),
                                                   context: context)
                                             ],
@@ -1046,7 +1046,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               children: [
                                                 Text(
                                                   'Add Pattern',
-                                                  style: TextFontStyle.Inter10W600.copyWith(
+                                                  style: TextFontStyle.inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
@@ -1065,7 +1065,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                textStyle: TextFontStyle.inter10W600.copyWith(
                                                     color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
@@ -1309,7 +1309,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                               children: [
                                                 Text(
                                                   'Add Price',
-                                                  style: TextFontStyle.Inter10W600.copyWith(
+                                                  style: TextFontStyle.inter10W600.copyWith(
                                                     fontSize: 20.sp,
                                                     color: Color(0xFF2F2F2F),
                                                   ),
@@ -1332,7 +1332,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                             Spacer(),
                                             CustomButton(
                                                 name: 'Save',
-                                                textStyle: TextFontStyle.Inter10W600.copyWith(
+                                                textStyle: TextFontStyle.inter10W600.copyWith(
                                                     color: Colors.black, fontSize: 16),
                                                 color: AppColor.cD5E7B0,
                                                 borderRadius: 100,
@@ -1454,7 +1454,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                               image: widget.imageBytes));
                     },
                     color: AppColor.cD5E7B0,
-                    textStyle: TextFontStyle.Inter10W600.copyWith(color: Colors.black, fontSize: 16.sp),
+                    textStyle: TextFontStyle.inter10W600.copyWith(color: Colors.black, fontSize: 16.sp),
                     borderRadius: 100.r,
                     context: context),
                 UIHelper.verticalSpaceMedium,

@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:http_parser/http_parser.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:twwillustration/features/closet/model/get_single_closet_data_model.dart';
 import 'package:twwillustration/features/closet/model/update_closet_data_model.dart';
@@ -19,10 +18,6 @@ final class UpdateClosetApi {
       PostUpdateClosetModel closet, int closetId) async {
     try {
       FormData data = FormData();
-
-// categories array
-      // data.fields.addAll(closet.categories
-      //     .map((c) => MapEntry('categories[]', c['id'].toString())));
 
       data.fields.addAll(closet.categories.map((c) {
         if (c is Map<String, dynamic>) {
@@ -79,7 +74,7 @@ final class UpdateClosetApi {
         throw DataSource.DEFAULT.getFailure();
       }
     } catch (error) {
-      print('error during : $error');
+      debugPrint('error during : $error');
       rethrow;
     }
   }

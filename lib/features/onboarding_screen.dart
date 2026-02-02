@@ -128,7 +128,7 @@
 //                         ),
 //                         Text(
 //                           'Skip',
-//                           style: TextFontStyle.Inter10W600.copyWith(
+//                           style: TextFontStyle.inter10W600.copyWith(
 //                             fontSize: 16.sp,
 //                             color: AppColor.c000000,
 //                           ),
@@ -157,7 +157,7 @@
 //                                 Text(
 //                                   titles[index],
 //                                   textAlign: TextAlign.center,
-//                                   style: TextFontStyle.Inter10W600.copyWith(
+//                                   style: TextFontStyle.inter10W600.copyWith(
 //                                     fontSize: 18.sp,
 //                                     color: AppColor.c000000,
 //                                   ),
@@ -165,7 +165,7 @@
 //                                 Text(
 //                                   subTitles[index],
 //                                   textAlign: TextAlign.center,
-//                                   style: TextFontStyle.Inter10W600.copyWith(
+//                                   style: TextFontStyle.inter10W600.copyWith(
 //                                     fontSize: 18.sp,
 //                                     color: AppColor.c000000,
 //                                   ),

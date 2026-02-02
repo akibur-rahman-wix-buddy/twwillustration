@@ -269,7 +269,7 @@ class _OutfitPreviewScreenState extends State<OutfitPreviewScreen> {
                                     boxShadow: [
                                       BoxShadow(
                                         color:
-                                            AppColor.c000000.withOpacity(0.1),
+                                            AppColor.c000000.withValues(alpha: .1),
                                         blurRadius: 4.r,
                                         offset: const Offset(0, 2),
                                       ),

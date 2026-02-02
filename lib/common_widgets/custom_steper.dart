@@ -4,11 +4,11 @@ import '../assets_helper/app_colors.dart';
 
 
 class CustomSteper extends StatelessWidget {
-  final circleColor1;
-  final circleColor2;
-  final circleColor3;
-  final lineColor1;
-  final lineColor2;
+  final dynamic circleColor1;
+  final dynamic circleColor2;
+  final dynamic circleColor3;
+  final dynamic lineColor1;
+  final dynamic lineColor2;
   const CustomSteper(
       {super.key,
       this.circleColor1,

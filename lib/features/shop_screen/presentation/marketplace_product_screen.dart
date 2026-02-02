@@ -118,7 +118,7 @@ class _MarketplaceProductScreenState extends State<MarketplaceProductScreen> {
             _categories.isEmpty || _categories.first.data == null
                 ? SizedBox.shrink()
                 : SizedBox(
-                    height: 40.h,
+                    height: 45.h,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -187,7 +187,7 @@ class _MarketplaceProductScreenState extends State<MarketplaceProductScreen> {
                 : _allProducts.first.data!.isEmpty
                     ? Center(
                         child: Text('No product found',
-                            style: TextFontStyle.Inter10W800.copyWith(
+                            style: TextFontStyle.inter10W800.copyWith(
                               fontSize: 24.sp,
                               color: AppColor.c000000,
                             )))

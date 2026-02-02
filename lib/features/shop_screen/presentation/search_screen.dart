@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
-import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_appbar.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_model.dart';
@@ -174,14 +173,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                                 UIHelper.verticalSpace(16.h),
                                 SizedBox(
-                                  height: 220.h,
+                                  height: 222.h,
                                   child: isLoading
                                       ? productListShimmer()
                                       : _allProducts.first.data!.isEmpty
                                           ? Center(
                                               child: Text(
                                               'No product found',
-                                              style: TextFontStyle.Inter10W800.copyWith(
+                                              style: TextFontStyle.inter10W800.copyWith(
                                                 fontSize: 24.sp,
                                                 color: AppColor.c000000,
                                               ),
@@ -230,7 +229,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             : _allProducts.first.data!.isEmpty
                                 ? Center(
                                     child: Text('No product found',
-                                        style: TextFontStyle.Inter10W800.copyWith(
+                                        style: TextFontStyle.inter10W800.copyWith(
                                           fontSize: 24.sp,
                                           color: AppColor.c000000,
                                         )))

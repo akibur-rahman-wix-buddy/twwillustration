@@ -26,7 +26,7 @@ import 'package:twwillustration/features/profile/presentation/profile_screen.dar
 import 'package:twwillustration/features/quick_stats_screen/quick_stats_screen.dart';
 import 'package:twwillustration/features/settings/presentation/settings_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
-import 'package:twwillustration/features/shop_screen/presentation/chat_screen.dart';
+import 'package:twwillustration/features/chat/presentation/chat_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/marketplace_product_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
@@ -254,6 +254,7 @@ final class RouteGenerator {
                 widget: CreatePostScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => CreatePostScreen());
 
+
       case Routes.marketplaceProductScreen:
         return Platform.isAndroid
             ? _FadedTransitionRoute(
@@ -307,9 +308,10 @@ final class RouteGenerator {
           : CupertinoPageRoute(builder: (context) => YourMarketplaceProductScreen());
 
       case Routes.chatScreen:
+      final args = settings.arguments as Map;
         return Platform.isAndroid
-          ? _FadedTransitionRoute(widget: ChatScreen(), settings: settings)
-          : CupertinoPageRoute(builder: (context) => ChatScreen());
+          ? _FadedTransitionRoute(widget: ChatScreen(userId: args['userId'],), settings: settings)
+          : CupertinoPageRoute(builder: (context) => ChatScreen(userId: args['userId'],));
 
       case Routes.faqScreen:
         return Platform.isAndroid

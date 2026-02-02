@@ -162,7 +162,7 @@ class _ListSuccessfulScreenState extends State<ListSuccessfulScreen> {
                                   ),
                                   Text(
                                     "\$${productDetails.first.data?.product?.price}",
-                                    style: TextFontStyle.Inter10W600.copyWith(fontSize: 14.sp, color: AppColor.c2F2F2F),
+                                    style: TextFontStyle.inter10W600.copyWith(fontSize: 14.sp, color: AppColor.c2F2F2F),
                                   ),
                                 ],
                               ),

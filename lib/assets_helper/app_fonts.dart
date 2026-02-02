@@ -178,7 +178,7 @@ class TextFontStyle {
       height: 1.50,
       fontWeight: FontWeight.w500);
 
-  static var Inter10W500 = TextStyle(
+  static var inter10W500 = TextStyle(
       fontFamily: 'Inter',
       fontFamilyFallback: const [
         'Open Sans',
@@ -190,7 +190,7 @@ class TextFontStyle {
       height: 1.50,
       fontWeight: FontWeight.w500);
 
-  static var Inter10W600 = TextStyle(
+  static var inter10W600 = TextStyle(
       fontFamily: 'Inter',
       fontFamilyFallback: const [
         'Open Sans',
@@ -202,7 +202,7 @@ class TextFontStyle {
       height: 1.50,
       fontWeight: FontWeight.w600);
 
-  static var Inter10W700 = TextStyle(
+  static var inter10W700 = TextStyle(
       fontFamily: 'Inter',
       fontFamilyFallback: const [
         'Open Sans',
@@ -214,7 +214,7 @@ class TextFontStyle {
       height: 1.50,
       fontWeight: FontWeight.w700);
 
-  static var Inter10W800 = TextStyle(
+  static var inter10W800 = TextStyle(
       fontFamily: 'Inter',
       fontFamilyFallback: const [
         'Open Sans',

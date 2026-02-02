@@ -8,6 +8,11 @@ import 'package:twwillustration/features/auth/data/verify_otp/verify_otp_rx.dart
 import 'package:twwillustration/features/block_user/data/get_block_user/get_block_user_rx.dart';
 import 'package:twwillustration/features/block_user/data/toggle_block_unblock/toggle_block_unblock_rx.dart';
 import 'package:twwillustration/features/block_user/model/get_block_user_data_model.dart';
+import 'package:twwillustration/features/chat/data/get_chat_list/get_chat_list_rx.dart';
+import 'package:twwillustration/features/chat/data/get_specific_user_chat/get_specific_user_chat_rx.dart';
+import 'package:twwillustration/features/chat/data/send_message/send_message_rx.dart';
+import 'package:twwillustration/features/chat/model/get_chat_list_data_model.dart';
+import 'package:twwillustration/features/chat/model/get_specific_user_chat_data_model.dart';
 import 'package:twwillustration/features/closet/data/add_closet/post_add_closet_rx.dart';
 import 'package:twwillustration/features/closet/data/delete_closet/delete_closet_rx.dart';
 import 'package:twwillustration/features/closet/data/get_materials/get_materials_rx.dart';
@@ -38,13 +43,16 @@ import 'package:twwillustration/features/shop_screen/data/add_marketplace/post_a
 import 'package:twwillustration/features/shop_screen/data/get_marketplace_product/get_marketplace_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_marketplace_product_details/get_marketplace_product_details_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_qa_data/get_qa_data_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/get_wishlist_product/get_wishlist_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_your_marketplace_product/get_your_marketplace_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/market_place_get_data/market_place_get_data_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/post_ask_question/post_ask_question_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/post_ask_question_replay/post_ask_question_replay_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/toggle_favorite_unfovarite/toggle_favorite_unfovarite_rx.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_details_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_qa_data_model.dart';
+import 'package:twwillustration/features/shop_screen/model/get_wishlist_product_data_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_your_marketplace_product.dart';
 import 'package:twwillustration/features/shop_screen/model/market_place_get_data_model.dart';
 import '../features/profile/data/clothes/get_categories/get_categories_rx.dart';
@@ -151,3 +159,17 @@ GetQaDataRx getQaDataRxObj = GetQaDataRx(empty: GetQADataModel(), dataFetcher: B
 
 PostAskQuestionRx postAskQuestionRxObj =
     PostAskQuestionRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+PostAskQuestionReplayRx postAskQuestionReplayRxObj =
+    PostAskQuestionReplayRx(empty: <String, dynamic>{}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+GetChatListRx getChatListRxObj =
+    GetChatListRx(empty: GetChatListDataModel(), dataFetcher: BehaviorSubject<GetChatListDataModel>());
+
+GetSpecificUserChatRx getSpecificUserChatRxObj =
+    GetSpecificUserChatRx(empty: GetSpecificUserChatDataModel(), dataFetcher: BehaviorSubject<GetSpecificUserChatDataModel>());
+
+GetWishlistProductRx getWishlistProductRxObj =
+    GetWishlistProductRx(empty: GetWishlistProductDataModel(), dataFetcher: BehaviorSubject<GetWishlistProductDataModel>());
+
+SendMessageRx sendMessageRxObj = SendMessageRx(empty: {}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());

@@ -421,7 +421,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
                 Text(
                   'Caption',
-                  style: TextFontStyle.Inter10W500.copyWith(
+                  style: TextFontStyle.inter10W500.copyWith(
                     fontSize: 16,
                     color: Color(0xFF5E5E5E)
                   ),

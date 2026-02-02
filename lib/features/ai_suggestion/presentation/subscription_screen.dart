@@ -125,7 +125,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               children: [
                 Text(
                   title,
-                  style: TextFontStyle.Inter10W700.copyWith(
+                  style: TextFontStyle.inter10W700.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 18,
                     color: Colors.black,
@@ -136,7 +136,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   children: [
                     Text(
                       price,
-                      style: TextFontStyle.Inter10W700.copyWith(
+                      style: TextFontStyle.inter10W700.copyWith(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -144,7 +144,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ),
                     Text(
                       duration,
-                      style: TextFontStyle.Inter10W700.copyWith(
+                      style: TextFontStyle.inter10W700.copyWith(
                         color: Colors.black54,
                         fontWeight: FontWeight.w500,
                       ),
@@ -168,7 +168,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     Expanded(
                       child: Text(
                         f,
-                        style: TextFontStyle.Inter10W700.copyWith(
+                        style: TextFontStyle.inter10W700.copyWith(
                           color: Colors.black87,
                           fontSize: 13,
                         ),
@@ -202,7 +202,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 ),
                 child: Text(
                   buttonText,
-                  style: TextFontStyle.Inter10W700.copyWith(
+                  style: TextFontStyle.inter10W700.copyWith(
                     color: isSelected ? Colors.black : Colors.black,
                     fontWeight: FontWeight.w600,
                   ),

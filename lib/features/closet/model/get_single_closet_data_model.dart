@@ -10,7 +10,7 @@ class GetSingleClosetDataModel {
     status = json['status'];
     message = json['message'];
     code = json['code'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 }
 
@@ -23,7 +23,7 @@ class Data {
   String? pattern;
   List<String>? color;
   String? purchasedDate;
-  dynamic? price;
+  dynamic price;
   String? size;
   String? season;
   String? visibility;
@@ -54,7 +54,7 @@ class Data {
     occasion = json['occasion'];
     brand = json['brand'];
     material = json['material'] != null
-        ? new Material.fromJson(json['material'])
+        ? Material.fromJson(json['material'])
         : null;
     pattern = json['pattern'];
     color = json['color'].cast<String>();
@@ -67,7 +67,7 @@ class Data {
     if (json['categories'] != null) {
       categories = <Categories>[];
       json['categories'].forEach((v) {
-        categories!.add(new Categories.fromJson(v));
+        categories!.add(Categories.fromJson(v));
       });
     }
     if (json['tags'] != null) { tags = List<String>.from(json['tags']); 

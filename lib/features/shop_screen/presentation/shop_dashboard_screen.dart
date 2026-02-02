@@ -100,15 +100,21 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                     children: [
                       Row(
                         children: [
-                          SizedBox(
-                            width: 90.w,
-                          ),
-                          Spacer(),
                           Text(
                             'Marketplace',
-                            style: TextFontStyle.Inter10W700.copyWith(fontSize: 20.sp, color: AppColor.c2F2F2F),
+                            style: TextFontStyle.inter10W700.copyWith(fontSize: 20.sp, color: AppColor.c2F2F2F),
                           ),
                           Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              NavigationService.navigateTo(Routes.wishlistScreen);
+                            },
+                            child: SvgPicture.asset(
+                              AppIcons.favourite,
+                              width: 40.w,
+                            ),
+                          ),
+                          UIHelper.horizontalSpace(10.w),
                           GestureDetector(
                             onTap: () {
                               NavigationService.navigateTo(Routes.searchScreen);
@@ -172,7 +178,7 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                       _categories.isEmpty || _categories.first.data == null
                           ? SizedBox.shrink()
                           : SizedBox(
-                              height: 40.h,
+                              height: 45.h,
                               child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
@@ -256,11 +262,11 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                       ),
                       UIHelper.verticalSpace(16.h),
                       SizedBox(
-                        height: 220.h,
+                        height: 222.h,
                         child: isLoading
                             ? productListShimmer()
                             : _allProducts.first.data!.isEmpty
-                                ? Center(child: Text('No product found', style: TextFontStyle.Inter10W800.copyWith(fontSize: 24.sp, color: AppColor.c000000,),))
+                                ? Center(child: Text('No product found', style: TextFontStyle.inter10W800.copyWith(fontSize: 24.sp, color: AppColor.c000000,),))
                                 : ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: _allProducts.first.data?.length,
@@ -311,7 +317,7 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                             onTap: () {NavigationService.navigateTo(Routes.marketplaceProductScreen);},
                             child: Text(
                               'View All',
-                              style: TextFontStyle.Inter10W800.copyWith(
+                              style: TextFontStyle.inter10W800.copyWith(
                                 fontSize: 14.sp,
                                 color: Colors.blueAccent,
                               ),
@@ -323,7 +329,7 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                       isLoading
                           ? productGridShimmer()
                           : _allProducts.first.data!.isEmpty
-                              ? Center(child: Text('No product found', style: TextFontStyle.Inter10W800.copyWith(fontSize: 24.sp, color: AppColor.c000000,)))
+                              ? Center(child: Text('No product found', style: TextFontStyle.inter10W800.copyWith(fontSize: 24.sp, color: AppColor.c000000,)))
                               : GridView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),

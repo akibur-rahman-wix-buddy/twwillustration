@@ -6,6 +6,7 @@ import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/features/chat/presentation/chat_list_screen.dart';
 import 'package:twwillustration/features/home/widgets/outfit_dairy_card.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
@@ -121,7 +122,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                               ),
+                              Spacer(),
                               SvgPicture.asset(AppIcons.notification),
+                                UIHelper.horizontalSpaceSmall,
+                              GestureDetector(
+                                onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ChatListScreen()));},
+                                child: Container(
+                                  height: 35.w,
+                                  width: 35.w,
+                                  padding: EdgeInsets.zero,
+                                  decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColor.cFFFFFF
+                                ),
+                                  child: Icon(Icons.message_outlined)),
+                              ),
                             ],
                           ),
                           UIHelper.verticalSpace(30.h),
