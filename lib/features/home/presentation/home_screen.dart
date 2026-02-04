@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_fonts.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
 import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/features/chat/presentation/chat_list_screen.dart';
+import 'package:twwillustration/features/home/model/get_generet_outfit_filter_data_model.dart';
 import 'package:twwillustration/features/home/widgets/outfit_dairy_card.dart';
 import 'package:twwillustration/features/profile/model/get_profile_model.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/di.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
@@ -30,9 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? selectedMood;
   String? selectedColor;
 
-  final List<String> occasions = ["Birthday", "Wedding", "Party"];
-  final List<String> moods = ["Happy", "Sad", "Excited"];
-  final List<String> colors = ["Red", "Green", "Blue"];
+  GetGeneretOutfitFilterDataModel? generatedOutfitData;
 
   Future<void> fetchProfile() async {
     setState(() {
@@ -42,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bool success = await getProfileRxObj.getProfileRx();
 
       if (success) {
+        getGeneratedOutfitFilterData();
         getProfileRxObj.getProfileData.listen((profile) {
           setState(() {
             profileData = profile;
@@ -54,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
         throw Exception();
       }
     } catch (error) {
-      print('$error');
+      debugPrint('$error');
     } finally {
       setState(() {
         isLoading = false;
@@ -62,11 +68,34 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  @override
+  Future<void> getGeneratedOutfitFilterData() async {
+    try {
+      bool success = await getGeneretOutfitFilterDataRxObj.getGeneretOutfitFilterDataRx();
+
+      if (success) {
+        getGeneretOutfitFilterDataRxObj.getGeneratedOutfitFilterData.listen((data) {
+          setState(() {
+            generatedOutfitData = data;
+          });
+        });
+      } else {
+        throw Exception();
+      }
+    } catch (error) {
+      debugPrint('>>>>>>>>>>error during get Generated outfit filter data call : $error');
+    }
+  }
+
+  
+   @override
   void initState() {
     super.initState();
     fetchProfile();
   }
+
+  
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -89,13 +118,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                    NavigationService.navigateTo(Routes.settingScreen);
-                                  },
+                                  NavigationService.navigateTo(Routes.settingScreen);
+                                },
                                 child: Row(
                                   children: [
                                     ShimmerClipOvalWidget(
-                                      height: 40.h,
-                                      weight: 40.h,
+                                      height: 50.h,
+                                      weight: 50.h,
                                       networkImageLink: profileData?.data?.avatar ?? '',
                                     ),
                                     UIHelper.horizontalSpace(10.w),
@@ -124,18 +153,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Spacer(),
                               SvgPicture.asset(AppIcons.notification),
-                                UIHelper.horizontalSpaceSmall,
+                              UIHelper.horizontalSpace(8.w),
                               GestureDetector(
-                                onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ChatListScreen()));},
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChatListScreen()));
+                                },
                                 child: Container(
-                                  height: 35.w,
-                                  width: 35.w,
-                                  padding: EdgeInsets.zero,
-                                  decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColor.cFFFFFF
-                                ),
-                                  child: Icon(Icons.message_outlined)),
+                                    height: 40.w,
+                                    width: 40.w,
+                                    padding: EdgeInsets.zero,
+                                    decoration: BoxDecoration(shape: BoxShape.circle, color: AppColor.cFFFFFF),
+                                    child: Icon(Icons.message_outlined, color: AppColor.c797979,)),
                               ),
                             ],
                           ),
@@ -161,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 RichText(
                                     text: TextSpan(children: [
                                   TextSpan(
-                                    text: 'New York City\n',
+                                    text: '${appData.read(kKeyUserLocation)}\n',
                                     style: TextStyle(
                                       color: const Color(0xFF2F2F2F),
                                       fontSize: 20.sp,
@@ -172,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: 'Tue, May 17',
+                                    text: DateFormat('EEE, MMM d').format(DateTime.now()),
                                     style: TextStyle(
                                       color: const Color(0xFF757575),
                                       fontSize: 14.sp,
@@ -253,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           UIHelper.horizontalSpaceMedium,
                           Chip(
-                            label: const Text("All"),
+                            label: Text("All"),
                             backgroundColor: Colors.green.shade100,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.r),
@@ -265,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           // * Occasion Dropdown
                           _buildDropdownChip(
                             title: "Occasion",
-                            items: occasions,
+                            items: generatedOutfitData?.data?.occasions ?? [],
                             selected: selectedOccasion,
                             onChanged: (value) {
                               setState(() => selectedOccasion = value);
@@ -277,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           // * Mood Dropdown
                           _buildDropdownChip(
                             title: "Mood",
-                            items: moods,
+                            items: generatedOutfitData?.data?.moods ?? [],
                             selected: selectedMood,
                             onChanged: (value) {
                               setState(() => selectedMood = value);
@@ -289,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           // * Color Dropdown
                           _buildDropdownChip(
                             title: "Color",
-                            items: colors,
+                            items: generatedOutfitData?.data?.colors ?? [],
                             selected: selectedColor,
                             onChanged: (value) {
                               setState(() => selectedColor = value);
@@ -555,7 +583,14 @@ class _HomeScreenState extends State<HomeScreen> {
           items: items
               .map((e) => DropdownMenuItem(
                     value: e,
-                    child: Text(e),
+                    child: Text(
+                      e,
+                      style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.c000000,
+                      ),
+                    ),
                   ))
               .toList(),
         ),
