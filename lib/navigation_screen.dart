@@ -111,7 +111,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                                 colorFilter: ColorFilter.mode(AppColor.c7B7B7B, BlendMode.srcIn)),
                             activeIcon: SvgPicture.asset(AppIcons.communitySvg,
                                 colorFilter: ColorFilter.mode(AppColor.cD5E7B0, BlendMode.srcIn)),
-                            label: 'Community'),
+                            label: 'Community   '),
                       ])),
             ],
           ),

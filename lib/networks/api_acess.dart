@@ -28,6 +28,8 @@ import 'package:twwillustration/features/community/data/post_comment_like/post_c
 import 'package:twwillustration/features/community/data/toggle_like_unlike/toggle_like_unlike_rx.dart';
 import 'package:twwillustration/features/community/model/get_list_of_post_data_model.dart';
 import 'package:twwillustration/features/community/model/get_post_details_data_model.dart';
+import 'package:twwillustration/features/home/data/get_generet_outfit_filter_data/get_generet_outfit_filter_data_rx.dart';
+import 'package:twwillustration/features/home/model/get_generet_outfit_filter_data_model.dart';
 import 'package:twwillustration/features/profile/data/edit_profile/edit_profile_rx.dart';
 import 'package:twwillustration/features/profile/data/outfits/get_single_outfit/get_single_outfit_rx.dart';
 import 'package:twwillustration/features/profile/data/post_follower/post_follower_rx.dart';
@@ -166,10 +168,13 @@ PostAskQuestionReplayRx postAskQuestionReplayRxObj =
 GetChatListRx getChatListRxObj =
     GetChatListRx(empty: GetChatListDataModel(), dataFetcher: BehaviorSubject<GetChatListDataModel>());
 
-GetSpecificUserChatRx getSpecificUserChatRxObj =
-    GetSpecificUserChatRx(empty: GetSpecificUserChatDataModel(), dataFetcher: BehaviorSubject<GetSpecificUserChatDataModel>());
+GetSpecificUserChatRx getSpecificUserChatRxObj = GetSpecificUserChatRx(
+    empty: GetSpecificUserChatDataModel(), dataFetcher: BehaviorSubject<GetSpecificUserChatDataModel>());
 
-GetWishlistProductRx getWishlistProductRxObj =
-    GetWishlistProductRx(empty: GetWishlistProductDataModel(), dataFetcher: BehaviorSubject<GetWishlistProductDataModel>());
+GetWishlistProductRx getWishlistProductRxObj = GetWishlistProductRx(
+    empty: GetWishlistProductDataModel(), dataFetcher: BehaviorSubject<GetWishlistProductDataModel>());
 
 SendMessageRx sendMessageRxObj = SendMessageRx(empty: {}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+GetGeneretOutfitFilterDataRx getGeneretOutfitFilterDataRxObj = GetGeneretOutfitFilterDataRx(
+    empty: GetGeneretOutfitFilterDataModel(), dataFetcher: BehaviorSubject<GetGeneretOutfitFilterDataModel>());

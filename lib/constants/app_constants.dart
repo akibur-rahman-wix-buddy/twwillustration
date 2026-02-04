@@ -96,6 +96,7 @@ const String kKeyCode = 'code';
 const String kKeyIsLoggedIn = 'is_logged_in';
 const String kKeyAccessToken = 'access_token';
 const String kKeyResetToken = 'reset_token';
+const String kKeyUserLocation = 'New Yourk City';
 
 const String userId = 'user_ID';
 const String kPhone = 'phone_number';

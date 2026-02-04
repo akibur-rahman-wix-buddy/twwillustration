@@ -938,112 +938,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildMyTreeContent() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset(
-                AppIcons.treeSvg,
-                height: 24,
-              ),
-              UIHelper.horizontalSpaceSmall,
-              Text(
-                'My Tree Progress',
-                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  AppIcons.treeSvg,
+                  height: 24,
                 ),
-              ),
-            ],
-          ),
-          UIHelper.verticalSpace(10.h),
-          Container(
-            width: double.infinity,
-            height: 320,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: .5),
-                  blurRadius: 10,
-                  offset: Offset(0, 2),
+                UIHelper.horizontalSpaceSmall,
+                Text(
+                  'My Tree Progress',
+                  style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ],
             ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    AppImages.treeImage,
-                    height: 80.h,
-                    width: 80.w,
-                  ),
-                  UIHelper.verticalSpace(20.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(AppIcons.waterDropsSvg),
-                        Text(
-                          "Water Drops:",
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 16.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          "120/300",
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 16.sp,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  UIHelper.verticalSpace(10.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: LinearProgressIndicator(
-                        value: value,
-                        minHeight: 16,
-                        backgroundColor: Colors.grey.shade200,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          AppColor.cC4CABA,
-                        ),
-                      ),
-                    ),
-                  ),
-                  UIHelper.verticalSpace(20.h),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: CustomButton(
-                      name: 'Water the Tree',
-                      onCallBack: () {},
-                      context: context,
-                      minWidth: double.infinity,
-                      color: AppColor.cD5E7B0,
-                      borderColor: AppColor.cD5E7B0,
-                      textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                        fontSize: 16.sp,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
+            UIHelper.verticalSpace(10.h),
+            Container(
+              width: double.infinity,
+              height: 320,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: .5),
+                    blurRadius: 10,
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      AppImages.treeImage,
+                      height: 80.h,
+                      width: 80.w,
+                    ),
+                    UIHelper.verticalSpace(20.h),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AppIcons.waterDropsSvg),
+                          Text(
+                            "Water Drops:",
+                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            "120/300",
+                            style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                              fontSize: 16.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    UIHelper.verticalSpace(10.h),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: LinearProgressIndicator(
+                          value: value,
+                          minHeight: 16,
+                          backgroundColor: Colors.grey.shade200,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColor.cC4CABA,
+                          ),
+                        ),
+                      ),
+                    ),
+                    UIHelper.verticalSpace(20.h),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: CustomButton(
+                        name: 'Water the Tree',
+                        onCallBack: () {},
+                        context: context,
+                        minWidth: double.infinity,
+                        color: AppColor.cD5E7B0,
+                        borderColor: AppColor.cD5E7B0,
+                        textStyle: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                          fontSize: 16.sp,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

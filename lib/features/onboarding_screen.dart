@@ -305,9 +305,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:twwillustration/assets_helper/app_colors.dart';
 import 'package:twwillustration/assets_helper/app_icons.dart';
+import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/di.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import '../assets_helper/app_fonts.dart';
@@ -320,7 +324,7 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen> with WidgetsBindingObserver {
   // All questions (each list = one page)
   final List<List<String>> allQuestions = [
     ["Female", "Male", "Non-binary", "Prefer not to say"],
@@ -380,6 +384,91 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // State variables
   int _currentIndex = 0;
   final Map<int, String?> selectedAnswers = {};
+
+
+  Future<Position> userLocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        throw Exception('Location Service is Disabled - Please enable it');
+      }
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        throw Exception('Location Permission Denied');
+      } else if (permission == LocationPermission.deniedForever) {
+        throw Exception('Location permissions permanently denied');
+      }
+    } else if (permission == LocationPermission.deniedForever) {
+      throw Exception('Location permissions permanently denied');
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
+  Future<String> placeFromLocation(double lat, double long) async {
+    try {
+      final place = await placemarkFromCoordinates(lat, long);
+      String city = place.first.locality ?? 'Unknown Location';
+      return city;
+    } catch (error) {
+      debugPrint('>>error location : $error <<<');
+      return 'Unknown Location';
+    }
+  }
+
+  Future<void> getUserLocation() async {
+    print(">>>>>>>>>>call location permission <<<<<<<<<<<<<<<<<<");
+    try {
+      await Future.delayed(Duration(seconds: 3));
+      Position position = await userLocation();
+      double lat = position.latitude;
+      double long = position.longitude;
+
+      String address = await placeFromLocation(
+        lat,
+        long,
+      );
+
+      print('>>>>>>>>>>>>>>>location = $address <<<<<<<<<<????');
+
+      if (mounted) {
+        setState(() {
+          appData.write(kKeyUserLocation, address);
+        });
+      }
+    } catch (error) {
+      debugPrint('Error getting location: $error');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    getUserLocation(); 
+  }
+
+   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      getUserLocation();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
