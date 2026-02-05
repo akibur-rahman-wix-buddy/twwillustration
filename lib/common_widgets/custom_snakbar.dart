@@ -35,7 +35,7 @@ final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 void showSnackBarMessage(
-  String message, {
+  String message, String s, {
   Color bgColor = Colors.black,
   Duration duration = const Duration(seconds: 2),
 }) {

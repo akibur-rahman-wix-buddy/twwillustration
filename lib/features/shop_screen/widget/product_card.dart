@@ -12,6 +12,7 @@ class ProductCard extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback toggleFavorite;
   final IconData favoriteIcon;
+  final VoidCallback toggleCart;
 
   const ProductCard({
     super.key,
@@ -21,7 +22,7 @@ class ProductCard extends StatelessWidget {
     required this.price,
     required this.onTap,
     required this.toggleFavorite,
-    required this.favoriteIcon,
+    required this.favoriteIcon, required this.toggleCart,
   });
 
   @override
@@ -71,13 +72,25 @@ class ProductCard extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        Text(
-                          '\$$price',
-                          style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '\$$price',
+                                style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: toggleCart,
+                              child: Icon(Icons.shopping_cart_outlined, size: 20.sp,),
+                            )
+                          ],
                         ),
                       ],
                     ),

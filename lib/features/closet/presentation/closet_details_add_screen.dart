@@ -49,7 +49,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
   String? selectedMaterials;
 
   String? selectedSeason;
-  List<String> seasonOption = ['Summer', 'Winter', 'Rainy', 'Spring', 'Autumn'];
+  List<String> seasonOption = ['Winter', 'Summer', 'Spring', 'Autumn', 'Fall'];
 
   String selectedSize = "";
   final List<String> sizes = ["M", "L", "XL", "XXL"];
@@ -108,7 +108,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
     try {
       bool success = await postAddClosetRxObj.postAddClosetRx(closet);
       if (success) {
-        showSnackBarMessage('Closet Added Sucessfully');
+        showSnackBarMessage('context', 'Closet Added Sucessfully');
         setState(() {
           isLoading = false;
         });
@@ -117,6 +117,10 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
       }
     } catch (error) {
       print(error);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -214,55 +218,60 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (BuildContext context) {
-                                      return Container(
-                                        height: 300.h,
-                                        width: double.infinity,
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
-                                            color: Colors.white),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Add Title',
-                                                  style: TextFontStyle.inter10W600.copyWith(
-                                                    fontSize: 20.sp,
-                                                    color: Color(0xFF2F2F2F),
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        ),
+                                        child: Container(
+                                          height: 300.h,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+                                              color: Colors.white),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Add Title',
+                                                    style: TextFontStyle.inter10W600.copyWith(
+                                                      fontSize: 20.sp,
+                                                      color: Color(0xFF2F2F2F),
+                                                    ),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () => Navigator.pop(context),
-                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
-                                                ),
-                                              ],
-                                            ),
-                                            UIHelper.verticalSpaceMedium,
-                                            CustomTextField(
-                                              controller: _titleController,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(30),
-                                              ],
-                                              hintText: 'Casual Shirt',
-                                            ),
-                                            Spacer(),
-                                            CustomButton(
-                                                name: 'Save',
-                                                textStyle: TextFontStyle.inter10W600.copyWith(
-                                                    color: Colors.black, fontSize: 16),
-                                                color: AppColor.cD5E7B0,
-                                                borderRadius: 100,
-                                                onCallBack: () {
-                                                  setState(() {
-                                                    _titleController = _titleController;
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                context: context)
-                                          ],
+                                                  IconButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
+                                                  ),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpaceMedium,
+                                              CustomTextField(
+                                                controller: _titleController,
+                                                inputFormatters: [
+                                                  LengthLimitingTextInputFormatter(30),
+                                                ],
+                                                hintText: 'Casual Shirt',
+                                              ),
+                                              Spacer(),
+                                              CustomButton(
+                                                  name: 'Save',
+                                                  textStyle: TextFontStyle.inter10W600
+                                                      .copyWith(color: Colors.black, fontSize: 16),
+                                                  color: AppColor.cD5E7B0,
+                                                  borderRadius: 100,
+                                                  onCallBack: () {
+                                                    setState(() {
+                                                      _titleController = _titleController;
+                                                      Navigator.pop(context);
+                                                    });
+                                                  },
+                                                  context: context)
+                                            ],
+                                          ),
                                         ),
                                       );
                                     });
@@ -419,6 +428,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                         itemBuilder: (context, index) {
                                                           final category = _liatOfCategories.first.data?[index];
                                                           return GestureDetector(
+                                                    behavior: HitTestBehavior.translucent,
                                                             onTap: () {
                                                               setModalState(() {
                                                                 if (category != null) {
@@ -460,8 +470,8 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                                   name: "Save",
                                                   color: AppColor.cD5E7B0,
                                                   borderRadius: 100.r,
-                                                  textStyle: TextFontStyle.inter10W600.copyWith(
-                                                      color: Colors.black, fontSize: 16.sp),
+                                                  textStyle: TextFontStyle.inter10W600
+                                                      .copyWith(color: Colors.black, fontSize: 16.sp),
                                                   onCallBack: () {
                                                     setState(() {});
                                                     Navigator.pop(context);
@@ -489,7 +499,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     ? Row(
                                         children: [
                                           SizedBox(
-                                            width: 175.w,
+                                            width: 172.w,
                                             child: Text(
                                               _selectedCategories.map((item) => item['title']).join(", "),
                                               style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
@@ -547,52 +557,57 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (BuildContext context) {
-                                      return Container(
-                                        height: 300.h,
-                                        width: double.infinity,
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
-                                            color: Colors.white),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Add Occation',
-                                                  style: TextFontStyle.inter10W600.copyWith(
-                                                    fontSize: 20.sp,
-                                                    color: Color(0xFF2F2F2F),
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        ),
+                                        child: Container(
+                                          height: 300.h,
+                                          width: double.infinity,
+                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+                                              color: Colors.white),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Add Occation',
+                                                    style: TextFontStyle.inter10W600.copyWith(
+                                                      fontSize: 20.sp,
+                                                      color: Color(0xFF2F2F2F),
+                                                    ),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () => Navigator.pop(context),
-                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
-                                                ),
-                                              ],
-                                            ),
-                                            UIHelper.verticalSpaceMedium,
-                                            CustomTextField(
-                                              controller: _occationContriller,
-                                              hintText: 'Weading/ Birthday/ party',
-                                            ),
-                                            Spacer(),
-                                            CustomButton(
-                                                name: 'Save',
-                                                textStyle: TextFontStyle.inter10W600.copyWith(
-                                                    color: Colors.black, fontSize: 16),
-                                                color: AppColor.cD5E7B0,
-                                                borderRadius: 100,
-                                                onCallBack: () {
-                                                  setState(() {
-                                                    _occationContriller = _occationContriller;
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                context: context)
-                                          ],
+                                                  IconButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
+                                                  ),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpaceMedium,
+                                              CustomTextField(
+                                                controller: _occationContriller,
+                                                hintText: 'Weading/ Birthday/ party',
+                                              ),
+                                              Spacer(),
+                                              CustomButton(
+                                                  name: 'Save',
+                                                  textStyle: TextFontStyle.inter10W600
+                                                      .copyWith(color: Colors.black, fontSize: 16),
+                                                  color: AppColor.cD5E7B0,
+                                                  borderRadius: 100,
+                                                  onCallBack: () {
+                                                    setState(() {
+                                                      _occationContriller = _occationContriller;
+                                                      Navigator.pop(context);
+                                                    });
+                                                  },
+                                                  context: context)
+                                            ],
+                                          ),
                                         ),
                                       );
                                     });
@@ -646,52 +661,57 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (BuildContext context) {
-                                      return Container(
-                                        width: double.infinity,
-                                        height: 300.h,
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
-                                            color: Colors.white),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Add Brand',
-                                                  style: TextFontStyle.inter10W600.copyWith(
-                                                    fontSize: 20.sp,
-                                                    color: Color(0xFF2F2F2F),
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        ),
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 300.h,
+                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+                                              color: Colors.white),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Add Brand',
+                                                    style: TextFontStyle.inter10W600.copyWith(
+                                                      fontSize: 20.sp,
+                                                      color: Color(0xFF2F2F2F),
+                                                    ),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () => Navigator.pop(context),
-                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
-                                                ),
-                                              ],
-                                            ),
-                                            UIHelper.verticalSpaceMedium,
-                                            CustomTextField(
-                                              controller: _brandController,
-                                              hintText: 'Easy/ Denim/ Twelve',
-                                            ),
-                                            Spacer(),
-                                            CustomButton(
-                                                name: 'Save',
-                                                textStyle: TextFontStyle.inter10W600.copyWith(
-                                                    color: Colors.black, fontSize: 16),
-                                                color: AppColor.cD5E7B0,
-                                                borderRadius: 100,
-                                                onCallBack: () {
-                                                  setState(() {
-                                                    _brandController = _brandController;
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                context: context)
-                                          ],
+                                                  IconButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
+                                                  ),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpaceMedium,
+                                              CustomTextField(
+                                                controller: _brandController,
+                                                hintText: 'Easy/ Denim/ Twelve',
+                                              ),
+                                              Spacer(),
+                                              CustomButton(
+                                                  name: 'Save',
+                                                  textStyle: TextFontStyle.inter10W600
+                                                      .copyWith(color: Colors.black, fontSize: 16),
+                                                  color: AppColor.cD5E7B0,
+                                                  borderRadius: 100,
+                                                  onCallBack: () {
+                                                    setState(() {
+                                                      _brandController = _brandController;
+                                                      Navigator.pop(context);
+                                                    });
+                                                  },
+                                                  context: context)
+                                            ],
+                                          ),
                                         ),
                                       );
                                     });
@@ -747,140 +767,145 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                   builder: (BuildContext context) {
                                     return StatefulBuilder(
                                       builder: (context, setModalState) {
-                                        return Container(
-                                          width: double.infinity,
-                                          height: 525.h,
-                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20.r),
-                                              topRight: Radius.circular(20.r),
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        ),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 525.h,
+                                            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(20.r),
+                                                topRight: Radius.circular(20.r),
+                                              ),
+                                              color: Colors.white,
                                             ),
-                                            color: Colors.white,
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              // Header Row
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      setModalState(() => _colorList.clear());
-                                                      _colorController.clear();
-                                                    },
-                                                    child: Text(
-                                                      'Reset',
-                                                      style: TextFontStyle.inter10W400.copyWith(
-                                                        fontSize: 16.sp,
+                                            child: Column(
+                                              children: [
+                                                // Header Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        setModalState(() => _colorList.clear());
+                                                        _colorController.clear();
+                                                      },
+                                                      child: Text(
+                                                        'Reset',
+                                                        style: TextFontStyle.inter10W400.copyWith(
+                                                          fontSize: 16.sp,
+                                                          color: Color(0xFF2F2F2F),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Add Colors',
+                                                      style: TextFontStyle.inter10W600.copyWith(
+                                                        fontSize: 20.sp,
                                                         color: Color(0xFF2F2F2F),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    'Add Colors',
-                                                    style: TextFontStyle.inter10W600.copyWith(
-                                                      fontSize: 20.sp,
-                                                      color: Color(0xFF2F2F2F),
+                                                    IconButton(
+                                                      onPressed: () => Navigator.pop(context),
+                                                      icon: Icon(Icons.cancel_outlined, size: 25.sp),
                                                     ),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () => Navigator.pop(context),
-                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
-                                                  ),
-                                                ],
-                                              ),
-
-                                              UIHelper.verticalSpace(16.h),
-
-                                              // Search Field
-                                              Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: CustomTextField(
-                                                      controller: _colorController,
-                                                      fieldColor: Colors.transparent,
-                                                      borderColor: Colors.grey,
-                                                      height: 50.h,
-                                                      readOnly: _colorList.length == 5 ? true : false,
-                                                      hintText: 'Red/ Green/ Blue',
+                                                  ],
+                                                ),
+                                          
+                                                UIHelper.verticalSpace(16.h),
+                                          
+                                                // Search Field
+                                                Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: CustomTextField(
+                                                        controller: _colorController,
+                                                        fieldColor: Colors.transparent,
+                                                        borderColor: Colors.grey,
+                                                        height: 50.h,
+                                                        readOnly: _colorList.length == 5 ? true : false,
+                                                        hintText: 'Red/ Green/ Blue',
+                                                      ),
                                                     ),
-                                                  ),
-                                                  UIHelper.horizontalSpaceSmall,
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      setModalState(() {
-                                                        if (_colorController.text.isNotEmpty &&
-                                                            _colorController.text.length > 2) {
-                                                          final alreadyExists = _colorList
-                                                              .any((item) => item == _colorController.text.trim());
-
-                                                          if (!alreadyExists && _colorList.length < 5) {
+                                                    UIHelper.horizontalSpaceSmall,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        setModalState(() {
+                                                          if (_colorController.text.isNotEmpty &&
+                                                              _colorController.text.length > 2) {
+                                                            final alreadyExists = _colorList
+                                                                .any((item) => item == _colorController.text.trim());
+                                          
+                                                            if (!alreadyExists && _colorList.length < 5) {
+                                                              setState(() {
+                                                                _colorList.add(_colorController.text.trim());
+                                                              });
+                                                            }
                                                             setState(() {
-                                                              _colorList.add(_colorController.text.trim());
+                                                              _colorController.clear();
                                                             });
                                                           }
-                                                          setState(() {
-                                                            _colorController.clear();
-                                                          });
-                                                        }
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-                                                      decoration: BoxDecoration(
-                                                          color: AppColor.cD5E7B0,
-                                                          borderRadius: BorderRadius.circular(30.r)),
-                                                      child: Text(
-                                                        'Add',
-                                                        style: TextFontStyle.inter10W600.copyWith(
-                                                            color: Colors.black, fontSize: 16.sp),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-
-                                              UIHelper.verticalSpaceSmall,
-
-                                              // Selected Categories Chips OR Placeholder
-                                              _colorList.isEmpty
-                                                  ? Text(
-                                                      "Max 5 Colors can be Added",
-                                                      style: TextFontStyle.inter10W400.copyWith(
-                                                        fontSize: 14.sp,
-                                                        color: Colors.grey,
+                                                        });
+                                                      },
+                                                      child: Container(
+                                                        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                                                        decoration: BoxDecoration(
+                                                            color: AppColor.cD5E7B0,
+                                                            borderRadius: BorderRadius.circular(30.r)),
+                                                        child: Text(
+                                                          'Add',
+                                                          style: TextFontStyle.inter10W600
+                                                              .copyWith(color: Colors.black, fontSize: 16.sp),
+                                                        ),
                                                       ),
                                                     )
-                                                  : Wrap(
-                                                      spacing: 8,
-                                                      runSpacing: 8,
-                                                      children: _colorList.asMap().entries.map((entry) {
-                                                        final index = entry.key;
-                                                        final item = entry.value;
-                                                        return Container(
-                                                          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                                          decoration: BoxDecoration(
-                                                            color: _getCategoryColor(index),
-                                                            borderRadius: BorderRadius.circular(20.r),
-                                                          ),
-                                                          child: Text(item),
-                                                        );
-                                                      }).toList(),
-                                                    ),
-                                              Spacer(),
-                                              CustomButton(
-                                                  name: 'Save',
-                                                  onCallBack: () {
-                                                    setState(() {});
-                                                    Navigator.pop(context);
-                                                  },
-                                                  color: AppColor.cD5E7B0,
-                                                  borderRadius: 100,
-                                                  textStyle: TextFontStyle.inter10W600.copyWith(
-                                                      color: Colors.black, fontSize: 16.sp),
-                                                  context: context)
-                                            ],
+                                                  ],
+                                                ),
+                                          
+                                                UIHelper.verticalSpaceSmall,
+                                          
+                                                // Selected Categories Chips OR Placeholder
+                                                _colorList.isEmpty
+                                                    ? Text(
+                                                        "Max 5 Colors can be Added",
+                                                        style: TextFontStyle.inter10W400.copyWith(
+                                                          fontSize: 14.sp,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      )
+                                                    : Wrap(
+                                                        spacing: 8,
+                                                        runSpacing: 8,
+                                                        children: _colorList.asMap().entries.map((entry) {
+                                                          final index = entry.key;
+                                                          final item = entry.value;
+                                                          return Container(
+                                                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                                            decoration: BoxDecoration(
+                                                              color: _getCategoryColor(index),
+                                                              borderRadius: BorderRadius.circular(20.r),
+                                                            ),
+                                                            child: Text(item),
+                                                          );
+                                                        }).toList(),
+                                                      ),
+                                                Spacer(),
+                                                CustomButton(
+                                                    name: 'Save',
+                                                    onCallBack: () {
+                                                      setState(() {});
+                                                      Navigator.pop(context);
+                                                    },
+                                                    color: AppColor.cD5E7B0,
+                                                    borderRadius: 100,
+                                                    textStyle: TextFontStyle.inter10W600
+                                                        .copyWith(color: Colors.black, fontSize: 16.sp),
+                                                    context: context)
+                                              ],
+                                            ),
                                           ),
                                         );
                                       },
@@ -1031,52 +1056,57 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (BuildContext context) {
-                                      return Container(
-                                        width: double.infinity,
-                                        height: 300.h,
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
-                                            color: Colors.white),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Add Pattern',
-                                                  style: TextFontStyle.inter10W600.copyWith(
-                                                    fontSize: 20.sp,
-                                                    color: Color(0xFF2F2F2F),
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        ),
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 300.h,
+                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+                                              color: Colors.white),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Add Pattern',
+                                                    style: TextFontStyle.inter10W600.copyWith(
+                                                      fontSize: 20.sp,
+                                                      color: Color(0xFF2F2F2F),
+                                                    ),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () => Navigator.pop(context),
-                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
-                                                ),
-                                              ],
-                                            ),
-                                            UIHelper.verticalSpaceMedium,
-                                            CustomTextField(
-                                              controller: _patternController,
-                                              hintText: 'Striped/ Checked/ Plain',
-                                            ),
-                                            Spacer(),
-                                            CustomButton(
-                                                name: 'Save',
-                                                textStyle: TextFontStyle.inter10W600.copyWith(
-                                                    color: Colors.black, fontSize: 16),
-                                                color: AppColor.cD5E7B0,
-                                                borderRadius: 100,
-                                                onCallBack: () {
-                                                  setState(() {
-                                                    _patternController = _patternController;
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                context: context)
-                                          ],
+                                                  IconButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
+                                                  ),
+                                                ],
+                                              ),
+                                              UIHelper.verticalSpaceMedium,
+                                              CustomTextField(
+                                                controller: _patternController,
+                                                hintText: 'Striped/ Checked/ Plain',
+                                              ),
+                                              Spacer(),
+                                              CustomButton(
+                                                  name: 'Save',
+                                                  textStyle: TextFontStyle.inter10W600
+                                                      .copyWith(color: Colors.black, fontSize: 16),
+                                                  color: AppColor.cD5E7B0,
+                                                  borderRadius: 100,
+                                                  onCallBack: () {
+                                                    setState(() {
+                                                      _patternController = _patternController;
+                                                      Navigator.pop(context);
+                                                    });
+                                                  },
+                                                  context: context)
+                                            ],
+                                          ),
                                         ),
                                       );
                                     });
@@ -1294,56 +1324,62 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (BuildContext context) {
-                                      return Container(
-                                        width: double.infinity,
-                                        height: 300.h,
-                                        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
-                                            color: Colors.white),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Add Price',
-                                                  style: TextFontStyle.inter10W600.copyWith(
-                                                    fontSize: 20.sp,
-                                                    color: Color(0xFF2F2F2F),
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        ),
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 300.h,
+                                          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+                                              color: Colors.white),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Add Price',
+                                                    style: TextFontStyle.inter10W600.copyWith(
+                                                      fontSize: 20.sp,
+                                                      color: Color(0xFF2F2F2F),
+                                                    ),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () => Navigator.pop(context),
-                                                  icon: Icon(Icons.cancel_outlined, size: 25.sp),
-                                                ),
-                                              ],
-                                            ),
-                                            UIHelper.verticalSpaceMedium,
-                                            CustomTextField(
-                                                controller: _priceController,
-                                                inputFormatters: [
-                                                  FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                                                  LengthLimitingTextInputFormatter(15)
+                                                  IconButton(
+                                                    onPressed: () => Navigator.pop(context),
+                                                    icon: Icon(Icons.cancel_outlined, size: 25.sp),
+                                                  ),
                                                 ],
-                                                hintText: '120.58',
-                                                leftIcon: AppIcons.dollar),
-                                            Spacer(),
-                                            CustomButton(
-                                                name: 'Save',
-                                                textStyle: TextFontStyle.inter10W600.copyWith(
-                                                    color: Colors.black, fontSize: 16),
-                                                color: AppColor.cD5E7B0,
-                                                borderRadius: 100,
-                                                onCallBack: () {
-                                                  setState(() {
-                                                    _priceController = _priceController;
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                context: context)
-                                          ],
+                                              ),
+                                              UIHelper.verticalSpaceMedium,
+                                              CustomTextField(
+                                                  controller: _priceController,
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                                                    LengthLimitingTextInputFormatter(15)
+                                                  ],
+                                                  keybordType: TextInputType.number,
+                                                  hintText: '120.58',
+                                                  leftIcon: AppIcons.dollar),
+                                              Spacer(),
+                                              CustomButton(
+                                                  name: 'Save',
+                                                  textStyle: TextFontStyle.inter10W600
+                                                      .copyWith(color: Colors.black, fontSize: 16),
+                                                  color: AppColor.cD5E7B0,
+                                                  borderRadius: 100,
+                                                  onCallBack: () {
+                                                    setState(() {
+                                                      _priceController = _priceController;
+                                                      Navigator.pop(context);
+                                                    });
+                                                  },
+                                                  context: context)
+                                            ],
+                                          ),
                                         ),
                                       );
                                     });
@@ -1437,7 +1473,7 @@ class _ClosetDetailsAddScreenState extends State<ClosetDetailsAddScreen> {
                               _colorList.isEmpty ||
                               selectedMaterials == null ||
                               _priceController.text.isEmpty)
-                          ? showSnackBarMessage('Title, Categoruy, Color, Material & Pattern is Required')
+                          ? showSnackBarMessage('context', 'Title, Categoruy, Color, Material & Pattern is Required')
                           : postAddCloset(PostAddClosetModel(
                               title: _titleController.text.trim(),
                               categories: _selectedCategories,

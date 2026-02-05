@@ -27,6 +27,7 @@ import 'package:twwillustration/features/quick_stats_screen/quick_stats_screen.d
 import 'package:twwillustration/features/settings/presentation/settings_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/add_to_shop_screen.dart';
 import 'package:twwillustration/features/chat/presentation/chat_screen.dart';
+import 'package:twwillustration/features/shop_screen/presentation/cart_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/list_successful_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/marketplace_product_screen.dart';
 import 'package:twwillustration/features/shop_screen/presentation/product_details_screen.dart';
@@ -98,6 +99,7 @@ final class Routes {
   static const String wishlistScreen = '/wishlistScreen';
   static const String chatScreen = '/chatScreen';
   static const String marketplaceProductScreen = '/marketplaceProductScreen';
+  static const String cartScreen = '/cartScreen';
 
 }
 
@@ -334,6 +336,12 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: SubscriptionScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => SubscriptionScreen());
+
+      case Routes.cartScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: MyCartScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => MyCartScreen());
 
       default:
         return null;

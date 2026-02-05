@@ -11,6 +11,7 @@ import 'package:twwillustration/features/shop_screen/widget/marketplace_screen_s
 import 'package:twwillustration/features/shop_screen/widget/product_card.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
+import 'package:twwillustration/helpers/toast.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 
@@ -75,6 +76,21 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
     }
   }
 
+  Future<void> addToCart(int productId) async{
+    try{
+      bool success = await postAddToCartRxObj.postAddToCartRx(productId);
+
+      if(success){
+        ToastUtil.showShortToast('Product successfully added to cart');
+      } else{
+        throw Exception();
+      }
+    } catch(error){
+      debugPrint('>>>>>>> Error during add to cart call : $error <<<<<<<<<<');
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -107,12 +123,16 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                           Spacer(),
                           GestureDetector(
                             onTap: () {
+                              NavigationService.navigateTo(Routes.cartScreen);
+                            },
+                            child: Icon(Icons.shopping_cart_outlined),
+                          ),
+                          UIHelper.horizontalSpace(10.w),
+                          GestureDetector(
+                            onTap: () {
                               NavigationService.navigateTo(Routes.wishlistScreen);
                             },
-                            child: SvgPicture.asset(
-                              AppIcons.favourite,
-                              width: 40.w,
-                            ),
+                            child: Icon(Icons.favorite_border),
                           ),
                           UIHelper.horizontalSpace(10.w),
                           GestureDetector(
@@ -127,7 +147,6 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                           UIHelper.horizontalSpace(10.w),
                           GestureDetector(
                             onTap: () {
-                              // Navigate to AddToShopScreen
                               NavigationService.navigateTo(Routes.addToShop);
                             },
                             child: SvgPicture.asset(
@@ -280,6 +299,9 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                                               name: product?.title ?? '',
                                               condition: product?.condition ?? '',
                                               price: product?.price ?? '',
+                                              toggleCart: () async{
+                                                await addToCart(product?.id ?? 0);
+                                              },
                                               onTap: () {
                                                 NavigationService.navigateToWithArgs(Routes.productDetailsScreen, {'productId' : product?.id ?? 0});
                                               },
@@ -352,6 +374,9 @@ class _ShopDashboardScreenState extends State<ShopDashboardScreen> {
                                         onTap: () {
                                           NavigationService.navigateToWithArgs(Routes.productDetailsScreen, {'productId' : product?.id ?? 0});
                                         },
+                                        toggleCart: () async{
+                                                await addToCart(product?.id ?? 0);
+                                              },
                                         toggleFavorite: () async {
                                           final wasFollowing = product?.isFav ?? false;
                                           setState(() {

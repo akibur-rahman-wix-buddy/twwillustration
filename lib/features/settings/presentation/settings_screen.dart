@@ -198,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ProfileWidgets(
                               icon: SvgPicture.asset(AppIcons.favourite),
                               title: 'My Favourites',
-                              onTap: () {},
+                              onTap: () {NavigationService.navigateTo(Routes.wishlistScreen);},
                             ),
                             UIHelper.verticalSpace(24.h),
                             ProfileWidgets(
