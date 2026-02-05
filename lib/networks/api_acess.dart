@@ -44,15 +44,20 @@ import 'package:twwillustration/features/settings/data/logout_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/add_marketplace/post_add_marketplace_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_marketplace_product/get_marketplace_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_marketplace_product_details/get_marketplace_product_details_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/get_marketplace_wardrobe_filters/get_marketplace_wardrobe_filters_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/get_marketplace_wardrobe_product/get_marketplace_wardrobe_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_qa_data/get_qa_data_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_wishlist_product/get_wishlist_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/get_your_marketplace_product/get_your_marketplace_product_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/market_place_get_data/market_place_get_data_rx.dart';
+import 'package:twwillustration/features/shop_screen/data/post_add_to_cart/post_add_to_cart_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/post_ask_question/post_ask_question_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/post_ask_question_replay/post_ask_question_replay_rx.dart';
 import 'package:twwillustration/features/shop_screen/data/toggle_favorite_unfovarite/toggle_favorite_unfovarite_rx.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_details_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_marketplace_product_model.dart';
+import 'package:twwillustration/features/shop_screen/model/get_marketplace_wardrobe_filters_data_model.dart';
+import 'package:twwillustration/features/shop_screen/model/get_marketplace_wardrobe_product_data_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_qa_data_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_wishlist_product_data_model.dart';
 import 'package:twwillustration/features/shop_screen/model/get_your_marketplace_product.dart';
@@ -178,3 +183,13 @@ SendMessageRx sendMessageRxObj = SendMessageRx(empty: {}, dataFetcher: BehaviorS
 
 GetGeneretOutfitFilterDataRx getGeneretOutfitFilterDataRxObj = GetGeneretOutfitFilterDataRx(
     empty: GetGeneretOutfitFilterDataModel(), dataFetcher: BehaviorSubject<GetGeneretOutfitFilterDataModel>());
+
+GetMarketplaceWardrobeFiltersRx getMarketplaceWardrobeFiltersRxObj = GetMarketplaceWardrobeFiltersRx(
+    empty: GetMatketplaceWardrobeFiltersDataModel(),
+    dataFetcher: BehaviorSubject<GetMatketplaceWardrobeFiltersDataModel>());
+
+GetMarketplaceWardrobeProductRx getMarketplaceWardrobeProductRxObj = GetMarketplaceWardrobeProductRx(
+    empty: GetMarketplaceWardrobeProductDataModel(),
+    dataFetcher: BehaviorSubject<GetMarketplaceWardrobeProductDataModel>());
+
+PostAddToCartRx postAddToCartRxObj = PostAddToCartRx(empty: {}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());

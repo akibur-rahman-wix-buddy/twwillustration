@@ -150,7 +150,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
     try {
       bool success = await postAddClosetRxObj.postAddClosetRx(closet);
       if (success) {
-        showSnackBarMessage('Closet Added Sucessfully');
+        showSnackBarMessage('context', 'Closet Added Sucessfully');
         setState(() {
           isLoading = false;
         });
@@ -174,7 +174,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
       bool success = await updateClosetRxObj.updateClosetRx(closet, closetId);
 
       if (success) {
-        showSnackBarMessage('Closet Update Sucessfully');
+        showSnackBarMessage('context', 'Closet Update Sucessfully');
         fetchSingleCloset(closetId);
         setState(() {
           isUpdating = false;
@@ -199,7 +199,7 @@ class _ClosetDetailsScreenState extends State<ClosetDetailsScreen> {
       bool success = await deleteClosetRxObj.deleteClosetRx(closetId);
 
       if (success) {
-        showSnackBarMessage('Closet Deleted');
+        showSnackBarMessage('context', 'Closet Deleted');
         setState(() {
           isDeleting = false;
         });

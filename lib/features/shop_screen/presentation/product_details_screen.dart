@@ -555,6 +555,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               NavigationService.navigateToWithArgs(
                                   Routes.productDetailsScreen, {'productId': product?.id ?? 0});
                             },
+                            toggleCart: () {
+                              
+                            },
                             toggleFavorite: () async {
                               final wasFollowing = product?.isFav ?? false;
                               setState(() {

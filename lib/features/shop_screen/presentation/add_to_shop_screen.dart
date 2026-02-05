@@ -15,13 +15,13 @@ import 'package:twwillustration/common_widgets/custom_button.dart';
 import 'package:twwillustration/common_widgets/custom_shimmer_image.dart';
 import 'package:twwillustration/common_widgets/custom_snackbar.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
-import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/features/closet/model/get_single_closet_data_model.dart';
 import 'package:twwillustration/features/profile/model/get_single_category_data_model.dart';
 import 'package:twwillustration/features/shop_screen/data/add_marketplace/post_add_marketplace_api.dart';
+import 'package:twwillustration/features/shop_screen/model/get_marketplace_wardrobe_filters_data_model.dart';
+import 'package:twwillustration/features/shop_screen/model/get_marketplace_wardrobe_product_data_model.dart';
 import 'package:twwillustration/features/shop_screen/model/market_place_get_data_model.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
-import 'package:twwillustration/helpers/di.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
@@ -44,8 +44,8 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
 
   GetSingleClosetDataModel? singleCloset;
 
-  List<XFile> _pickedImages = [];
-  List<String> _networkImages = [];
+  List<XFile> pickedImages = [];
+  List<String> networkImages = [];
 
   bool _isCategoryLoading = false;
   int? clothesId;
@@ -68,7 +68,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
   }
 
   Future<void> _pickImage() async {
-    if (_networkImages.isEmpty) {
+    if (networkImages.isEmpty) {
       showSnackBarMessage(context, 'প্রথমে wardrobe থেকে একটা item সিলেক্ট করুন');
       return;
     }
@@ -84,7 +84,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
       final selected = images.take(remaining).toList();
 
       setState(() {
-        _pickedImages.addAll(selected);
+        pickedImages.addAll(selected);
       });
     } catch (e) {
       showSnackBarMessage(context, '$e');
@@ -95,18 +95,18 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
     if (imageUrl.isEmpty) return;
 
     setState(() {
-      _networkImages.clear();
-      _networkImages.add(imageUrl);
+      networkImages.clear();
+      networkImages.add(imageUrl);
     });
   }
 
   void _removePickedImage(int index) {
     setState(() {
-      _pickedImages.removeAt(index);
+      pickedImages.removeAt(index);
     });
   }
 
-  int get _totalImageCount => _pickedImages.length + _networkImages.length;
+  int get _totalImageCount => pickedImages.length + networkImages.length;
 
   String? _selectedSize;
   final List<String> _sizes = ['M', 'L', 'X', 'XL', 'XXL'];
@@ -117,10 +117,12 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
   String? _selectedCategoryId;
   String? _selectedCondition;
 
-  String _selectedWardrobeCategoryIndex = '1';
+  String _selectedWardrobeCategory = 'top';
 
-  List<GetSingleCategoryDataModel> _clothesData = [];
+  GetMarketplaceWardrobeProductDataModel? _clothesData;
   bool isClothesLoading = false;
+
+  GetMatketplaceWardrobeFiltersDataModel? _filterData;
 
   String? _selectedShippingOption;
   final List<String> _shippingOption = ['buyer_pays', 'free_shipping'];
@@ -129,6 +131,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
     setState(() => _isCategoryLoading = true);
     try {
       final success = await marketPlaceGetDataRxObj.marketPlaceGetDataRx();
+      await fetchMarketplaceWardrobeFilters();
       if (success) {
         marketPlaceGetDataRxObj.getMarketPlaceData.listen((response) {
           if (!mounted) return;
@@ -146,21 +149,39 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
     }
   }
 
-  Future<void> fetchSingleCategory(int userID, int? productId) async {
+  Future<void> fetchMarketplaceWardrobeFilters() async{
+    try{
+      bool success = await getMarketplaceWardrobeFiltersRxObj.getMarketplaceWardrobeFiltersRx();
+
+      if(success){
+        getMarketplaceWardrobeFiltersRxObj.getMarketplaceWardrobeFiltersData.listen((data){
+          setState(() {
+            _filterData = data;
+          });
+        });
+      } else{
+        throw Exception();
+      }
+    } catch(error){
+      debugPrint('>>>error during get filter data : $error <<<<');
+    }
+  }
+
+  Future<void> fetchWardrobeFilterTypeData(String? type) async {
     try {
       setState(() => isClothesLoading = true);
-      bool success = await getSingleCategoryRxObj.getSingleCategoryRx(userID, productId);
+      bool success = await getMarketplaceWardrobeProductRxObj.getMarketplaceWardrobeProductRx(type);
       if (success) {
-        getSingleCategoryRxObj.getSingleCategoryData.listen((clothes) {
+        getMarketplaceWardrobeProductRxObj.getMarketplaceWardrobeProductData.listen((clothes) {
           if (mounted) {
             setState(() {
-              _clothesData = [clothes];
+              _clothesData = clothes;
             });
           }
         });
       }
     } catch (error) {
-      print(error);
+      debugPrint(' during fetchsingle category');
     } finally {
       setState(() => isClothesLoading = false);
     }
@@ -170,8 +191,8 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
     try {
       setState(() => isPosting = true);
       List<String> allImages = [
-        ..._pickedImages.map((e) => e.path),
-        ..._networkImages,
+        ...pickedImages.map((e) => e.path),
+        ...networkImages,
       ];
 
       final response = await PostAddMarketplaceApi.instance.postAddMarketplaceApi(
@@ -204,7 +225,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
   void initState() {
     super.initState();
     fetchCategories();
-    fetchSingleCategory(appData.read(kKeyUserID), 1);
+    fetchWardrobeFilterTypeData(_selectedWardrobeCategory);
   }
 
   @override
@@ -558,14 +579,14 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: _networkImages.isNotEmpty ? _pickImage : null,
+          onTap: networkImages.isNotEmpty ? _pickImage : null,
           child: Container(
             height: 150.h,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(8),
-              border: _networkImages.isEmpty ? Border.all(color: Colors.grey, width: 2) : null,
+              border: networkImages.isEmpty ? Border.all(color: Colors.grey, width: 2) : null,
             ),
             child: _totalImageCount == 0
                 ? Column(
@@ -576,7 +597,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                         height: 50.h,
                         width: 50.w,
                         colorFilter:
-                            _networkImages.isEmpty ? const ColorFilter.mode(Colors.grey, BlendMode.srcIn) : null,
+                            networkImages.isEmpty ? const ColorFilter.mode(Colors.grey, BlendMode.srcIn) : null,
                       ),
                       UIHelper.verticalSpace(10.h),
                       Text(
@@ -584,10 +605,10 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                         style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
-                          color: _networkImages.isEmpty ? Colors.grey : null,
+                          color: networkImages.isEmpty ? Colors.grey : null,
                         ),
                       ),
-                      if (_networkImages.isEmpty)
+                      if (networkImages.isEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 8.h),
                           child: Text(
@@ -601,23 +622,23 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: _networkImages.isNotEmpty
+                        child: networkImages.isNotEmpty
                             ? ShimmerImage(
-                                imageUrl: _networkImages.first,
+                                imageUrl: networkImages.first,
                                 placeholder: AppImages.placeholderImage,
                                 boxFit: BoxFit.contain,
                                 height: double.infinity,
                                 width: double.infinity,
                               )
                             : Image.file(
-                                File(_pickedImages.first.path),
+                                File(pickedImages.first.path),
                                 height: 150.h,
                                 width: double.infinity,
                                 fit: BoxFit.contain,
                               ),
                       ),
                       // Delete button শুধু gallery image হলে দেখাবে
-                      if (_networkImages.isEmpty && _pickedImages.isNotEmpty)
+                      if (networkImages.isEmpty && pickedImages.isNotEmpty)
                         Positioned(
                           top: 8,
                           right: 8,
@@ -646,13 +667,13 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
               ..._buildAdditionalImages(),
               if (_totalImageCount < 8)
                 GestureDetector(
-                  onTap: _networkImages.isNotEmpty ? _pickImage : null,
+                  onTap: networkImages.isNotEmpty ? _pickImage : null,
                   child: Container(
                     width: 60.w,
                     height: 60.h,
                     margin: EdgeInsets.only(right: 8.w),
                     decoration: BoxDecoration(
-                      color: _networkImages.isNotEmpty ? Colors.white : Colors.grey[300],
+                      color: networkImages.isNotEmpty ? Colors.white : Colors.grey[300],
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.grey.shade300),
                     ),
@@ -662,7 +683,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                         height: 30.h,
                         width: 30.w,
                         colorFilter:
-                            _networkImages.isEmpty ? const ColorFilter.mode(Colors.grey, BlendMode.srcIn) : null,
+                            networkImages.isEmpty ? const ColorFilter.mode(Colors.grey, BlendMode.srcIn) : null,
                       ),
                     ),
                   ),
@@ -678,11 +699,11 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
     List<Widget> widgets = [];
 
     // শুধু gallery images দেখাবে (network main-এ থাকবে)
-    for (int i = 0; i < _pickedImages.length; i++) {
+    for (int i = 0; i < pickedImages.length; i++) {
       widgets.add(
         _buildImageTile(
           isNetwork: false,
-          imagePath: _pickedImages[i].path,
+          imagePath: pickedImages[i].path,
           onRemove: () => _removePickedImage(i),
         ),
       );
@@ -733,7 +754,7 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                 child: Container(
                   padding: EdgeInsets.all(2),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: .6),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(Icons.close, color: Colors.white, size: 14),
@@ -784,39 +805,39 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: _categories.map((category) {
+                children: _filterData?.data?.map((category) {
                   return Padding(
                     padding: EdgeInsets.only(right: 8.w),
                     child: GestureDetector(
                       onTap: () {
-                        setState(() => _selectedWardrobeCategoryIndex = category.id.toString());
-                        fetchSingleCategory(appData.read(kKeyUserID), int.tryParse(category.id.toString()) ?? 0);
-                        fetchSingleCloset(int.tryParse(category.id.toString()) ?? 0);
+                        setState(() => _selectedWardrobeCategory = category.type ?? 'Top');
+                        fetchWardrobeFilterTypeData(_selectedWardrobeCategory);
+                        // fetchSingleCloset(clothesId ?? 0);
                       },
                       child: Text(
-                        category.title ?? '',
+                        category.type ?? '',
                         style: TextFontStyle.textStyle12w400NunitoSans.copyWith(
                           fontSize: 14.sp,
-                          color: _selectedWardrobeCategoryIndex == category.id.toString() ? Colors.black : Colors.grey,
-                          fontWeight: _selectedWardrobeCategoryIndex == category.id.toString()
+                          color: _selectedWardrobeCategory == category.type ? Colors.black : Colors.grey,
+                          fontWeight: _selectedWardrobeCategory == category.type
                               ? FontWeight.bold
                               : FontWeight.normal,
                         ),
                       ),
                     ),
                   );
-                }).toList(),
+                }).toList() ?? [],
               ),
             ),
             Divider(color: Colors.grey, thickness: 0.5),
             SizedBox(height: 16.h),
             SizedBox(
-              height: 100.h,
-              child: _clothesData.isEmpty || _clothesData.first.data!.isEmpty
+              height: 160.h,
+              child: _clothesData == null || _clothesData?.data?.allClosets == null || _clothesData!.data!.allClosets!.isEmpty
                   ? Center(
                       child: SizedBox(
-                        height: 80.h,
-                        width: 80.w,
+                        height: 150.h,
+                        width: 150.w,
                         child: Lottie.asset(
                           AppLotties.noDataFound,
                           fit: BoxFit.contain,
@@ -825,17 +846,19 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
                     )
                   : ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: _clothesData.first.data?.length ?? 0,
+                      itemCount: _clothesData?.data?.allClosets?.length,
                       itemBuilder: (context, index) {
-                        final item = _clothesData.first.data![index];
-                        final imageUrl = item.image ?? '';
+                        final item = _clothesData?.data?.allClosets?[index];
+                        final imageUrl = item?.image ?? '';
 
                         return _buildClothingItem(
                           imagePath: imageUrl,
+                          title: item?.title ?? '',
+                          worn: item?.worn.toString() ?? '',
                           onTap: () {
                             setState(() {
                               _addFromWardrobe(imageUrl);
-                              clothesId = int.tryParse(item.id.toString());
+                              clothesId = item?.id ?? 0;
                             });
                             print('>>>>>>>>>>>>>>>>>clothesId : $clothesId <<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                           },
@@ -864,12 +887,11 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
     );
   }
 
-  Widget _buildClothingItem({required String imagePath, required VoidCallback onTap}) {
+  Widget _buildClothingItem({required String imagePath, required VoidCallback onTap, required String title, required String worn}) {
     return GestureDetector(
         onTap: onTap,
         child: Container(
-            width: 93.w,
-            height: 93.h,
+            width: 100.w,
             margin: EdgeInsets.only(right: 8.w),
             padding: EdgeInsets.all(8.sp),
             decoration: BoxDecoration(
@@ -877,11 +899,26 @@ class _AddToShopScreenState extends State<AddToShopScreen> {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(width: 1, color: Colors.grey.shade300),
             ),
-            child: ShimmerImage(
-              imageUrl: imagePath,
-              placeholder: AppImages.placeholderImage,
-              height: double.infinity,
-              width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ShimmerImage(
+                  imageUrl: imagePath,
+                  placeholder: AppImages.placeholderImage,
+                  height: 93.h,
+                  width: double.infinity,
+                ),
+                Text(
+                  title,
+                  style: TextFontStyle.inter10W600.copyWith(fontSize: 14.sp, color: AppColor.c000000),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  'Worn: $worn',
+                  style: TextFontStyle.inter10W600.copyWith(fontSize: 12.sp, color: AppColor.c757575),
+                )
+              ],
             )));
   }
 

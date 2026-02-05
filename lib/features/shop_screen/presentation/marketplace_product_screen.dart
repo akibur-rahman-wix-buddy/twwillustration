@@ -11,6 +11,7 @@ import 'package:twwillustration/features/shop_screen/widget/marketplace_screen_s
 import 'package:twwillustration/features/shop_screen/widget/product_card.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
+import 'package:twwillustration/helpers/toast.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 import 'package:twwillustration/networks/api_acess.dart';
 
@@ -70,6 +71,20 @@ class _MarketplaceProductScreenState extends State<MarketplaceProductScreen> {
       debugPrint('error during category : $error');
     } finally {
       setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> addToCart(int productId) async{
+    try{
+      bool success = await postAddToCartRxObj.postAddToCartRx(productId);
+
+      if(success){
+        ToastUtil.showShortToast('Product successfully added to cart');
+      } else{
+        throw Exception();
+      }
+    } catch(error){
+      debugPrint('>>>>>>> Error during add to cart call : $error <<<<<<<<<<');
     }
   }
 
@@ -209,6 +224,9 @@ class _MarketplaceProductScreenState extends State<MarketplaceProductScreen> {
                                 price: product?.price ?? '',
                                 onTap: () {
                                   NavigationService.navigateToWithArgs(Routes.productDetailsScreen, {'productId' : product?.id ?? 0});
+                                },
+                                toggleCart: () async{
+                                  await addToCart(product?.id ?? 0);
                                 },
                                 toggleFavorite: () async {
                                   final wasFollowing = product?.isFav ?? false;

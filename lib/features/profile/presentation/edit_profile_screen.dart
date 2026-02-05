@@ -307,7 +307,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             .copyWith(color: Color(0xFF000000)),
                         readOnly: true,
                         onTap: () =>
-                            showSnackBarMessage('You can\'t edit your email'),
+                            showSnackBarMessage('context', 'You can\'t edit your email'),
                       ),
                       UIHelper.verticalSpace(16.h),
 

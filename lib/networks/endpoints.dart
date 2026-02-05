@@ -95,4 +95,7 @@ class Endpoints {
   static String getWishlistProductURL() => '/v1/marketplace/favorites?page=1&per_page=1000';
   static String postSendMessageURL() => '/v1/marketplace/conversation/send';
   static String getGeneretOutfitDataURL() => '/v1/home/outfits/generate/filters';
+  static String getMarketplacrWardrobeFiltersURL() => '/v1/marketplace/wardrobe/filters';
+  static String getMarketplaceWardrobeProductURL(String? type) => '/v1/marketplace/wardrobe?type=$type';
+  static String postAddTOCartURL() => '/v1/marketplace/cart/add';
 }
