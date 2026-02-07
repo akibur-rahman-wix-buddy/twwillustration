@@ -11,7 +11,9 @@ import 'package:twwillustration/assets_helper/app_image.dart';
 import 'package:twwillustration/common_widgets/custom_shimmer_image.dart';
 import 'package:twwillustration/common_widgets/custom_textfeild.dart';
 import 'package:twwillustration/common_widgets/shimmerClipOverImageWidget.dart';
+import 'package:twwillustration/constants/app_constants.dart';
 import 'package:twwillustration/helpers/all_routes.dart';
+import 'package:twwillustration/helpers/di.dart';
 import 'package:twwillustration/helpers/navigation_service.dart';
 import 'package:twwillustration/helpers/ui_helpers.dart';
 
@@ -32,6 +34,8 @@ class PostCard extends StatefulWidget {
   final bool isLike;
   final String isFollow;
   final int userId;
+  final bool? wonProfile;
+  final VoidCallback? clickThreeDot;
 
   const PostCard(
       {super.key,
@@ -48,7 +52,7 @@ class PostCard extends StatefulWidget {
       required this.commentCount,
       required this.imagePath,
       required this.isLike,
-      required this.isFollow, required this.userId});
+      required this.isFollow, required this.userId, this.wonProfile, this.clickThreeDot});
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -72,7 +76,7 @@ class _PostCardState extends State<PostCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: (){NavigationService.navigateTo(Routes.communityProfileScreen);},
+                  onTap: (widget.wonProfile ?? false) ? (){} : (){NavigationService.navigateTo(Routes.communityProfileScreen);},
                   child: Row(
                     children: [
                       ShimmerClipOvalWidget(
@@ -133,10 +137,13 @@ class _PostCardState extends State<PostCard> {
                             ),
                           ),
                     UIHelper.horizontalSpace(10.w),
-                    Image.asset(
-                      AppImages.threeDotImages,
-                      height: 20.h,
-                      width: 20.w,
+                    GestureDetector(
+                      onTap: widget.clickThreeDot,
+                      child: Image.asset(
+                        AppImages.threeDotImages,
+                        height: 20.h,
+                        width: 20.w,
+                      ),
                     ),
                   ],
                 ),

@@ -13,7 +13,9 @@ import 'package:twwillustration/features/block_user/presentation/block_user_scre
 import 'package:twwillustration/features/closet/presentation/closet_details_add_screen.dart';
 import 'package:twwillustration/features/closet/presentation/closet_details_screen.dart';
 import 'package:twwillustration/features/community/presentation/community_profile_screen.dart';
+import 'package:twwillustration/features/community/presentation/edit_community_post_screen.dart';
 import 'package:twwillustration/features/community/presentation/report_screen.dart';
+import 'package:twwillustration/features/community/presentation/won_community_screen.dart';
 import 'package:twwillustration/features/community/widget/create_post_screen.dart';
 import 'package:twwillustration/features/fashion_board/add_fashion_board.dart';
 import 'package:twwillustration/features/home/presentation/home_screen.dart';
@@ -100,6 +102,8 @@ final class Routes {
   static const String chatScreen = '/chatScreen';
   static const String marketplaceProductScreen = '/marketplaceProductScreen';
   static const String cartScreen = '/cartScreen';
+  static const String wonCommunityScreen = '/wonCommunityScreen';
+  static const String editCommunityPsotScreen = '/editCommunityPsotScreen';
 
 }
 
@@ -342,6 +346,19 @@ final class RouteGenerator {
             ? _FadedTransitionRoute(
                 widget: MyCartScreen(), settings: settings)
             : CupertinoPageRoute(builder: (context) => MyCartScreen());
+
+      case Routes.wonCommunityScreen:
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: WonCommunityScreen(), settings: settings)
+            : CupertinoPageRoute(builder: (context) => WonCommunityScreen());
+
+      case Routes.editCommunityPsotScreen:
+      final args = settings.arguments as Map;
+        return Platform.isAndroid
+            ? _FadedTransitionRoute(
+                widget: EditCommunityPostScreen(postId: args['postId'],), settings: settings)
+            : CupertinoPageRoute(builder: (context) => EditCommunityPostScreen(postId: args['postId'],));
 
       default:
         return null;

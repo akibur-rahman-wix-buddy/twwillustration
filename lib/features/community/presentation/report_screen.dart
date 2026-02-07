@@ -54,6 +54,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   decoration: BoxDecoration(color: AppColor.cFFFFFF, borderRadius: BorderRadius.circular(28.r), border: Border.all(width: 1, color: AppColor.cE8E8E8)),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<String>(
+                      isExpanded: true,
                       value: _selectedReportReason,
                       hint: Text('Misleading or Incorrect Information',
                           style: TextFontStyle.textStyle14w400c333333.copyWith(color: AppColor.c757575)),

@@ -21,6 +21,7 @@ import 'package:twwillustration/features/closet/data/update_closet/update_closet
 import 'package:twwillustration/features/closet/model/get_materilas_data_model.dart';
 import 'package:twwillustration/features/closet/model/get_single_closet_data_model.dart';
 import 'package:twwillustration/features/community/data/add_post/post_add_post_rx.dart';
+import 'package:twwillustration/features/community/data/delete_community_post/delete_community_post_rx.dart';
 import 'package:twwillustration/features/community/data/get_list_of_post/get_list_of_post_rx.dart';
 import 'package:twwillustration/features/community/data/get_post_details/get_post_details_rx.dart';
 import 'package:twwillustration/features/community/data/post_comment/post_comment_rx.dart';
@@ -193,3 +194,6 @@ GetMarketplaceWardrobeProductRx getMarketplaceWardrobeProductRxObj = GetMarketpl
     dataFetcher: BehaviorSubject<GetMarketplaceWardrobeProductDataModel>());
 
 PostAddToCartRx postAddToCartRxObj = PostAddToCartRx(empty: {}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());
+
+DeleteCommunityPostRx deleteCommunityPostRxObj =
+    DeleteCommunityPostRx(empty: {}, dataFetcher: BehaviorSubject<Map<String, dynamic>>());

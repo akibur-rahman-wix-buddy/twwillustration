@@ -90,7 +90,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              UIHelper.verticalSpace(60.h),
+              UIHelper.verticalSpace(55.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -102,7 +102,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       //     width: 40.w,
                       //   ),
                       // ),
-                      SizedBox(width: 40,),
                       Text(
                         'Community',
                         style: TextFontStyle.textStyle20w600c000A15ColorJosefinSans.copyWith(
@@ -110,6 +109,14 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           fontWeight: FontWeight.w700
                         ),
                       ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          NavigationService.navigateTo(Routes.wonCommunityScreen);
+                        },
+                        child: Text('Won Post', style: TextFontStyle.inter10W600.copyWith(color: Colors.blueAccent, fontSize: 12.sp),)
+                      ),
+                      UIHelper.horizontalSpaceSmall,
                       GestureDetector(
                         onTap: () {
                           NavigationService.navigateTo(Routes.createPostScreen);
