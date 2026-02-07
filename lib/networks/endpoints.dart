@@ -55,20 +55,20 @@ class Endpoints {
   }
   static String getBlockUsreURl(String? search){
     if(search == null){
-      return '/v1/user/blocked?search=&page&per_page';
+      return '/v1/user/blocked?search=&page&per_page=100000';
     } else{
-      return '/v1/user/blocked?search=$search&page&per_page';
+      return '/v1/user/blocked?search=$search&page&per_page=1000000';
     }
   }
   static String toggleBlockUnblockURL(int id) => '/v1/user/$id/toggle-block';
   static String getFAQURL() => '/v1/setting/faqs';
   static String getListOfPostURL(String? search, String? filter) {
     if(search != null){
-      return '/v1/community/posts?search=$search&filter=&page&per_page';
+      return '/v1/community/posts?search=$search&filter=&page&per_page=10000';
     } else if(filter != null){
-      return '/v1/community/posts?search=&filter=$filter&page&per_page';
+      return '/v1/community/posts?search=&filter=$filter&page&per_page=10010';
     } else{
-      return '/v1/community/posts?search=&filter=&page&per_page';
+      return '/v1/community/posts?search=&filter=&page&per_page=100000';
     }
   }
   static String toggleLikeUnlikeURL(int postId) => '/v1/community/post/$postId/like';
@@ -98,4 +98,6 @@ class Endpoints {
   static String getMarketplacrWardrobeFiltersURL() => '/v1/marketplace/wardrobe/filters';
   static String getMarketplaceWardrobeProductURL(String? type) => '/v1/marketplace/wardrobe?type=$type';
   static String postAddTOCartURL() => '/v1/marketplace/cart/add';
+  static String deleteCommunityPostURL(int postId) => '/v1/community/post/$postId/comment';
+  static String postUpdateCommunityPostURL(int postId) => '/v1/community/post/$postId/comment';
 }
